@@ -3,88 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
 <title>自主學習成果發表 · 內湖高中 114-2</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
+  /* ── 強制 light mode，防止系統深色模式干擾 ── */
   :root {
+    color-scheme: light only;
     --ink: #1a1208;
     --paper: #faf7f0;
     --gold: #c8922a;
     --gold-light: #e8bb66;
     --gold-pale: #f5e8c8;
-    --rust: #a84832;
     --sage: #4a6741;
     --accent: #2a4a7f;
     --line: rgba(26,18,8,0.12);
-    --shadow: rgba(26,18,8,0.08);
+    --on-dark: #faf7f0;
+    --on-dark-dim: rgba(250,247,240,0.65);
+    --on-dark-faint: rgba(250,247,240,0.4);
+    --dark-bg: #1a1208;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--paper);
-    color: var(--ink);
+    background: var(--paper) !important;
+    color: var(--ink) !important;
     font-family: 'Noto Sans TC', sans-serif;
     font-weight: 400;
     line-height: 1.8;
     overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
   }
 
-  /* ─── NOISE TEXTURE OVERLAY ─── */
+  /* 強制防止 prefers-color-scheme 干擾 */
+  @media (prefers-color-scheme: dark) {
+    html { background: var(--paper) !important; }
+    body { background: var(--paper) !important; color: var(--ink) !important; }
+  }
+
+  /* ── NOISE ── */
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
+    content: ''; position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.6;
+    pointer-events: none; z-index: 999; opacity: 0.5;
   }
 
-  /* ─── NAV ─── */
+  /* ══════════════ NAV ══════════════ */
   nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 3rem;
-    background: rgba(250,247,240,0.92);
-    backdrop-filter: blur(12px);
+    padding: 0.85rem 2.5rem;
+    background: rgba(250,247,240,0.96) !important;
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line);
   }
   .nav-logo {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 900;
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-    color: var(--ink);
-    line-height: 1.4;
+    font-family: 'Noto Serif TC', serif; font-weight: 900;
+    font-size: 0.82rem; letter-spacing: 0.05em;
+    color: var(--ink) !important; line-height: 1.45;
   }
-  .nav-logo span { color: var(--gold); }
-  .nav-links { display: flex; gap: 2rem; }
+  .nav-logo span { color: var(--gold) !important; }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
   .nav-links a {
-    text-decoration: none; color: var(--ink); font-size: 0.85rem;
-    font-weight: 500; letter-spacing: 0.05em;
-    transition: color 0.2s;
-    position: relative;
+    text-decoration: none; color: var(--ink) !important;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.03em;
+    transition: color 0.2s; position: relative; white-space: nowrap;
   }
   .nav-links a::after {
     content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
-    height: 1px; background: var(--gold); transform: scaleX(0);
-    transition: transform 0.3s;
+    height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s;
   }
-  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover { color: var(--gold) !important; }
   .nav-links a:hover::after { transform: scaleX(1); }
 
-  /* ─── HERO ─── */
+  /* 漢堡按鈕 */
+  .nav-burger {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    gap: 5px; width: 36px; height: 36px; cursor: pointer;
+    background: none; border: none; padding: 4px; flex-shrink: 0;
+  }
+  .nav-burger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.3s; }
+  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* 手機抽屜選單 */
+  .nav-drawer {
+    display: none; position: fixed;
+    top: 56px; left: 0; right: 0;
+    background: rgba(250,247,240,0.98) !important;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+    padding: 0.5rem 1.5rem 1.2rem;
+    flex-direction: column; z-index: 199;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    text-decoration: none; color: var(--ink) !important;
+    font-size: 1rem; font-weight: 500;
+    padding: 0.75rem 0; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-drawer a:last-child { border-bottom: none; }
+  .nav-drawer a::after { content: '›'; color: var(--gold) !important; font-size: 1.2rem; }
+
+  @media (max-width: 860px) {
+    nav { padding: 0.85rem 1.2rem; }
+    .nav-links { display: none; }
+    .nav-burger { display: flex; }
+  }
+
+  /* ══════════════ HERO ══════════════ */
   .hero {
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    padding: 8rem 2rem 4rem;
-    position: relative;
-    overflow: hidden;
+    min-height: 100svh; display: grid; place-items: center;
+    padding: 6.5rem 1.5rem 4rem;
+    position: relative; overflow: hidden;
+    background: var(--paper) !important;
   }
   .hero-bg {
     position: absolute; inset: 0;
@@ -92,490 +128,348 @@
       radial-gradient(ellipse 80% 60% at 50% 40%, rgba(200,146,42,0.08) 0%, transparent 70%),
       radial-gradient(ellipse 40% 40% at 80% 70%, rgba(42,74,127,0.05) 0%, transparent 60%);
   }
-  /* Decorative vertical lines */
   .hero-bg::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 59px,
-      rgba(26,18,8,0.04) 59px,
-      rgba(26,18,8,0.04) 60px
-    );
+    content: ''; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(90deg, transparent 0, transparent 59px, rgba(26,18,8,0.03) 59px, rgba(26,18,8,0.03) 60px);
   }
-  .hero-inner {
-    position: relative; z-index: 2;
-    text-align: center;
-    max-width: 860px;
-  }
+  .hero-inner { position: relative; z-index: 2; text-align: center; max-width: 860px; width: 100%; }
   .hero-eyebrow {
-    display: inline-block;
-    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--gold); font-weight: 700;
-    border: 1px solid var(--gold);
-    padding: 0.3rem 1.2rem; margin-bottom: 2rem;
+    display: inline-block; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold) !important; font-weight: 700; border: 1px solid var(--gold);
+    padding: 0.28rem 1.1rem; margin-bottom: 1.6rem;
     animation: fadeUp 0.8s ease both;
   }
   .hero-title {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 900;
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    animation: fadeUp 0.8s 0.1s ease both;
+    font-family: 'Noto Serif TC', serif; font-weight: 900;
+    font-size: clamp(2.3rem, 9vw, 5.5rem); line-height: 1.15;
+    color: var(--ink) !important; animation: fadeUp 0.8s 0.1s ease both;
   }
-  .hero-title em {
-    font-style: normal;
-    color: var(--gold);
-    position: relative;
-  }
+  .hero-title em { font-style: normal; color: var(--gold) !important; position: relative; }
   .hero-title em::after {
-    content: '';
-    position: absolute; bottom: 0.05em; left: 0; right: 0;
+    content: ''; position: absolute; bottom: 0.05em; left: 0; right: 0;
     height: 0.08em; background: var(--gold-light); opacity: 0.5;
   }
   .hero-sub {
-    margin-top: 1.5rem;
-    font-size: 1.1rem;
-    color: rgba(26,18,8,0.6);
-    animation: fadeUp 0.8s 0.2s ease both;
+    margin-top: 1.1rem; font-size: clamp(0.88rem, 2.5vw, 1.05rem);
+    color: rgba(26,18,8,0.6) !important; animation: fadeUp 0.8s 0.2s ease both;
   }
   .hero-meta {
-    margin-top: 3rem;
-    display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
-    animation: fadeUp 0.8s 0.3s ease both;
+    margin-top: 2.4rem; display: flex; justify-content: center;
+    gap: 1.8rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.3s ease both;
   }
-  .hero-meta-item {
-    text-align: center;
-  }
+  .hero-meta-item { text-align: center; }
   .hero-meta-item .label {
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--gold); font-weight: 700; display: block;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold) !important; font-weight: 700; display: block;
   }
   .hero-meta-item .value {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1rem; font-weight: 700; margin-top: 0.2rem;
+    font-family: 'Noto Serif TC', serif; font-size: 0.92rem; font-weight: 700;
+    margin-top: 0.15rem; color: var(--ink) !important;
   }
-  .hero-divider {
-    width: 1px; background: var(--line); align-self: stretch;
-  }
+  .hero-divider { width: 1px; background: var(--line); align-self: stretch; }
   .hero-cta {
-    margin-top: 3.5rem;
-    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
-    animation: fadeUp 0.8s 0.4s ease both;
+    margin-top: 2.8rem; display: flex; justify-content: center;
+    gap: 0.75rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.4s ease both;
   }
   .btn {
-    display: inline-block;
-    text-decoration: none;
-    font-size: 0.85rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.9rem 2.2rem;
-    transition: all 0.25s;
+    display: inline-block; text-decoration: none;
+    font-size: 0.82rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.82rem 1.7rem; transition: all 0.22s;
     cursor: pointer; border: none; font-family: inherit;
   }
-  .btn-primary {
-    background: var(--gold); color: var(--paper);
-    box-shadow: 4px 4px 0 var(--ink);
-  }
-  .btn-primary:hover {
-    transform: translate(-2px,-2px);
-    box-shadow: 6px 6px 0 var(--ink);
-  }
-  .btn-outline {
-    background: transparent; color: var(--ink);
-    border: 1.5px solid var(--ink);
-    box-shadow: 3px 3px 0 var(--ink);
-  }
-  .btn-outline:hover {
-    transform: translate(-2px,-2px);
-    box-shadow: 5px 5px 0 var(--ink);
+  .btn-primary { background: var(--gold) !important; color: var(--paper) !important; box-shadow: 4px 4px 0 var(--ink); }
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+  .btn-outline { background: transparent !important; color: var(--ink) !important; border: 1.5px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+  .btn-outline:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+
+  @media (max-width: 560px) {
+    .hero-divider { display: none; }
+    .hero-meta { gap: 1rem; }
+    .hero-cta { flex-direction: column; align-items: center; }
+    .btn { width: 100%; max-width: 300px; text-align: center; }
   }
 
-  /* ─── SECTIONS ─── */
+  /* ══════════════ COMMON SECTION ══════════════ */
   section { position: relative; }
-  .section-inner {
-    max-width: 1100px; margin: 0 auto;
-    padding: 6rem 2rem;
-  }
-  .section-label {
-    font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--gold); font-weight: 700; margin-bottom: 1rem;
-    display: flex; align-items: center; gap: 0.8rem;
-  }
-  .section-label::after {
-    content: ''; flex: 1; height: 1px; background: var(--gold); max-width: 60px;
-  }
-  .section-title {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 900;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    line-height: 1.25;
-    margin-bottom: 1rem;
-  }
-  .section-desc {
-    font-size: 0.95rem; color: rgba(26,18,8,0.65);
-    max-width: 600px; line-height: 1.9;
-  }
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 5rem 1.5rem; }
+  @media (max-width: 560px) { .section-inner { padding: 3.2rem 1.1rem; } }
 
-  /* ─── ACTIVITIES ─── */
-  #activities { background: var(--ink); color: var(--paper); }
-  #activities .section-label { color: var(--gold-light); }
-  #activities .section-label::after { background: var(--gold-light); }
-  #activities .section-title { color: var(--paper); }
-  #activities .section-desc { color: rgba(250,247,240,0.65); }
-  .activity-grid {
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5px;
-    background: rgba(250,247,240,0.1);
+  .section-label {
+    font-size: 0.67rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold) !important; font-weight: 700; margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.7rem;
   }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--gold); max-width: 55px; }
+  .section-title {
+    font-family: 'Noto Serif TC', serif; font-weight: 900;
+    font-size: clamp(1.55rem, 4vw, 2.7rem); line-height: 1.25; margin-bottom: 0.9rem;
+  }
+  .section-desc { font-size: 0.91rem; color: rgba(26,18,8,0.62) !important; max-width: 600px; line-height: 1.9; }
+
+  /* ══════════════ DEADLINE ══════════════ */
+  .deadline-banner { background: var(--gold) !important; color: var(--ink) !important; padding: 1.7rem 1.2rem; text-align: center; }
+  .deadline-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1.4rem; }
+  .deadline-item { text-align: center; }
+  .deadline-item .dl-label { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; opacity: 0.72; display: block; color: var(--ink) !important; }
+  .deadline-item .dl-date { font-family: 'Noto Serif TC', serif; font-size: clamp(1.25rem, 4vw, 1.65rem); font-weight: 900; line-height: 1.2; color: var(--ink) !important; }
+  .deadline-item .dl-sub { font-size: 0.74rem; opacity: 0.76; color: var(--ink) !important; }
+  .deadline-sep { font-size: 1.4rem; opacity: 0.32; color: var(--ink) !important; }
+  @media (max-width: 480px) { .deadline-sep { display: none; } }
+
+  /* ══════════════ ACTIVITIES (dark) ══════════════ */
+  #activities { background: var(--dark-bg) !important; color: var(--on-dark) !important; }
+  #activities .section-label { color: var(--gold-light) !important; }
+  #activities .section-label::after { background: var(--gold-light); }
+  #activities .section-title { color: var(--on-dark) !important; }
+  #activities .section-desc { color: var(--on-dark-dim) !important; }
+
+  .activity-grid {
+    margin-top: 2.5rem; display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px; background: rgba(250,247,240,0.08);
+  }
+  @media (max-width: 600px) { .activity-grid { grid-template-columns: 1fr; } }
+
   .activity-card {
-    background: var(--ink);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
+    background: var(--dark-bg) !important; padding: 1.9rem;
+    position: relative; overflow: hidden; transition: background 0.3s;
   }
   .activity-card::before {
-    content: attr(data-num);
-    position: absolute; top: -0.3em; right: 0.3rem;
-    font-family: 'DM Serif Display', serif;
-    font-size: 7rem; color: rgba(250,247,240,0.04);
-    line-height: 1; pointer-events: none;
+    content: attr(data-num); position: absolute; top: -0.3em; right: 0.3rem;
+    font-family: 'DM Serif Display', serif; font-size: 7rem;
+    color: rgba(250,247,240,0.04); line-height: 1; pointer-events: none;
   }
-  .activity-card:hover { background: #221a0a; }
-  .activity-tag {
-    display: inline-block;
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    border: 1px solid; padding: 0.2rem 0.7rem; margin-bottom: 1rem;
-    font-weight: 700;
-  }
-  .tag-gold { color: var(--gold-light); border-color: var(--gold-light); }
-  .tag-blue { color: #7ba7d4; border-color: #7ba7d4; }
-  .tag-green { color: #88b484; border-color: #88b484; }
-  .activity-card h3 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1.25rem; font-weight: 700;
-    margin-bottom: 1rem; color: var(--paper);
-  }
-  .activity-card p { font-size: 0.88rem; color: rgba(250,247,240,0.65); line-height: 1.9; }
-  .activity-detail {
-    margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;
-  }
-  .activity-detail-row {
-    display: flex; align-items: baseline; gap: 0.8rem;
-    font-size: 0.82rem;
-  }
-  .activity-detail-row .key {
-    color: var(--gold-light); font-weight: 700; min-width: 4em; flex-shrink: 0;
-  }
-  .activity-detail-row .val { color: rgba(250,247,240,0.8); }
-  .activity-links { margin-top: 1.8rem; display: flex; flex-direction: column; gap: 0.6rem; }
-  .activity-link {
-    display: flex; align-items: center; gap: 0.6rem;
-    text-decoration: none; color: var(--gold-light);
-    font-size: 0.82rem; font-weight: 500;
-    transition: color 0.2s;
-  }
-  .activity-link:hover { color: var(--paper); }
-  .activity-link-icon {
-    width: 20px; height: 20px; border: 1px solid currentColor; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; font-size: 0.6rem;
-  }
+  .activity-card:hover { background: #241c0c !important; }
+  .activity-tag { display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid; padding: 0.18rem 0.6rem; margin-bottom: 0.85rem; font-weight: 700; }
+  .tag-gold { color: var(--gold-light) !important; border-color: var(--gold-light); }
+  .tag-blue { color: #7ba7d4 !important; border-color: #7ba7d4; }
+  .tag-green { color: #88b484 !important; border-color: #88b484; }
+  .activity-card h3 { font-family: 'Noto Serif TC', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--on-dark) !important; line-height: 1.4; }
+  .activity-card > p { font-size: 0.84rem; color: var(--on-dark-dim) !important; line-height: 1.85; }
+  .activity-detail { margin-top: 1.1rem; display: flex; flex-direction: column; gap: 0.42rem; }
+  .activity-detail-row { display: flex; align-items: baseline; gap: 0.65rem; font-size: 0.81rem; }
+  .activity-detail-row .key { color: var(--gold-light) !important; font-weight: 700; min-width: 4em; flex-shrink: 0; }
+  .activity-detail-row .val { color: rgba(250,247,240,0.82) !important; }
+  .activity-links { margin-top: 1.4rem; display: flex; flex-direction: column; gap: 0.52rem; }
+  .activity-link { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; color: var(--gold-light) !important; font-size: 0.81rem; font-weight: 500; transition: color 0.2s; }
+  .activity-link:hover { color: var(--on-dark) !important; }
+  .activity-link-icon { width: 19px; height: 19px; border: 1px solid currentColor; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.58rem; }
 
-  /* ─── DEADLINE BANNER ─── */
-  .deadline-banner {
-    background: var(--gold);
-    color: var(--ink);
-    text-align: center;
-    padding: 2rem;
-  }
-  .deadline-inner {
-    max-width: 900px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: center;
-    flex-wrap: wrap; gap: 2rem;
-  }
-  .deadline-item { text-align: center; }
-  .deadline-item .dl-label {
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    font-weight: 700; opacity: 0.7; display: block;
-  }
-  .deadline-item .dl-date {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1.6rem; font-weight: 900; line-height: 1.2;
-  }
-  .deadline-item .dl-sub { font-size: 0.78rem; opacity: 0.75; margin-top: 0.2rem; }
-  .deadline-sep { font-size: 2rem; opacity: 0.3; }
+  /* ══════════════ SCHEDULE ══════════════ */
+  #schedule { background: var(--gold-pale) !important; }
+  .schedule-grid { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  @media (max-width: 640px) { .schedule-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .schedule-col-title { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 700; padding-bottom: 0.65rem; border-bottom: 2px solid var(--gold); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.6rem; color: var(--ink) !important; }
+  .grade-badge { background: var(--gold) !important; color: var(--paper) !important; font-size: 0.66rem; padding: 0.14rem 0.48rem; font-weight: 700; letter-spacing: 0.1em; }
+  .schedule-item { display: flex; gap: 0.75rem; padding: 0.65rem 0; border-bottom: 1px dashed rgba(26,18,8,0.15); }
+  .schedule-time { font-size: 0.74rem; color: var(--gold) !important; font-weight: 700; white-space: nowrap; min-width: 5rem; padding-top: 0.1rem; }
+  .schedule-event { font-size: 0.84rem; color: var(--ink) !important; }
+  .schedule-event strong { font-weight: 700; display: block; color: var(--ink) !important; }
+  .schedule-event .loc { font-size: 0.74rem; color: rgba(26,18,8,0.5) !important; margin-top: 0.12rem; }
+  .schedule-note { margin-top: 1.1rem; background: rgba(200,146,42,0.12) !important; border-left: 3px solid var(--gold); padding: 0.75rem 0.95rem; font-size: 0.81rem; color: rgba(26,18,8,0.75) !important; }
 
-  /* ─── SCHEDULE ─── */
-  #schedule { background: var(--gold-pale); }
-  .schedule-grid {
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-  }
-  @media (max-width: 700px) { .schedule-grid { grid-template-columns: 1fr; } }
-  .schedule-col-title {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1.1rem; font-weight: 700;
-    padding-bottom: 0.8rem;
-    border-bottom: 2px solid var(--gold);
-    margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-  .schedule-col-title .grade-badge {
-    background: var(--gold); color: var(--paper);
-    font-size: 0.7rem; padding: 0.15rem 0.5rem; font-weight: 700; letter-spacing: 0.1em;
-  }
-  .schedule-item {
-    display: flex; gap: 1rem; padding: 0.8rem 0;
-    border-bottom: 1px dashed rgba(26,18,8,0.15);
-  }
-  .schedule-time {
-    font-size: 0.78rem; color: var(--gold); font-weight: 700;
-    white-space: nowrap; min-width: 5.5rem; padding-top: 0.1rem;
-    font-variant-numeric: tabular-nums;
-  }
-  .schedule-event { font-size: 0.88rem; color: var(--ink); }
-  .schedule-event strong { font-weight: 700; display: block; }
-  .schedule-event .loc { font-size: 0.78rem; color: rgba(26,18,8,0.5); margin-top: 0.2rem; }
-  .schedule-note {
-    margin-top: 1.5rem;
-    background: rgba(200,146,42,0.12);
-    border-left: 3px solid var(--gold);
-    padding: 0.8rem 1rem;
-    font-size: 0.82rem; color: rgba(26,18,8,0.7);
-  }
+  /* ══════════════ CRITERIA ══════════════ */
+  #criteria { background: var(--paper) !important; }
+  .criteria-grid { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(3,1fr); gap: 1.1rem; }
+  @media (max-width: 600px) { .criteria-grid { grid-template-columns: 1fr; } }
+  .criteria-card { border: 1.5px solid var(--line); padding: 1.7rem; background: var(--paper) !important; }
+  .criteria-pct { font-family: 'DM Serif Display', serif; font-size: 3rem; line-height: 1; color: var(--gold) !important; margin-bottom: 0.75rem; }
+  .criteria-card h3 { font-family: 'Noto Serif TC', serif; font-size: 0.96rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--ink) !important; }
+  .criteria-card p { font-size: 0.8rem; color: rgba(26,18,8,0.62) !important; line-height: 1.85; }
 
-  /* ─── CRITERIA ─── */
-  .criteria-grid {
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-  @media (max-width: 700px) { .criteria-grid { grid-template-columns: 1fr; } }
-  .criteria-card {
-    border: 1.5px solid var(--line);
-    padding: 2rem;
-    position: relative;
-  }
-  .criteria-pct {
-    font-family: 'DM Serif Display', serif;
-    font-size: 3.5rem; line-height: 1;
-    color: var(--gold); margin-bottom: 1rem;
-  }
-  .criteria-card h3 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem;
-  }
-  .criteria-card p { font-size: 0.82rem; color: rgba(26,18,8,0.65); line-height: 1.85; }
-
-  /* ─── AWARDS ─── */
-  #awards { background: var(--ink); color: var(--paper); }
-  #awards .section-label { color: var(--gold-light); }
+  /* ══════════════ AWARDS (dark) ══════════════ */
+  #awards { background: var(--dark-bg) !important; color: var(--on-dark) !important; }
+  #awards .section-label { color: var(--gold-light) !important; }
   #awards .section-label::after { background: var(--gold-light); }
-  #awards .section-title { color: var(--paper); }
-  .awards-grid {
-    margin-top: 3rem;
-    display: flex; flex-direction: column; gap: 1px;
-    background: rgba(250,247,240,0.08);
-  }
-  .award-row {
-    display: grid;
-    grid-template-columns: 140px 1fr auto;
-    align-items: center;
-    gap: 2rem;
-    padding: 1.5rem 2rem;
-    background: var(--ink);
-    transition: background 0.2s;
-  }
-  .award-row:hover { background: #221a0a; }
-  .award-name {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1.1rem; font-weight: 700;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
+  #awards .section-title { color: var(--on-dark) !important; }
+  .awards-grid { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1px; background: rgba(250,247,240,0.07) !important; }
+  .award-row { display: grid; grid-template-columns: 128px 1fr auto; align-items: center; gap: 1.4rem; padding: 1.2rem 1.4rem; background: var(--dark-bg) !important; transition: background 0.2s; }
+  .award-row:hover { background: #241c0c !important; }
+  .award-name { font-family: 'Noto Serif TC', serif; font-size: 1.02rem; font-weight: 700; display: flex; align-items: center; gap: 0.55rem; color: var(--on-dark) !important; }
   .award-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .dot-gold { background: #ffd700; }
   .dot-silver { background: #c0c0c0; }
   .dot-bronze { background: #cd7f32; }
   .dot-commend { background: var(--sage); }
   .dot-pop { background: #e86b4a; }
-  .award-desc { font-size: 0.88rem; color: rgba(250,247,240,0.6); }
-  .award-prize {
-    text-align: right;
-    font-size: 0.82rem; color: var(--gold-light); font-weight: 700;
-    white-space: nowrap;
+  .dot-orange { background: #e8a04a; }
+  .award-desc { font-size: 0.83rem; color: var(--on-dark-dim) !important; }
+  .award-prize { text-align: right; font-size: 0.8rem; color: var(--gold-light) !important; font-weight: 700; white-space: nowrap; }
+  .award-note { margin-top: 1.7rem; border: 1px dashed rgba(250,247,240,0.18); padding: 1.2rem; font-size: 0.83rem; color: var(--on-dark-dim) !important; line-height: 1.9; }
+  @media (max-width: 580px) {
+    .award-row { grid-template-columns: 1fr auto; gap: 0.5rem 1rem; }
+    .award-name { grid-column: 1 / -1; }
   }
-  @media (max-width: 600px) {
-    .award-row { grid-template-columns: 1fr; gap: 0.4rem; }
+  @media (max-width: 380px) {
+    .award-row { grid-template-columns: 1fr; gap: 0.25rem; }
     .award-prize { text-align: left; }
   }
-  .award-note {
-    margin-top: 2rem;
-    border: 1px dashed rgba(250,247,240,0.2);
-    padding: 1.5rem;
-    font-size: 0.85rem; color: rgba(250,247,240,0.6); line-height: 1.9;
-  }
 
-  /* ─── POSTER GUIDE ─── */
-  .poster-steps {
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0;
-    border: 1.5px solid var(--line);
-  }
-  .poster-step {
-    padding: 2rem;
-    border-right: 1.5px solid var(--line);
-    position: relative;
-  }
+  /* ══════════════ VOTE ══════════════ */
+  #vote { background: var(--paper) !important; }
+  .vote-coming { border: 2px dashed var(--gold); padding: 3.2rem 1.5rem; text-align: center; position: relative; overflow: hidden; background: var(--paper) !important; }
+  .vote-coming-bg { position: absolute; top: -0.2em; right: 0.3rem; font-family: 'DM Serif Display', serif; font-size: 9rem; color: rgba(200,146,42,0.06); line-height: 1; pointer-events: none; user-select: none; }
+  .vote-title { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900; margin-bottom: 0.65rem; color: var(--ink) !important; }
+  .vote-sub { font-size: 0.86rem; color: rgba(26,18,8,0.54) !important; max-width: 400px; margin: 0 auto 1.8rem; line-height: 1.9; }
+  .vote-btn-disabled { display: inline-flex; align-items: center; gap: 0.6rem; background: var(--gold) !important; color: var(--paper) !important; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; padding: 0.8rem 1.9rem; text-decoration: none; box-shadow: 4px 4px 0 var(--ink); opacity: 0.42; cursor: not-allowed; pointer-events: none; }
+  .vote-stats { margin-top: 1.9rem; display: flex; justify-content: center; gap: 1.8rem; flex-wrap: wrap; }
+  .vote-stat { text-align: center; }
+  .vote-stat .vs-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold) !important; font-weight: 700; display: block; }
+  .vote-stat .vs-val { font-size: 0.83rem; color: var(--ink) !important; margin-top: 0.18rem; }
+
+  /* ══════════════ RECORD (dark) ══════════════ */
+  #record { background: var(--dark-bg) !important; color: var(--on-dark) !important; }
+  #record .section-label { color: var(--gold-light) !important; }
+  #record .section-label::after { background: var(--gold-light); }
+  #record .section-title { color: var(--on-dark) !important; }
+  #record .section-desc { color: var(--on-dark-dim) !important; }
+  .record-grid { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+  @media (max-width: 600px) { .record-grid { grid-template-columns: 1fr; } }
+  .record-card { border: 1px solid rgba(250,247,240,0.12); padding: 1.9rem; position: relative; overflow: hidden; background: var(--dark-bg) !important; }
+  .record-card-bg { position: absolute; top: -0.2em; right: 0.5rem; font-family: 'DM Serif Display', serif; font-size: 6rem; color: rgba(250,247,240,0.04); line-height: 1; pointer-events: none; }
+  .record-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light) !important; font-weight: 700; margin-bottom: 0.85rem; display: block; }
+  .record-card h3 { font-family: 'Noto Serif TC', serif; font-size: 1.02rem; font-weight: 700; color: var(--on-dark) !important; margin-bottom: 0.65rem; line-height: 1.5; }
+  .record-card p { font-size: 0.82rem; color: var(--on-dark-dim) !important; line-height: 1.85; margin-bottom: 1.4rem; }
+  .record-btn { display: inline-flex; align-items: center; gap: 0.55rem; background: var(--gold) !important; color: var(--paper) !important; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; padding: 0.72rem 1.4rem; text-decoration: none; box-shadow: 3px 3px 0 rgba(250,247,240,0.18); transition: all 0.2s; }
+  .record-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 rgba(250,247,240,0.18); }
+  .record-steps { display: flex; flex-direction: column; gap: 0.95rem; }
+  .record-step { display: flex; gap: 0.85rem; align-items: flex-start; }
+  .record-step-badge { width: 27px; height: 27px; border: 1px solid var(--gold-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--gold-light) !important; font-weight: 700; flex-shrink: 0; }
+  .record-step-title { font-size: 0.86rem; font-weight: 700; color: var(--on-dark) !important; margin-bottom: 0.12rem; }
+  .record-step-desc { font-size: 0.77rem; color: var(--on-dark-faint) !important; line-height: 1.7; }
+  .record-note { margin-top: 1.1rem; padding: 0.72rem 0.95rem; border-left: 2px solid var(--gold); font-size: 0.77rem; color: var(--on-dark-faint) !important; line-height: 1.8; background: rgba(200,146,42,0.06) !important; }
+
+  /* ══════════════ MAP ══════════════ */
+  #map { background: var(--paper) !important; }
+  .map-grid { margin-top: 2.5rem; display: grid; grid-template-columns: 1.3fr 1fr; gap: 2.5rem; align-items: start; }
+  @media (max-width: 700px) { .map-grid { grid-template-columns: 1fr; } }
+  .map-label { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold) !important; font-weight: 700; margin-bottom: 0.75rem; }
+  .map-svg-wrap { border: 1.5px solid var(--line); padding: 1.1rem; background: #fff !important; }
+  .map-caption { margin-top: 0.55rem; font-size: 0.71rem; color: rgba(26,18,8,0.4) !important; text-align: center; }
+  .zone-header { display: flex; align-items: center; gap: 0.55rem; padding: 0.52rem 0.85rem; margin-bottom: 0.38rem; border-left: 3px solid; font-size: 0.77rem; }
+  .zone-header .zone-id { font-weight: 700; }
+  .zone-header .zone-name { color: rgba(26,18,8,0.68) !important; }
+  .zone-a-header { background: rgba(200,146,42,0.08) !important; border-color: var(--gold); }
+  .zone-a-header .zone-id { color: var(--gold) !important; }
+  .zone-b-header { background: rgba(42,74,127,0.06) !important; border-color: var(--accent); }
+  .zone-b-header .zone-id { color: var(--accent) !important; }
+  .zone-c-header { background: rgba(74,103,65,0.06) !important; border-color: var(--sage); }
+  .zone-c-header .zone-id { color: var(--sage) !important; }
+  .zone-content { padding: 0.72rem 0.85rem; font-size: 0.8rem; color: rgba(26,18,8,0.4) !important; line-height: 2; min-height: 58px; border: 1px dashed var(--line); margin-bottom: 1.1rem; background: var(--paper) !important; }
+  .map-tip { padding: 0.72rem 0.85rem; background: var(--gold-pale) !important; border-left: 3px solid var(--gold); font-size: 0.75rem; color: rgba(26,18,8,0.62) !important; line-height: 1.8; }
+
+  /* ══════════════ POSTER ══════════════ */
+  #poster { background: var(--paper) !important; }
+  .poster-steps { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 0; border: 1.5px solid var(--line); }
+  @media (max-width: 680px) { .poster-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 400px) { .poster-steps { grid-template-columns: 1fr; } }
+  .poster-step { padding: 1.7rem; border-right: 1.5px solid var(--line); background: var(--paper) !important; }
   .poster-step:last-child { border-right: none; }
-  .poster-step-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.5rem; color: rgba(200,146,42,0.25);
-    line-height: 1; margin-bottom: 0.8rem;
+  @media (max-width: 680px) {
+    .poster-step:nth-child(2) { border-right: none; }
+    .poster-step:nth-child(4) { border-right: none; }
+    .poster-step:nth-child(1), .poster-step:nth-child(2) { border-bottom: 1.5px solid var(--line); }
   }
-  .poster-step h3 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem;
+  @media (max-width: 400px) {
+    .poster-step { border-right: none !important; border-bottom: 1.5px solid var(--line); }
+    .poster-step:last-child { border-bottom: none; }
   }
-  .poster-step p { font-size: 0.82rem; color: rgba(26,18,8,0.65); line-height: 1.85; }
+  .poster-step-num { font-family: 'DM Serif Display', serif; font-size: 2.1rem; color: rgba(200,146,42,0.2); line-height: 1; margin-bottom: 0.55rem; }
+  .poster-step h3 { font-family: 'Noto Serif TC', serif; font-size: 0.92rem; font-weight: 700; margin-bottom: 0.48rem; color: var(--ink) !important; }
+  .poster-step p { font-size: 0.79rem; color: rgba(26,18,8,0.6) !important; line-height: 1.85; }
+  .poster-tip { margin-top: 1.1rem; padding: 0.85rem 1.1rem; background: var(--gold-pale) !important; border-left: 3px solid var(--gold); font-size: 0.82rem; color: rgba(26,18,8,0.72) !important; line-height: 1.9; }
 
-  /* ─── FAQ ─── */
-  #faq { background: var(--gold-pale); }
-  .faq-list { margin-top: 3rem; display: flex; flex-direction: column; }
-  .faq-item {
-    border-top: 1px solid var(--line);
-    padding: 1.5rem 0;
-  }
+  /* ══════════════ FAQ ══════════════ */
+  #faq { background: var(--gold-pale) !important; }
+  .faq-list { margin-top: 2.5rem; display: flex; flex-direction: column; }
+  .faq-item { border-top: 1px solid var(--line); padding: 1.2rem 0; }
   .faq-item:last-child { border-bottom: 1px solid var(--line); }
-  .faq-q {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 1rem; font-weight: 700; cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 1rem;
-  }
-  .faq-q::after {
-    content: '+'; font-size: 1.4rem; color: var(--gold);
-    transition: transform 0.3s; flex-shrink: 0;
-  }
+  .faq-q { font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; color: var(--ink) !important; }
+  .faq-q::after { content: '+'; font-size: 1.25rem; color: var(--gold) !important; transition: transform 0.3s; flex-shrink: 0; }
   .faq-item.open .faq-q::after { transform: rotate(45deg); }
-  .faq-a {
-    font-size: 0.88rem; color: rgba(26,18,8,0.7); line-height: 1.9;
-    max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
-  }
-  .faq-item.open .faq-a { max-height: 500px; padding-top: 1rem; }
+  .faq-a { font-size: 0.84rem; color: rgba(26,18,8,0.7) !important; line-height: 1.9; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+  .faq-item.open .faq-a { max-height: 600px; padding-top: 0.85rem; }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: #0e0b05; color: rgba(250,247,240,0.5);
-    padding: 3rem 2rem; text-align: center;
-    font-size: 0.82rem; line-height: 2;
-  }
-  footer strong { color: var(--gold-light); font-weight: 700; }
+  /* ══════════════ FOOTER ══════════════ */
+  footer { background: #0e0b05 !important; color: rgba(250,247,240,0.46) !important; padding: 2.4rem 1.5rem; text-align: center; font-size: 0.79rem; line-height: 2; }
+  footer strong { color: var(--gold-light) !important; font-weight: 700; }
 
-  /* ─── ANIMATIONS ─── */
+  /* ══════════════ ANIMATIONS ══════════════ */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.65s ease, transform 0.65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
-
-  /* ─── RESPONSIVE NAV ─── */
-  @media (max-width: 700px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1rem; font-size: 0.75rem; }
-    .hero-meta { gap: 1.5rem; }
-    .hero-divider { display: none; }
-    .activity-grid { gap: 1px; }
-  }
-
-  /* ─── COUNTDOWN ─── */
-  .countdown-wrap {
-    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
-    margin-top: 1rem;
-  }
-  .countdown-box {
-    text-align: center; min-width: 60px;
-  }
-  .countdown-box .num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.2rem; line-height: 1; color: var(--ink);
-    display: block;
-  }
-  .countdown-box .unit {
-    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gold); font-weight: 700;
-  }
-  .countdown-sep { font-size: 1.5rem; color: var(--gold); align-self: center; padding-bottom: 1.2rem; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══ NAV ══ -->
 <nav>
-  <div class="nav-logo">
-    臺北市立內湖高級中學<br>
-    <span>自主學習成果發表</span>
-  </div>
+  <div class="nav-logo">臺北市立內湖高級中學<br><span>自主學習成果發表</span></div>
   <div class="nav-links">
-    <a href="#activities">活動項目</a>
+    <a href="#activities">報名方式</a>
     <a href="#schedule">時程</a>
     <a href="#awards">獎勵</a>
-    <a href="#vote">人氣投票</a>
+    <a href="#criteria">評選</a>
+    <a href="#poster">海報指南</a>
     <a href="#faq">常見問題</a>
+    <a href="nhsh-dayof.html" style="background:var(--gold);color:var(--paper)!important;padding:0.3rem 0.9rem;font-weight:700;">📱 活動當天</a>
   </div>
+  <button class="nav-burger" id="burger" aria-label="選單">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
+<div class="nav-drawer" id="drawer">
+  <a href="#activities" onclick="closeDrawer()">報名方式</a>
+  <a href="#schedule"   onclick="closeDrawer()">當天時程</a>
+  <a href="#awards"     onclick="closeDrawer()">獎勵辦法</a>
+  <a href="#criteria"   onclick="closeDrawer()">評選標準</a>
+  <a href="#poster"     onclick="closeDrawer()">海報製作指南</a>
+  <a href="#faq"        onclick="closeDrawer()">常見問題</a>
+  <a href="nhsh-dayof.html" onclick="closeDrawer()" style="color:var(--gold)!important;font-weight:700;">📱 活動當天入口 →</a>
+</div>
+
+<!-- ══ HERO ══ -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">114學年度第2學期</div>
-    <h1 class="hero-title">
-      自主學習<br><em>成果發表</em>
-    </h1>
-    <p class="hero-sub">展現你的學習歷程，接受專家指導，樹立自主學習典範</p>
+    <h1 class="hero-title">自主學習<br><em>成果發表</em></h1>
+    <p class="hero-sub">探索你的熱情，升級你的學習，讓世界看見你這一年做了什麼 🚀</p>
     <div class="hero-meta">
-      <div class="hero-meta-item">
-        <span class="label">日期</span>
-        <span class="value">115年6月11日（四）</span>
-      </div>
+      <div class="hero-meta-item"><span class="label">日期</span><span class="value">115年6月11日（四）</span></div>
       <div class="hero-divider"></div>
-      <div class="hero-meta-item">
-        <span class="label">時間</span>
-        <span class="value">10:10 – 12:00</span>
-      </div>
+      <div class="hero-meta-item"><span class="label">時間</span><span class="value">10:10 – 12:00</span></div>
       <div class="hero-divider"></div>
-      <div class="hero-meta-item">
-        <span class="label">對象</span>
-        <span class="value">高一、高二全體學生</span>
-      </div>
+      <div class="hero-meta-item"><span class="label">對象</span><span class="value">高一、高二全體學生</span></div>
       <div class="hero-divider"></div>
-      <div class="hero-meta-item">
-        <span class="label">主辦</span>
-        <span class="value">學務處社團活動組</span>
-      </div>
+      <div class="hero-meta-item"><span class="label">主辦</span><span class="value">學務處社團活動組</span></div>
     </div>
     <div class="hero-cta">
       <a href="https://reurl.cc/Q22jXq" target="_blank" class="btn btn-primary">實體海報展 報名</a>
-      <a href="https://reurl.cc/bde1xE" target="_blank" class="btn btn-outline">線上海報展 報名</a>
+      <a href="https://web.jhenggao.com/iPH_NHSH/ph_index" target="_blank" class="btn btn-outline">線上海報展 上傳</a>
+    </div>
+    <div class="reveal" style="margin-top:1.5rem;">
+      <a href="nhsh-dayof.html" style="
+        display:inline-flex;align-items:center;gap:0.6rem;
+        background:var(--dark-bg);color:var(--on-dark)!important;
+        font-size:0.82rem;font-weight:700;letter-spacing:0.08em;
+        padding:0.75rem 1.8rem;text-decoration:none;
+        border:1px solid rgba(250,247,240,0.2);
+        transition:all 0.2s;
+      " onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold-light)'"
+         onmouseout="this.style.borderColor='rgba(250,247,240,0.2)';this.style.color='var(--on-dark)'">
+        📱 活動當天入口（時程・展場地圖・投票・紀錄表）→
+      </a>
     </div>
   </div>
 </section>
 
-<!-- DEADLINE BANNER -->
+<!-- ══ DEADLINE ══ -->
 <div class="deadline-banner">
   <div class="deadline-inner">
     <div class="deadline-item">
@@ -598,195 +492,120 @@
   </div>
 </div>
 
-<!-- ACTIVITIES -->
+<!-- 活動當天入口橫幅 -->
+<a href="nhsh-dayof.html" style="
+  display:flex;align-items:center;justify-content:center;gap:0.8rem;
+  background:var(--dark-bg)!important;color:var(--on-dark)!important;
+  padding:1rem 1.5rem;text-decoration:none;
+  border-top:1px solid rgba(250,247,240,0.08);
+  font-size:0.85rem;font-weight:700;letter-spacing:0.05em;
+  transition:background 0.2s;
+" onmouseover="this.style.background='#2a1e0c'" onmouseout="this.style.background='var(--dark-bg)'">
+  <span style="font-size:1.2rem;">📱</span>
+  <span>6月11日活動當天請開這個頁面</span>
+  <span style="color:var(--gold-light)!important;">時程 · 展場地圖 · 人氣投票 · 活動紀錄 →</span>
+</a>
 <section id="activities">
   <div class="section-inner">
     <div class="section-label reveal">活動項目</div>
     <h2 class="section-title reveal">三種發表形式<br>找到最適合你的方式</h2>
     <p class="section-desc reveal">無論你的作品形式為何，都有一個舞台等待你——實體展出、線上發表，或是專班成果呈現。</p>
     <div class="activity-grid">
-
-      <!-- 實體海報展 -->
       <div class="activity-card" data-num="I">
         <div class="activity-tag tag-gold">實體展出</div>
         <h3>自主學習優秀作品<br>實體海報展</h3>
-        <p>以 A1 尺寸海報展出學習成果，並進行 1-2 分鐘口頭說明，接受同學與評審交流回饋。作品將依屬性分區陳列，開放全校師生自由參觀。</p>
+        <p>以 A1 尺寸海報展出學習成果，並進行 1–2 分鐘口頭說明，接受同學與評審交流回饋。作品將依屬性分區陳列，開放全校師生自由參觀。</p>
         <div class="activity-detail">
-          <div class="activity-detail-row">
-            <span class="key">資格</span>
-            <span class="val">高一、高二學生自由報名</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">名額</span>
-            <span class="val">每年級限 52 組（推薦者優先）</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">地點</span>
-            <span class="val">活動中心 4 樓</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">規格</span>
-            <span class="val">A1（594×841mm），300dpi以上，PDF格式</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">作品期間</span>
-            <span class="val">114學年度（上、下學期）</span>
-          </div>
+          <div class="activity-detail-row"><span class="key">資格</span><span class="val">高一、高二學生自由報名</span></div>
+          <div class="activity-detail-row"><span class="key">名額</span><span class="val">每年級限 52 組（推薦者優先）</span></div>
+          <div class="activity-detail-row"><span class="key">地點</span><span class="val">活動中心 4 樓</span></div>
+          <div class="activity-detail-row"><span class="key">規格</span><span class="val">A1（594×841mm），300dpi 以上，PDF</span></div>
+          <div class="activity-detail-row"><span class="key">作品期間</span><span class="val">114學年度（上、下學期）</span></div>
         </div>
         <div class="activity-links">
-          <a href="https://reurl.cc/Q22jXq" target="_blank" class="activity-link">
-            <span class="activity-link-icon">→</span> 報名連結
-          </a>
-          <a href="https://reurl.cc/epQqrQ" target="_blank" class="activity-link">
-            <span class="activity-link-icon">↑</span> 海報上傳連結
-          </a>
+          <a href="https://reurl.cc/Q22jXq" target="_blank" class="activity-link"><span class="activity-link-icon">→</span>報名連結</a>
+          <a href="https://reurl.cc/epQqrQ" target="_blank" class="activity-link"><span class="activity-link-icon">↑</span>海報上傳連結</a>
         </div>
       </div>
-
-      <!-- 線上海報展 -->
       <div class="activity-card" data-num="II">
         <div class="activity-tag tag-blue">線上展出</div>
         <h3>自主學習優秀作品<br>線上海報展</h3>
         <p>高一二學生自由參加，<strong style="color:var(--gold-light)">無須報名</strong>，直接至平台自行上傳成果，由學務處審查通過後正式發表。名額不限。</p>
         <div class="activity-detail">
-          <div class="activity-detail-row">
-            <span class="key">資格</span>
-            <span class="val">高一、高二學生，自由參加</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">名額</span>
-            <span class="val">不限</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">形式</span>
-            <span class="val">海報、影片、PDF 文件等</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">畫質</span>
-            <span class="val">圖片建議 1.2MB 以上，避免模糊</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">帳號</span>
-            <span class="val">學校 Gmail</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">密碼</span>
-            <span class="val">預設為學號</span>
-          </div>
+          <div class="activity-detail-row"><span class="key">資格</span><span class="val">高一、高二學生，自由參加</span></div>
+          <div class="activity-detail-row"><span class="key">名額</span><span class="val">不限</span></div>
+          <div class="activity-detail-row"><span class="key">形式</span><span class="val">海報、影片、PDF 文件等</span></div>
+          <div class="activity-detail-row"><span class="key">畫質</span><span class="val">圖片建議 1.2MB 以上</span></div>
+          <div class="activity-detail-row"><span class="key">帳號</span><span class="val">學校 Gmail</span></div>
+          <div class="activity-detail-row"><span class="key">密碼</span><span class="val">預設為學號</span></div>
         </div>
         <div class="activity-links">
-          <a href="https://web.jhenggao.com/iPH_NHSH/ph_index" target="_blank" class="activity-link">
-            <span class="activity-link-icon">↗</span> 成果發表平台（直接上傳）
-          </a>
-          <a href="https://reurl.cc/K2qGLM" target="_blank" class="activity-link">
-            <span class="activity-link-icon">?</span> 平台操作方式說明
-          </a>
+          <a href="https://web.jhenggao.com/iPH_NHSH/ph_index" target="_blank" class="activity-link"><span class="activity-link-icon">↗</span>成果發表平台（直接上傳）</a>
+          <a href="https://reurl.cc/K2qGLM" target="_blank" class="activity-link"><span class="activity-link-icon">?</span>平台操作方式說明</a>
         </div>
       </div>
-
-      <!-- 專班成果 -->
       <div class="activity-card" data-num="III">
         <div class="activity-tag tag-green">專班發表</div>
         <h3>自主學習專班<br>成果發表</h3>
         <p>各專班教師指定學生參與，以海報、作品集等多元形式呈現。由專班教師填寫報名表，並依不同專班類型規劃展出內容。</p>
         <div class="activity-detail">
-          <div class="activity-detail-row">
-            <span class="key">資格</span>
-            <span class="val">各專班教師指定</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">名額</span>
-            <span class="val">不限組數</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">地點</span>
-            <span class="val">活動中心、藝文中心、藝文走廊</span>
-          </div>
-          <div class="activity-detail-row">
-            <span class="key">規格</span>
-            <span class="val">由專班老師規範</span>
-          </div>
+          <div class="activity-detail-row"><span class="key">資格</span><span class="val">各專班教師指定</span></div>
+          <div class="activity-detail-row"><span class="key">名額</span><span class="val">不限組數</span></div>
+          <div class="activity-detail-row"><span class="key">地點</span><span class="val">活動中心、藝文中心、藝文走廊</span></div>
+          <div class="activity-detail-row"><span class="key">規格</span><span class="val">由專班老師規範</span></div>
         </div>
         <div class="activity-links">
-          <a href="https://reurl.cc/R2RKeZ" target="_blank" class="activity-link">
-            <span class="activity-link-icon">→</span> 報名連結（由專班教師填寫）
-          </a>
-          <a href="https://reurl.cc/epQqrQ" target="_blank" class="activity-link">
-            <span class="activity-link-icon">↑</span> 作品上傳連結
-          </a>
+          <a href="https://reurl.cc/R2RKeZ" target="_blank" class="activity-link"><span class="activity-link-icon">→</span>報名連結（由專班教師填寫）</a>
+          <a href="https://reurl.cc/epQqrQ" target="_blank" class="activity-link"><span class="activity-link-icon">↑</span>作品上傳連結</a>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- SCHEDULE -->
-<section id="schedule">
+<!-- ══ SCHEDULE ══ -->
+<section id="schedule" style="background:var(--gold-pale)!important;">
   <div class="section-inner">
     <div class="section-label reveal">活動時程</div>
     <h2 class="section-title reveal">6月11日 當天流程</h2>
-    <p class="section-desc reveal">高一與高二分場次進行，所有發表同學須全程參與，學務處統一辦理公假。</p>
-    <div class="schedule-grid reveal">
-
-      <div>
-        <div class="schedule-col-title"><span class="grade-badge">高一</span> 場次安排</div>
-        <div class="schedule-item">
-          <span class="schedule-time">10:00–10:10</span>
-          <div class="schedule-event"><strong>發表準備</strong><span class="loc">自主學習專班及高一同學</span></div>
+    <p class="section-desc reveal">高一與高二分場次，各約 50 分鐘。所有發表同學須全程參與，學務處統一辦理公假。</p>
+    <div class="reveal" style="margin-top:2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div style="border:1.5px solid var(--line);padding:1.5rem;background:var(--paper)!important;">
+        <div style="font-family:'Noto Serif TC',serif;font-weight:700;font-size:0.95rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+          <span class="grade-badge">高一</span>優先場
         </div>
-        <div class="schedule-item">
-          <span class="schedule-time">10:10–11:00</span>
-          <div class="schedule-event">
-            <strong>自主學習優秀作品展（高一）</strong>
-            <span class="loc">活動中心 4 樓</span>
-            自主學習專班成果發表（上半場）
-            <span class="loc">活動中心、藝文中心、藝文走廊</span>
-          </div>
-        </div>
-        <div class="schedule-item">
-          <span class="schedule-time">11:00–11:10</span>
-          <div class="schedule-event"><strong>交接準備</strong><span class="loc">高二同學進場</span></div>
-        </div>
-        <div class="schedule-item">
-          <span class="schedule-time">11:10–12:00</span>
-          <div class="schedule-event">
-            <strong>自主學習成果統整與檢視（原班級）</strong>
-          </div>
+        <div style="font-size:0.85rem;color:rgba(26,18,8,0.7);line-height:2.1;">
+          <div><strong style="color:var(--gold);">10:00</strong>　發表準備</div>
+          <div><strong style="color:var(--gold);">10:10–11:00</strong>　優秀作品展 ＋ 專班發表</div>
+          <div><strong style="color:var(--gold);">11:10–12:00</strong>　回班成果統整</div>
         </div>
       </div>
-
-      <div>
-        <div class="schedule-col-title"><span class="grade-badge">高二</span> 場次安排</div>
-        <div class="schedule-item">
-          <span class="schedule-time">10:00–11:00</span>
-          <div class="schedule-event">
-            <strong>自主學習成果統整與檢視（原班級）</strong>
-          </div>
+      <div style="border:1.5px solid var(--line);padding:1.5rem;background:var(--paper)!important;">
+        <div style="font-family:'Noto Serif TC',serif;font-weight:700;font-size:0.95rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+          <span class="grade-badge">高二</span>後半場
         </div>
-        <div class="schedule-item">
-          <span class="schedule-time">11:00–11:10</span>
-          <div class="schedule-event"><strong>發表準備</strong><span class="loc">高二同學進場</span></div>
-        </div>
-        <div class="schedule-item">
-          <span class="schedule-time">11:10–12:00</span>
-          <div class="schedule-event">
-            <strong>自主學習優秀作品展（高二）</strong>
-            <span class="loc">活動中心 4 樓</span>
-            自主學習專班成果發表（下半場）
-            <span class="loc">活動中心、藝文中心、藝文走廊</span>
-          </div>
+        <div style="font-size:0.85rem;color:rgba(26,18,8,0.7);line-height:2.1;">
+          <div><strong style="color:var(--gold);">10:00–11:00</strong>　回班成果統整</div>
+          <div><strong style="color:var(--gold);">11:10–12:00</strong>　優秀作品展 ＋ 專班發表</div>
         </div>
       </div>
-
     </div>
-    <div class="schedule-note reveal">
-      ⚠ 所有發表同學均須<strong>全程</strong>參與發表活動，由學務處統一辦理公假。
+    <div class="reveal" style="margin-top:1.5rem;">
+      <a href="nhsh-dayof.html" style="
+        display:inline-flex;align-items:center;gap:0.5rem;
+        background:var(--dark-bg)!important;color:var(--on-dark)!important;
+        font-size:0.82rem;font-weight:700;letter-spacing:0.06em;
+        padding:0.75rem 1.5rem;text-decoration:none;
+        box-shadow:3px 3px 0 var(--ink);transition:all 0.2s;
+      " onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='5px 5px 0 var(--ink)'"
+         onmouseout="this.style.transform='';this.style.boxShadow='3px 3px 0 var(--ink)'">
+        📱 完整時程 ＋ 展場地圖 ＋ 投票 →
+      </a>
     </div>
   </div>
 </section>
 
-<!-- CRITERIA -->
+<!-- ══ CRITERIA ══ -->
 <section id="criteria">
   <div class="section-inner">
     <div class="section-label reveal">評選標準</div>
@@ -812,205 +631,91 @@
   </div>
 </section>
 
-<!-- AWARDS -->
+<!-- ══ AWARDS ══ -->
 <section id="awards">
   <div class="section-inner">
     <div class="section-label reveal">獎勵辦法</div>
     <h2 class="section-title reveal">豐富獎勵等你來拿</h2>
     <div class="awards-grid reveal">
-      <div class="award-row">
-        <div class="award-name"><span class="award-dot dot-gold"></span> 金質獎</div>
-        <div class="award-desc">每年級各1名（18組以上2名，37組以上3名）</div>
-        <div class="award-prize">獎狀 ＋ 禮券300元 ＋ 嘉獎2次</div>
-      </div>
-      <div class="award-row">
-        <div class="award-name"><span class="award-dot dot-silver"></span> 銀質獎</div>
-        <div class="award-desc">每年級各1名（18組以上2名，37組以上3名）</div>
-        <div class="award-prize">獎狀 ＋ 禮券200元 ＋ 嘉獎1次</div>
-      </div>
-      <div class="award-row">
-        <div class="award-name"><span class="award-dot dot-bronze"></span> 銅質獎</div>
-        <div class="award-desc">每年級各1名（18組以上2名，37組以上3名）</div>
-        <div class="award-prize">獎狀 ＋ 禮券100元 ＋ 嘉獎1次</div>
-      </div>
-      <div class="award-row">
-        <div class="award-name"><span class="award-dot dot-commend"></span> 佳作</div>
-        <div class="award-desc">每年級各2名（18組以上4名，37組以上6名）</div>
-        <div class="award-prize">獎狀 ＋ 嘉獎1次</div>
-      </div>
-      <div class="award-row">
-        <div class="award-name"><span class="award-dot dot-pop"></span> 人氣獎</div>
-        <div class="award-desc">由現場參與同學票選，前5名</div>
-        <div class="award-prize">小禮物1份</div>
-      </div>
-      <div class="award-row">
-        <div class="award-name" style="color:rgba(250,247,240,0.5);font-size:0.9rem;">🏅 參加獎</div>
-        <div class="award-desc">所有發表同學均頒發</div>
-        <div class="award-prize">參加證明書</div>
-      </div>
+      <div class="award-row"><div class="award-name"><span class="award-dot dot-gold"></span>金質獎</div><div class="award-desc">每年級各1名（18組以上2名，37組以上3名）</div><div class="award-prize">獎狀＋禮券300元＋嘉獎2次</div></div>
+      <div class="award-row"><div class="award-name"><span class="award-dot dot-silver"></span>銀質獎</div><div class="award-desc">每年級各1名（18組以上2名，37組以上3名）</div><div class="award-prize">獎狀＋禮券200元＋嘉獎1次</div></div>
+      <div class="award-row"><div class="award-name"><span class="award-dot dot-bronze"></span>銅質獎</div><div class="award-desc">每年級各1名（18組以上2名，37組以上3名）</div><div class="award-prize">獎狀＋禮券100元＋嘉獎1次</div></div>
+      <div class="award-row"><div class="award-name"><span class="award-dot dot-commend"></span>佳作</div><div class="award-desc">每年級各2名（18組以上4名，37組以上6名）</div><div class="award-prize">獎狀＋嘉獎1次</div></div>
+      <div class="award-row"><div class="award-name"><span class="award-dot dot-pop"></span>人氣獎</div><div class="award-desc">各年級各1名，現場參與同學票選最高票者</div><div class="award-prize">禮券100元</div></div>
+      <div class="award-row"><div class="award-name"><span class="award-dot dot-orange"></span>參與獎</div><div class="award-desc">各年級各1名，從現場投票同學中隨機抽出</div><div class="award-prize">小禮物1份</div></div>
+      <div class="award-row"><div class="award-name" style="color:rgba(250,247,240,0.44);font-size:0.88rem;">🏅 參加獎</div><div class="award-desc">所有發表同學均頒發</div><div class="award-prize">參加證明書</div></div>
     </div>
     <div class="award-note reveal">
-      💡 <strong>額外班級嘉獎：</strong>扣除發表同學後，全班交齊成果展活動紀錄之班級，記嘉獎1支。<br>
-      🏆 <strong>獲選金質獎者</strong>將優先代表本校參與校外自主學習成果發表會。<br>
-      📋 <strong>線上海報展</strong>不進行評選，報名者直接發給參加證明。
+      💡 <strong style="color:var(--gold-light)">額外班級嘉獎：</strong>扣除發表同學後，全班交齊成果展活動紀錄之班級，記嘉獎1支。<br>
+      🏆 <strong style="color:var(--gold-light)">獲選金質獎者</strong>將優先代表本校參與校外自主學習成果發表會。<br>
+      📋 <strong style="color:var(--gold-light)">線上海報展</strong>由學務處審查通過後發表，報名者直接發給參加證明。
     </div>
   </div>
 </section>
 
-<!-- VOTE -->
-<section id="vote">
-  <div class="section-inner">
-    <div class="section-label reveal">人氣獎</div>
-    <h2 class="section-title reveal">為你最喜歡的作品投票</h2>
-    <p class="section-desc reveal">每人可投 <strong>2 票</strong>，須以學校 Google 帳號登入，每部作品最多投1票。前5名獲得人氣獎小禮物。</p>
 
-    <div class="reveal" style="margin-top:3rem;">
-      <div style="
-        border: 2px dashed var(--gold);
-        padding: 4rem 2rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      ">
-        <div style="
-          position:absolute; top:-0.2em; right:0.3rem;
-          font-family:'DM Serif Display',serif;
-          font-size:9rem; color:rgba(200,146,42,0.06);
-          line-height:1; pointer-events:none; user-select:none;
-        ">票</div>
-
-        <div style="font-size:2.5rem; margin-bottom:1rem;">🗳️</div>
-        <div style="
-          font-family:'Noto Serif TC',serif;
-          font-size:1.4rem; font-weight:900;
-          margin-bottom:0.8rem;
-        ">投票即將開放</div>
-        <p style="
-          font-size:0.9rem; color:rgba(26,18,8,0.55);
-          max-width:420px; margin:0 auto 2rem; line-height:1.9;
-        ">作品名單確認後將開放線上投票，<br>屆時請以學校 Google 帳號登入參與。</p>
-
-        <a href="#"
-          onclick="return false;"
-          title="投票系統建置中"
-          style="
-            display:inline-flex; align-items:center; gap:0.6rem;
-            background:var(--gold); color:var(--paper);
-            font-size:0.85rem; font-weight:700;
-            letter-spacing:0.1em; text-transform:uppercase;
-            padding:0.9rem 2.2rem; text-decoration:none;
-            box-shadow:4px 4px 0 var(--ink);
-            opacity:0.45; cursor:not-allowed;
-          ">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          前往投票頁面（建置中）
-        </a>
-
-        <div style="
-          margin-top:2rem;
-          display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;
-        ">
-          <div style="text-align:center;">
-            <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:700;">投票資格</div>
-            <div style="font-size:0.88rem;margin-top:0.3rem;">全校師生（學校 Google 帳號）</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:700;">每人票數</div>
-            <div style="font-size:0.88rem;margin-top:0.3rem;">2 票（不可重複投同一作品）</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-weight:700;">得獎名額</div>
-            <div style="font-size:0.88rem;margin-top:0.3rem;">前 5 名，各獲小禮物一份</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- POSTER GUIDE -->
+<!-- ══ POSTER GUIDE ══ -->
 <section id="poster">
   <div class="section-inner">
     <div class="section-label reveal">海報製作指南</div>
     <h2 class="section-title reveal">海報內容規劃建議</h2>
     <p class="section-desc reveal">海報格式為 A1 尺寸（594×841mm），解析度 300dpi 以上，格式限 PDF。每個項目建議約 100–300 字，輔以照片影音。</p>
     <div class="poster-steps reveal">
-      <div class="poster-step">
-        <div class="poster-step-num">1</div>
-        <h3>自我評估階段</h3>
-        <p>如何了解自己的興趣與學習狀況；如何掌握學習方向與未來生涯規劃的關聯；如何設定自主學習目標？</p>
-      </div>
-      <div class="poster-step">
-        <div class="poster-step-num">2</div>
-        <h3>執行計畫歷程</h3>
-        <p>計畫如何彈性調整？曾遭遇哪些困境？如何找到解決之策？執行過程中運用哪些資源？</p>
-      </div>
-      <div class="poster-step">
-        <div class="poster-step-num">3</div>
-        <h3>學習作品與成果</h3>
-        <p>呈現形式不拘。若為照片請注意解析度（建議 1.2MB 以上）；若有影片，請提供 QRCode 供掃描。</p>
-      </div>
-      <div class="poster-step">
-        <div class="poster-step-num">4</div>
-        <h3>學習心得反思</h3>
-        <p>包含歷程與結果的學習反思（約 100 字）。說明自己的成長、突破，以及對未來的展望。</p>
-      </div>
+      <div class="poster-step"><div class="poster-step-num">1</div><h3>自我評估階段</h3><p>如何了解自己的興趣與學習狀況；如何掌握學習方向與未來生涯規劃的關聯；如何設定自主學習目標？</p></div>
+      <div class="poster-step"><div class="poster-step-num">2</div><h3>執行計畫歷程</h3><p>計畫如何彈性調整？曾遭遇哪些困境？如何找到解決之策？執行過程中運用哪些資源？</p></div>
+      <div class="poster-step"><div class="poster-step-num">3</div><h3>學習作品與成果</h3><p>呈現形式不拘。若為照片請注意解析度（建議 1.2MB 以上）；若有影片，請提供 QRCode 供掃描。</p></div>
+      <div class="poster-step"><div class="poster-step-num">4</div><h3>學習心得反思</h3><p>包含歷程與結果的學習反思（約 100 字）。說明自己的成長、突破，以及對未來的展望。</p></div>
     </div>
-    <div style="margin-top:1.5rem; padding:1rem 1.5rem; background:var(--gold-pale); border-left:3px solid var(--gold); font-size:0.85rem; color:rgba(26,18,8,0.7); line-height:1.9;">
+    <div class="poster-tip reveal">
       ⚠ 海報送印須至少 <strong>3 個工作天</strong>，請務必在 <strong>6月4日 17:00</strong> 前完成上傳。<br>
       📁 檔名請以 <strong>班級座號姓名</strong> 命名（例：120101王小明）
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
+<!-- ══ FAQ ══ -->
 <section id="faq">
   <div class="section-inner">
     <div class="section-label reveal">常見問題</div>
     <h2 class="section-title reveal">你可能想知道的事</h2>
     <div class="faq-list reveal">
-      <div class="faq-item">
-        <div class="faq-q">我可以同時報名實體海報展和線上海報展嗎？</div>
-        <div class="faq-a">可以！兩種展出形式的報名是獨立的，學生可以同時參加實體與線上展出，但實體海報展有每年級 52 組的名額限制。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">作品必須是什麼時間完成的？</div>
-        <div class="faq-a">限 114 學年度（含上、下學期）期間完成之自主學習作品方可報名實體海報展。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">實體發表時需要準備什麼？</div>
-        <div class="faq-a">準備約 1–2 分鐘的口頭分享內容。亦可自備平板、筆電、書面資料或實作作品等輔助說明，但不是必要的。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">如果我報名了實體海報展，當天可以不去嗎？</div>
-        <div class="faq-a">不行。所有發表同學均須全程參與發表活動，缺席可能影響評分。學務處會統一辦理公假，請放心出席。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">沒有被老師推薦，還可以報名實體海報展嗎？</div>
-        <div class="faq-a">可以！實體海報展開放學生自由報名。若報名人數超過每年級 52 組的上限，有自主學習老師推薦者會優先錄取，但未推薦者仍可報名。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">活動紀錄表要怎麼交？</div>
-        <div class="faq-a">線上版活動紀錄請至 Google 表單填寫：<a href="https://forms.gle/eH3ossG8qRvKGELk8" target="_blank" style="color:var(--gold);">https://forms.gle/eH3ossG8qRvKGELk8</a>。全班（扣除發表同學）交齊即可讓班級記嘉獎1支。</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">海報上傳後可以修改嗎？</div>
-        <div class="faq-a">建議在截止日（6月4日 17:00）前確認並完成最終版本的上傳，如需修改請自行重新上傳並確認正確版本已到位。</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">我可以同時報名實體海報展和線上海報展嗎？</div><div class="faq-a">可以！兩種展出形式是獨立的，學生可以同時參加，但實體海報展有每年級 52 組的名額限制。</div></div>
+      <div class="faq-item"><div class="faq-q">作品必須是什麼時間完成的？</div><div class="faq-a">限 114 學年度（含上、下學期）期間完成之自主學習作品方可報名實體海報展。</div></div>
+      <div class="faq-item"><div class="faq-q">實體發表時需要準備什麼？</div><div class="faq-a">準備約 1–2 分鐘的口頭分享內容。亦可自備平板、筆電、書面資料或實作作品等輔助說明，但不是必要的。</div></div>
+      <div class="faq-item"><div class="faq-q">如果我報名了實體海報展，當天可以不去嗎？</div><div class="faq-a">不行。所有發表同學均須全程參與發表活動，缺席可能影響評分。學務處會統一辦理公假，請放心出席。</div></div>
+      <div class="faq-item"><div class="faq-q">沒有被老師推薦，還可以報名實體海報展嗎？</div><div class="faq-a">可以！實體海報展開放學生自由報名。若報名人數超過每年級 52 組的上限，有自主學習老師推薦者優先錄取，但未推薦者仍可報名。</div></div>
+      <div class="faq-item"><div class="faq-q">活動紀錄表要怎麼交？</div><div class="faq-a">線上版活動紀錄請至 Google 表單填寫：<a href="https://forms.gle/eH3ossG8qRvKGELk8" target="_blank" style="color:var(--gold);">https://forms.gle/eH3ossG8qRvKGELk8</a>。全班（扣除發表同學）交齊即可讓班級記嘉獎1支。</div></div>
+      <div class="faq-item"><div class="faq-q">海報上傳後可以修改嗎？</div><div class="faq-a">建議在截止日（6月4日 17:00）前確認並完成最終版本的上傳，如需修改請自行重新上傳並確認正確版本已到位。</div></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ══ FOOTER ══ -->
 <footer>
   <strong>臺北市立內湖高級中學</strong><br>
   學務處社團活動組 主辦 · 114學年度第2學期自主學習成果發表<br>
-  活動日期：115年6月11日（星期四）10:10–12:00<br>
-  <br>
+  活動日期：115年6月11日（星期四）10:10–12:00<br><br>
   報名問題請洽學務處訓育組
 </footer>
 
 <script>
+  // 漢堡選單
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+  function closeDrawer() {
+    burger.classList.remove('open');
+    drawer.classList.remove('open');
+  }
+  // 點選單外區域關閉
+  const nav = document.querySelector('nav');
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target) && !drawer.contains(e.target)) closeDrawer();
+  });
+
   // FAQ Accordion
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
@@ -1021,12 +726,10 @@
     });
   });
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); }
-    });
-  }, { threshold: 0.12 });
+  // Scroll Reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
