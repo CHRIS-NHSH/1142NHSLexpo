@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>活動當天入口 · 自主學習成果發表 114-2</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light only;
+  --ink: #1a1208;
+  --paper: #faf7f0;
+  --gold: #c8922a;
+  --gold-light: #e8bb66;
+  --gold-pale: #f5e8c8;
+  --sage: #4a6741;
+  --accent: #2a4a7f;
+  --line: rgba(26,18,8,0.12);
+  --on-dark: #faf7f0;
+  --on-dark-dim: rgba(250,247,240,0.65);
+  --dark-bg: #1a1208;
+}
+@media (prefers-color-scheme: dark) {
+  html, body { background: var(--paper) !important; color: var(--ink) !important; }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  font-family: 'Noto Sans TC', sans-serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999; opacity: 0.5;
+}
+
+/* ══ TOP BAR ══ */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: rgba(250,247,240,0.96) !important;
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-logo {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 0.82rem; color: var(--ink) !important; line-height: 1.4;
+}
+.topbar-logo span { color: var(--gold) !important; }
+.topbar-back {
+  font-size: 0.78rem; color: rgba(26,18,8,0.5) !important;
+  text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+  transition: color 0.2s;
+}
+.topbar-back:hover { color: var(--gold) !important; }
+
+/* ══ HERO STRIP ══ */
+.hero-strip {
+  margin-top: 56px;
+  background: var(--dark-bg) !important;
+  padding: 2.5rem 1.5rem 2rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero-strip::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(90deg,transparent 0,transparent 59px,rgba(250,247,240,0.02) 59px,rgba(250,247,240,0.02) 60px);
+}
+.hero-strip-eyebrow {
+  font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold-light) !important; font-weight: 700;
+  border: 1px solid var(--gold-light); display: inline-block;
+  padding: 0.22rem 1rem; margin-bottom: 1rem;
+}
+.hero-strip-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: clamp(1.8rem, 6vw, 3rem); color: var(--on-dark) !important;
+  line-height: 1.2;
+}
+.hero-strip-title em { font-style: normal; color: var(--gold) !important; }
+.hero-strip-meta {
+  margin-top: 1.2rem;
+  display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+}
+.hero-strip-meta-item { text-align: center; }
+.hero-strip-meta-item .lbl {
+  font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold-light) !important; font-weight: 700; display: block;
+}
+.hero-strip-meta-item .val {
+  font-family: 'Noto Serif TC', serif; font-size: 0.92rem; font-weight: 700;
+  color: var(--on-dark) !important;
+}
+
+/* ══ NAV TABS ══ */
+.tab-nav {
+  display: flex; overflow-x: auto; gap: 0;
+  background: var(--ink) !important;
+  border-bottom: 2px solid rgba(250,247,240,0.08);
+  scrollbar-width: none;
+  position: sticky; top: 56px; z-index: 100;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  padding: 0.85rem 1.2rem;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em;
+  color: rgba(250,247,240,0.45) !important; cursor: pointer;
+  font-family: inherit; transition: all 0.2s; white-space: nowrap;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.tab-btn:hover { color: var(--gold-light) !important; }
+.tab-btn.active { color: var(--gold-light) !important; border-bottom-color: var(--gold); }
+
+/* ══ PANELS ══ */
+.panel { display: none; }
+.panel.active { display: block; }
+.panel-inner { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+@media (max-width: 560px) { .panel-inner { padding: 2rem 1rem; } }
+
+.panel-label {
+  font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold) !important; font-weight: 700; margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.panel-label::after { content: ''; flex: 1; height: 1px; background: var(--gold); max-width: 50px; }
+.panel-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: clamp(1.4rem, 4vw, 2.2rem); line-height: 1.25; margin-bottom: 1.5rem;
+  color: var(--ink) !important;
+}
+
+/* ══ SCHEDULE PANEL ══ */
+.schedule-now {
+  background: var(--gold) !important; color: var(--ink) !important;
+  padding: 1rem 1.5rem; margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.schedule-now-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--ink); animation: pulse 1.5s infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+.schedule-now-text { font-weight: 700; font-size: 0.9rem; color: var(--ink) !important; }
+.schedule-now-sub { font-size: 0.78rem; opacity: 0.72; color: var(--ink) !important; }
+
+.schedule-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+@media (max-width: 580px) { .schedule-cols { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+.sched-grade {
+  font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 700;
+  padding-bottom: 0.6rem; border-bottom: 2px solid var(--gold);
+  margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+  color: var(--ink) !important;
+}
+.grade-badge {
+  background: var(--gold) !important; color: var(--paper) !important;
+  font-size: 0.65rem; padding: 0.12rem 0.45rem; font-weight: 700; letter-spacing: 0.1em;
+}
+.sched-row {
+  display: flex; gap: 0.75rem; padding: 0.65rem 0;
+  border-bottom: 1px dashed rgba(26,18,8,0.12);
+  position: relative;
+}
+.sched-row.current {
+  background: rgba(200,146,42,0.08) !important;
+  margin: 0 -0.5rem; padding: 0.65rem 0.5rem;
+  border-left: 3px solid var(--gold);
+}
+.sched-time {
+  font-size: 0.74rem; color: var(--gold) !important; font-weight: 700;
+  white-space: nowrap; min-width: 5rem; padding-top: 0.1rem;
+}
+.sched-event { font-size: 0.85rem; color: var(--ink) !important; }
+.sched-event strong { font-weight: 700; color: var(--ink) !important; }
+.sched-event .loc { font-size: 0.74rem; color: rgba(26,18,8,0.48) !important; margin-top: 0.1rem; }
+.sched-event .loc a { font-size: inherit; }
+.sched-note {
+  margin-top: 1.2rem; background: rgba(200,146,42,0.1) !important;
+  border-left: 3px solid var(--gold); padding: 0.75rem 1rem;
+  font-size: 0.82rem; color: rgba(26,18,8,0.75) !important;
+}
+
+/* ══ MAP PANEL ══ */
+.map-search-wrap {
+  display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.map-search-wrap input {
+  flex: 1; min-width: 180px; padding: 0.7rem 1rem;
+  border: 1.5px solid var(--line); background: var(--paper) !important;
+  font-family: inherit; font-size: 0.88rem; color: var(--ink) !important; outline: none;
+  transition: border-color 0.2s;
+}
+.map-search-wrap input:focus { border-color: var(--gold); }
+#map-count { font-size: 0.78rem; color: rgba(26,18,8,0.42) !important; white-space: nowrap; }
+
+.map-legend {
+  display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;
+}
+.legend-dot {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.68rem; font-weight: 700;
+}
+.legend-dot span {
+  width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0;
+}
+.map-tabs { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.map-tab {
+  background: none; border: 1.5px solid var(--line);
+  padding: 0.38rem 0.9rem; font-size: 0.78rem; font-weight: 700;
+  font-family: inherit; cursor: pointer; color: rgba(26,18,8,0.48) !important;
+  transition: all 0.18s;
+}
+.map-tab.active, .map-tab:hover {
+  background: var(--gold) !important; border-color: var(--gold); color: var(--paper) !important;
+}
+
+.venue-stage {
+  text-align: center; padding: 0.45rem;
+  background: rgba(26,18,8,0.05) !important;
+  border: 1px dashed rgba(26,18,8,0.15);
+  font-size: 0.72rem; color: rgba(26,18,8,0.38) !important;
+  letter-spacing: 0.12em; margin-bottom: 0.6rem;
+}
+#venue-layout {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.5rem;
+}
+.zone-col-title {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 0.5rem; line-height: 1.4;
+}
+.slot-col { display: flex; flex-direction: column; gap: 3px; }
+.slot {
+  border: 1.5px solid; padding: 0.38rem 0.45rem;
+  cursor: pointer; transition: all 0.15s;
+  height: 58px; display: flex; flex-direction: column;
+  justify-content: center; overflow: hidden;
+}
+.slot:hover { transform: translateY(-1px); box-shadow: 2px 2px 0 rgba(26,18,8,0.15); z-index: 1; }
+.slot.no-data { cursor: default; }
+.slot.no-data:hover { transform: none; box-shadow: none; }
+.slot.hidden { display: none; }
+.slot-num {
+  font-size: 0.54rem; opacity: 0.52; display: block;
+  line-height: 1; margin-bottom: 0.12rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.slot-name {
+  font-size: 0.68rem; font-weight: 700; display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; line-height: 1.25;
+}
+.slot-name.pending { font-weight: 400; opacity: 0.32; font-size: 0.62rem; }
+.slot-author {
+  font-size: 0.58rem; opacity: 0.62; display: block; margin-top: 0.08rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.type-lang  { background: rgba(200,146,42,0.12); border-color: #c8922a; color: #7a5800; }
+.type-sci   { background: rgba(42,74,127,0.1);   border-color: #2a4a7f; color: #1a3060; }
+.type-art   { background: rgba(74,103,65,0.12);  border-color: #4a6741; color: #2e4a28; }
+.type-other { background: rgba(168,72,50,0.1);   border-color: #a84832; color: #7a2a18; }
+.type-empty { background: rgba(26,18,8,0.03);    border-color: rgba(26,18,8,0.15); color: rgba(26,18,8,0.28); }
+.venue-bottom {
+  display: flex; justify-content: space-between;
+  padding: 0.45rem; background: rgba(26,18,8,0.05) !important;
+  border: 1px dashed rgba(26,18,8,0.15);
+  font-size: 0.72rem; color: rgba(26,18,8,0.38) !important;
+  letter-spacing: 0.1em; margin-top: 0.6rem;
+}
+
+@media (max-width: 500px) {
+  #venue-layout { gap: 0.25rem; }
+  .slot { height: 50px; padding: 0.28rem 0.3rem; }
+  .slot-name { font-size: 0.6rem; }
+  .slot-author { display: none; }
+}
+@media (max-width: 380px) {
+  .slot { height: 44px; padding: 0.22rem 0.22rem; }
+  .slot-num { display: none; }
+  .slot-name { font-size: 0.54rem; }
+}
+
+/* ══ SLOT MODAL ══ */
+.slot-modal-bg {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(26,18,8,0.6); backdrop-filter: blur(6px);
+  padding: 1.5rem; align-items: center; justify-content: center;
+}
+.slot-modal-bg.open { display: flex; }
+.slot-modal-box {
+  background: var(--paper) !important; max-width: 400px; width: 100%;
+  padding: 1.8rem; position: relative;
+  box-shadow: 8px 8px 0 var(--ink); max-height: 88vh; overflow-y: auto;
+}
+.slot-modal-close {
+  position: absolute; top: 0.9rem; right: 1rem;
+  background: none; border: none; font-size: 1.4rem;
+  cursor: pointer; color: var(--ink) !important; line-height: 1;
+}
+.slot-modal-num {
+  font-family: 'DM Serif Display', serif; font-size: 3.5rem; line-height: 1;
+  color: rgba(26,18,8,0.08); position: absolute; top: 1rem; left: 1.4rem;
+  pointer-events: none;
+}
+
+/* ══ VOTE PANEL ══ */
+/* 模擬投票流程的各步驟 */
+.vote-step { display: none; }
+.vote-step.active { display: block; }
+
+/* Step 0: 未登入 */
+.vote-login-box {
+  border: 2px solid var(--line); padding: 3rem 2rem;
+  text-align: center; max-width: 460px; margin: 0 auto;
+}
+.vote-login-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.vote-login-title {
+  font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 900;
+  margin-bottom: 0.6rem; color: var(--ink) !important;
+}
+.vote-login-sub { font-size: 0.86rem; color: rgba(26,18,8,0.55) !important; margin-bottom: 2rem; line-height: 1.8; }
+.vote-google-btn {
+  display: inline-flex; align-items: center; gap: 0.8rem;
+  background: #fff !important; color: #3c4043 !important;
+  border: 1.5px solid #dadce0; padding: 0.75rem 1.5rem;
+  font-size: 0.88rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+.vote-google-btn:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
+.vote-google-btn svg { flex-shrink: 0; }
+
+/* Step 1: 選票 */
+.vote-info-bar {
+  background: var(--gold-pale) !important; border-left: 3px solid var(--gold);
+  padding: 0.75rem 1rem; margin-bottom: 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+}
+.vote-info-bar .user-info { font-size: 0.82rem; color: rgba(26,18,8,0.7) !important; }
+.vote-info-bar .user-info strong { color: var(--ink) !important; }
+.vote-ticket-status {
+  display: flex; gap: 0.5rem; align-items: center;
+}
+.ticket {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; transition: all 0.2s;
+  color: var(--gold) !important;
+}
+.ticket.used {
+  background: var(--gold) !important; color: var(--paper) !important; border-color: var(--gold);
+}
+
+.vote-search-wrap {
+  display: flex; gap: 0.6rem; margin-bottom: 1rem;
+}
+.vote-search-wrap input {
+  flex: 1; padding: 0.6rem 0.9rem; border: 1.5px solid var(--line);
+  background: var(--paper) !important; font-family: inherit; font-size: 0.86rem;
+  color: var(--ink) !important; outline: none; transition: border-color 0.2s;
+}
+.vote-search-wrap input:focus { border-color: var(--gold); }
+
+.vote-filter-tabs { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.vote-tab {
+  background: none; border: 1.5px solid var(--line);
+  padding: 0.3rem 0.75rem; font-size: 0.75rem; font-weight: 700;
+  font-family: inherit; cursor: pointer; color: rgba(26,18,8,0.45) !important;
+  transition: all 0.18s;
+}
+.vote-tab.active, .vote-tab:hover {
+  background: var(--gold) !important; border-color: var(--gold); color: var(--paper) !important;
+}
+
+.vote-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem; margin-bottom: 1.5rem;
+}
+.vote-card {
+  border: 2px solid var(--line); padding: 1rem;
+  cursor: pointer; transition: all 0.18s; position: relative;
+  background: var(--paper) !important;
+}
+.vote-card:hover { border-color: var(--gold); }
+.vote-card.selected {
+  border-color: var(--gold); background: rgba(200,146,42,0.08) !important;
+}
+.vote-card.selected::after {
+  content: '✓'; position: absolute; top: 0.5rem; right: 0.6rem;
+  width: 22px; height: 22px; background: var(--gold) !important;
+  color: var(--paper) !important; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700;
+}
+.vote-card.disabled { opacity: 0.4; cursor: not-allowed; }
+.vote-card.hidden { display: none; }
+.vote-card-grade {
+  font-size: 0.6rem; letter-spacing: 0.15em; font-weight: 700;
+  color: var(--gold) !important; margin-bottom: 0.35rem;
+}
+.vote-card-title {
+  font-family: 'Noto Serif TC', serif; font-size: 0.88rem; font-weight: 700;
+  color: var(--ink) !important; line-height: 1.4; margin-bottom: 0.3rem;
+}
+.vote-card-author { font-size: 0.76rem; color: rgba(26,18,8,0.55) !important; }
+.vote-card-type {
+  display: inline-block; font-size: 0.6rem; letter-spacing: 0.1em; font-weight: 700;
+  padding: 0.12rem 0.45rem; border: 1px solid; margin-top: 0.5rem;
+}
+
+.vote-submit-bar {
+  position: sticky; bottom: 0;
+  background: rgba(250,247,240,0.96) !important; backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line); padding: 1rem 0;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  flex-wrap: wrap;
+}
+.vote-submit-status { font-size: 0.82rem; color: rgba(26,18,8,0.55) !important; }
+.vote-submit-status strong { color: var(--ink) !important; }
+.vote-submit-btn {
+  background: var(--gold) !important; color: var(--paper) !important;
+  border: none; padding: 0.8rem 1.8rem; font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.08em; cursor: pointer; font-family: inherit;
+  box-shadow: 3px 3px 0 var(--ink); transition: all 0.2s;
+}
+.vote-submit-btn:hover:not(:disabled) { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+.vote-submit-btn:disabled { opacity: 0.38; cursor: not-allowed; box-shadow: none; transform: none; }
+
+/* Step 2: 確認 */
+.vote-confirm-box { max-width: 460px; margin: 0 auto; }
+.vote-confirm-title {
+  font-family: 'Noto Serif TC', serif; font-size: 1.2rem; font-weight: 900;
+  margin-bottom: 1.5rem; color: var(--ink) !important;
+}
+.vote-confirm-card {
+  border: 1.5px solid var(--line); padding: 1rem 1.2rem; margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.vote-confirm-num {
+  font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--gold) !important;
+  line-height: 1; flex-shrink: 0;
+}
+.vote-confirm-info-title {
+  font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 700;
+  color: var(--ink) !important;
+}
+.vote-confirm-info-sub { font-size: 0.78rem; color: rgba(26,18,8,0.55) !important; }
+.vote-confirm-btns { display: flex; gap: 0.75rem; margin-top: 1.8rem; }
+.btn-back {
+  background: none !important; border: 1.5px solid var(--line);
+  padding: 0.75rem 1.4rem; font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; color: var(--ink) !important;
+  transition: border-color 0.2s; flex: 1;
+}
+.btn-back:hover { border-color: var(--ink); }
+.btn-confirm {
+  background: var(--dark-bg) !important; color: var(--on-dark) !important;
+  border: none; padding: 0.75rem 1.4rem; font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; box-shadow: 3px 3px 0 var(--gold);
+  transition: all 0.2s; flex: 2;
+}
+.btn-confirm:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--gold); }
+
+/* Step 3: 完成 */
+.vote-done-box { text-align: center; padding: 3rem 1rem; max-width: 420px; margin: 0 auto; }
+.vote-done-icon { font-size: 3.5rem; margin-bottom: 1.2rem; }
+.vote-done-title {
+  font-family: 'Noto Serif TC', serif; font-size: 1.5rem; font-weight: 900;
+  margin-bottom: 0.8rem; color: var(--ink) !important;
+}
+.vote-done-sub { font-size: 0.88rem; color: rgba(26,18,8,0.6) !important; line-height: 1.9; margin-bottom: 2rem; }
+.vote-done-cards {
+  display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;
+}
+.vote-done-card {
+  border: 1.5px solid var(--gold); padding: 0.6rem 1rem;
+  font-size: 0.82rem; color: var(--ink) !important; text-align: left; max-width: 180px;
+}
+.vote-done-card-grade { font-size: 0.6rem; color: var(--gold) !important; font-weight: 700; margin-bottom: 0.2rem; }
+.vote-done-card-title { font-weight: 700; font-size: 0.82rem; color: var(--ink) !important; }
+
+/* ══ RECORD PANEL ══ */
+.record-cta {
+  border: 1.5px solid var(--line); padding: 2.5rem;
+  text-align: center; max-width: 480px; margin: 0 auto 2rem;
+  position: relative; overflow: hidden;
+}
+.record-cta-bg {
+  position: absolute; top: -0.1em; right: 0.5rem;
+  font-family: 'DM Serif Display', serif; font-size: 8rem;
+  color: rgba(26,18,8,0.04); line-height: 1; pointer-events: none;
+}
+.record-cta-title {
+  font-family: 'Noto Serif TC', serif; font-size: 1.15rem; font-weight: 900;
+  margin-bottom: 0.6rem; color: var(--ink) !important;
+}
+.record-cta-sub { font-size: 0.85rem; color: rgba(26,18,8,0.55) !important; margin-bottom: 1.8rem; line-height: 1.8; }
+.record-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--gold) !important; color: var(--paper) !important;
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 0.85rem 2rem; text-decoration: none;
+  box-shadow: 4px 4px 0 var(--ink); transition: all 0.2s;
+}
+.record-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+.record-steps {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  max-width: 500px; margin: 0 auto;
+}
+@media (max-width: 480px) { .record-steps { grid-template-columns: 1fr; } }
+.record-step-card {
+  border: 1.5px solid var(--line); padding: 1.4rem;
+  background: var(--paper) !important;
+}
+.record-step-badge {
+  width: 30px; height: 30px; border: 1.5px solid var(--gold);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; color: var(--gold) !important; font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.record-step-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--ink) !important; }
+.record-step-desc { font-size: 0.8rem; color: rgba(26,18,8,0.6) !important; line-height: 1.75; }
+.record-note {
+  margin-top: 1.2rem; max-width: 500px; margin-left: auto; margin-right: auto;
+  padding: 0.8rem 1rem; background: var(--gold-pale) !important;
+  border-left: 3px solid var(--gold); font-size: 0.8rem;
+  color: rgba(26,18,8,0.7) !important; line-height: 1.8;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">內湖高中 <span>自主學習成果發表</span></div>
+  <a href="index.html" class="topbar-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    活動說明頁
+  </a>
+</div>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+  <div class="hero-strip-eyebrow">115年6月11日 活動當天</div>
+  <h1 class="hero-strip-title">自主學習<em>成果發表</em></h1>
+  <div class="hero-strip-meta">
+    <div class="hero-strip-meta-item">
+      <span class="lbl">時間</span><span class="val">10:10 – 12:00</span>
+    </div>
+    <div class="hero-strip-meta-item">
+      <span class="lbl">地點</span><span class="val">活動中心 4F</span>
+    </div>
+    <div class="hero-strip-meta-item">
+      <span class="lbl">主辦</span><span class="val">學務處社團活動組</span>
+    </div>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('schedule',this)">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    當天時程
+  </button>
+  <button class="tab-btn" onclick="switchTab('map',this)">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+    展場地圖
+  </button>
+  <button class="tab-btn" onclick="switchTab('vote',this)">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+    人氣投票
+  </button>
+  <button class="tab-btn" onclick="switchTab('record',this)">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+    活動紀錄
+  </button>
+  <button class="tab-btn" onclick="switchTab('presenter',this)" style="color:var(--gold-light)!important;border-bottom:2px solid transparent;">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    發表同學
+  </button>
+</div>
+
+<!-- ══ PANEL: 當天時程 ══ -->
+<div id="panel-schedule" class="panel active">
+  <div class="panel-inner">
+    <div class="panel-label">當天時程</div>
+    <h2 class="panel-title">今天的流程</h2>
+
+    <div class="schedule-cols">
+      <div>
+        <div class="sched-grade"><span class="grade-badge">高一</span></div>
+        <div class="sched-row">
+          <span class="sched-time">10:10–11:00</span>
+          <div class="sched-event">
+            <strong>自主學習優秀作品展</strong>
+            <span class="loc">活動中心 4 樓</span>
+          </div>
+        </div>
+        <div class="sched-row">
+          <span class="sched-time">10:10–11:00</span>
+          <div class="sched-event">
+            <strong>專班成果發表（上半場）</strong>
+            <span class="loc">活動中心、藝文中心、藝文走廊</span>
+          </div>
+        </div>
+        <div class="sched-row">
+          <span class="sched-time">11:10–12:00</span>
+          <div class="sched-event">
+            <div style="display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+              <strong>成果統整與檢視</strong>
+              <a href="https://web.jhenggao.com/iPH_NHSH/ph_index" target="_blank" style="font-size:0.85rem;font-weight:700;color:var(--gold)!important;text-decoration:none;border-bottom:1px solid var(--gold);">線上成果展 →</a>
+            </div>
+            <span class="loc">回原班級</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sched-grade"><span class="grade-badge">高二</span></div>
+        <div class="sched-row">
+          <span class="sched-time">10:00–11:00</span>
+          <div class="sched-event">
+            <div style="display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+              <strong>成果統整與檢視</strong>
+              <a href="https://web.jhenggao.com/iPH_NHSH/ph_index" target="_blank" style="font-size:0.85rem;font-weight:700;color:var(--gold)!important;text-decoration:none;border-bottom:1px solid var(--gold);">線上成果展 →</a>
+            </div>
+            <span class="loc">原班級</span>
+          </div>
+        </div>
+        <div class="sched-row">
+          <span class="sched-time">11:10–12:00</span>
+          <div class="sched-event">
+            <strong>自主學習優秀作品展</strong>
+            <span class="loc">活動中心 4 樓</span>
+          </div>
+        </div>
+        <div class="sched-row">
+          <span class="sched-time">11:10–12:00</span>
+          <div class="sched-event">
+            <strong>專班成果發表（下半場）</strong>
+            <span class="loc">活動中心、藝文中心、藝文走廊</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sched-note">⚠ 所有發表同學均須<strong>全程</strong>參與，學務處統一辦理公假。</div>
+  </div>
+</div>
+
+<!-- ══ PANEL: 展場地圖 ══ -->
+<div id="panel-map" class="panel">
+  <div class="panel-inner">
+    <div class="panel-label">展場地圖</div>
+    <h2 class="panel-title">找到你的展位</h2>
+
+    <div class="map-search-wrap">
+      <input type="text" id="map-search" placeholder="搜尋作品名稱、作者、類型…" oninput="filterMap(this.value)"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--line)'">
+      <div id="map-count"></div>
+    </div>
+
+    <div class="map-legend">
+      <div class="legend-dot"><span style="background:rgba(200,146,42,0.4);border:1px solid #c8922a;"></span>語文社會</div>
+      <div class="legend-dot"><span style="background:rgba(42,74,127,0.3);border:1px solid #2a4a7f;"></span>數學自然</div>
+      <div class="legend-dot"><span style="background:rgba(74,103,65,0.3);border:1px solid #4a6741;"></span>藝能</div>
+      <div class="legend-dot"><span style="background:rgba(168,72,50,0.2);border:1px solid #a84832;"></span>其他</div>
+    </div>
+
+    <div class="map-tabs">
+      <button class="map-tab active" onclick="switchMapTab('all',this)">全部</button>
+      <button class="map-tab" onclick="switchMapTab('G1',this)">高一</button>
+      <button class="map-tab" onclick="switchMapTab('G2',this)">高二</button>
+    </div>
+
+    <div class="venue-stage">▲ 活動中心舞台（前方）</div>
+    <div id="venue-layout">
+      <div>
+        <div class="zone-col-title" style="color:var(--gold);">← 左牆</div>
+        <div id="col-left" class="slot-col"></div>
+      </div>
+      <div>
+        <div class="zone-col-title" style="color:var(--accent);text-align:center;">中間架<br><span style="font-size:0.58rem;opacity:0.7;">高一</span></div>
+        <div id="col-center-g1" class="slot-col"></div>
+      </div>
+      <div>
+        <div class="zone-col-title" style="color:var(--accent);text-align:center;">中間架<br><span style="font-size:0.58rem;opacity:0.7;">高二</span></div>
+        <div id="col-center-g2" class="slot-col"></div>
+      </div>
+      <div>
+        <div class="zone-col-title" style="color:var(--gold);text-align:right;">右牆 →</div>
+        <div id="col-right" class="slot-col"></div>
+      </div>
+    </div>
+    <div class="venue-bottom"><span>女廁</span><span>▼ 入口</span><span>樓梯間</span></div>
+  </div>
+</div>
+
+<!-- ══ PANEL: 人氣投票 ══ -->
+<div id="panel-vote" class="panel">
+  <div class="panel-inner">
+    <div class="panel-label">人氣獎</div>
+    <h2 class="panel-title">為最喜歡的作品投票</h2>
+
+    <!-- Step 0: 登入 -->
+    <div id="vote-step-0" class="vote-step active">
+      <div class="vote-login-box">
+        <div class="vote-login-icon">🗳️</div>
+        <div class="vote-login-title">請先登入學校帳號</div>
+        <p class="vote-login-sub">每人可投 <strong>2 票</strong>，須以學校 Google 帳號登入。<br>每部作品只能投一票。</p>
+        <button class="vote-google-btn" onclick="simulateLogin()">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          以學校 Google 帳號登入
+        </button>
+        <p style="font-size:0.72rem;color:rgba(26,18,8,0.35);margin-top:1.2rem;">帳號：學校 Gmail　·　僅限在校師生投票</p>
+      </div>
+    </div>
+
+    <!-- Step 1: 選票 -->
+    <div id="vote-step-1" class="vote-step">
+      <div class="vote-info-bar">
+        <div class="user-info">已登入：<strong id="vote-user-display">載入中…</strong></div>
+        <div class="vote-ticket-status">
+          <span style="font-size:0.75rem;color:rgba(26,18,8,0.5);margin-right:0.3rem;">票數</span>
+          <div class="ticket" id="ticket-1">1</div>
+          <div class="ticket" id="ticket-2">2</div>
+        </div>
+      </div>
+
+      <div class="vote-search-wrap">
+        <input type="text" id="vote-search" placeholder="搜尋作品名稱、作者…" oninput="filterVote(this.value)">
+      </div>
+      <div class="vote-filter-tabs">
+        <button class="vote-tab active" onclick="switchVoteTab('all',this)">全部</button>
+        <button class="vote-tab" onclick="switchVoteTab('G1',this)">高一</button>
+        <button class="vote-tab" onclick="switchVoteTab('G2',this)">高二</button>
+      </div>
+
+      <div id="vote-grid" class="vote-grid"></div>
+
+      <div class="vote-submit-bar">
+        <div class="vote-submit-status">已選 <strong id="vote-selected-count">0</strong> / 2 票</div>
+        <button class="vote-submit-btn" id="vote-submit-btn" disabled onclick="goToConfirm()">確認送出投票</button>
+      </div>
+    </div>
+
+    <!-- Step 2: 確認 -->
+    <div id="vote-step-2" class="vote-step">
+      <div class="vote-confirm-box">
+        <div class="vote-confirm-title">確認你的投票</div>
+        <div id="vote-confirm-cards"></div>
+        <p style="font-size:0.82rem;color:rgba(26,18,8,0.5);margin-top:1rem;line-height:1.8;">投票送出後<strong>無法更改</strong>，每人限投一次。確認無誤後請按送出。</p>
+        <div class="vote-confirm-btns">
+          <button class="btn-back" onclick="backToSelect()">← 修改</button>
+          <button class="btn-confirm" onclick="submitVote()">確認送出 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: 完成 -->
+    <div id="vote-step-3" class="vote-step">
+      <div class="vote-done-box">
+        <div class="vote-done-icon">🎉</div>
+        <div class="vote-done-title">投票成功！</div>
+        <p class="vote-done-sub">感謝你的參與！你投票給了以下兩件作品，<br>得票最高者將獲得人氣獎禮券 100 元。<br>另外也會從投票者中隨機抽出一名參與獎得主，<br>說不定就是你 🎁</p>
+        <div id="vote-done-cards" class="vote-done-cards"></div>
+        <p style="font-size:0.78rem;color:rgba(26,18,8,0.4);">結果將於活動結束後公布</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL: 活動紀錄 ══ -->
+<div id="panel-record" class="panel">
+  <div class="panel-inner">
+    <div class="panel-label">活動紀錄</div>
+    <h2 class="panel-title">填寫活動紀錄表</h2>
+
+    <div class="record-cta">
+      <div class="record-cta-bg">紀</div>
+      <div class="record-cta-title">臺北市立內湖高級中學<br>自主學習成果展活動紀錄</div>
+      <p class="record-cta-sub">
+        參觀展覽後請填寫線上紀錄表。<br>
+        全班（扣除發表同學）交齊，全班記嘉獎 1 支。
+      </p>
+      <a href="https://forms.gle/eH3ossG8qRvKGELk8" target="_blank" class="record-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        前往填寫線上紀錄表
+      </a>
+    </div>
+
+    <div class="record-steps">
+      <div class="record-step-card">
+        <div class="record-step-badge">P1</div>
+        <div class="record-step-title">自主學習優秀作品分享</div>
+        <p class="record-step-desc">觀摩至少3件作品，條列可學習的優點與可改善之處</p>
+      </div>
+      <div class="record-step-card">
+        <div class="record-step-badge">P2</div>
+        <div class="record-step-title">看看別人，想想自己</div>
+        <p class="record-step-desc">列出至少兩點，自己的自主學習可以如何精進</p>
+      </div>
+    </div>
+    <div class="record-note">⭐ 全班（扣除發表同學）交齊紀錄表，全班記嘉獎 1 支</div>
+  </div>
+</div>
+
+<!-- ══ PANEL: 發表同學 ══ -->
+<div id="panel-presenter" class="panel" style="background:var(--dark-bg)!important;">
+  <div class="panel-inner">
+    <div class="panel-label" style="color:var(--gold-light)!important;">發表同學專區</div>
+    <h2 class="panel-title" style="color:var(--on-dark)!important;">今天你是主角 🎯</h2>
+
+    <!-- 當天注意事項 -->
+    <div style="margin-bottom:2rem;">
+      <div style="font-family:'Noto Serif TC',serif;font-size:1rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(250,247,240,0.12);">
+        📌 當天注意事項
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;">
+
+        <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-size:1.1rem;flex-shrink:0;line-height:1.4;">⏰</div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:0.2rem;">請準時就位</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.75;">
+              高一發表同學請於 <strong style="color:var(--gold-light)!important;">10:00</strong> 前到活動中心 4 樓就位；
+              高二發表同學請於 <strong style="color:var(--gold-light)!important;">11:00</strong> 前完成換場。
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-size:1.1rem;flex-shrink:0;line-height:1.4;">🔄</div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:0.2rem;">換場時間：11:00–11:10</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.75;">
+              高一場次結束後請暫留展區，高二同學進場換位。
+              換場完成後高一同學可以回班，或留下來觀摩高二學長姐的發表。
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-size:1.1rem;flex-shrink:0;line-height:1.4;">👀</div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:0.2rem;">歡迎互相觀摩</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.75;">
+              高一同學在自己的場次（10:10–11:00）發表，高二場次可以自由留下來觀看學長姐發表。
+              高二同學反之亦然，歡迎提早到場觀摩高一的作品。
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-size:1.1rem;flex-shrink:0;line-height:1.4;">📸</div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:0.2rem;">活動結束大合照</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.75;">
+              活動結束後將進行大合照，請所有發表同學留下來參與。
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-size:1.1rem;flex-shrink:0;line-height:1.4;">🖼️</div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:0.2rem;">海報領取</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.75;">
+              實體海報請於<strong style="color:var(--gold-light)!important;">學期末</strong>至學務處訓育組領取，當天活動結束後勿帶走。
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 口頭分享建議 -->
+    <div style="margin-bottom:2rem;">
+      <div style="font-family:'Noto Serif TC',serif;font-size:1rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(250,247,240,0.12);">
+        💬 口頭分享建議（1–2 分鐘）
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        <div style="border:1px solid rgba(250,247,240,0.12);padding:1rem;">
+          <div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-light)!important;font-weight:700;margin-bottom:0.5rem;">開場</div>
+          <div style="font-size:0.82rem;color:var(--on-dark-dim)!important;line-height:1.8;">說明你的計畫主題，<br>以及為什麼選擇這個方向。</div>
+        </div>
+        <div style="border:1px solid rgba(250,247,240,0.12);padding:1rem;">
+          <div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-light)!important;font-weight:700;margin-bottom:0.5rem;">過程</div>
+          <div style="font-size:0.82rem;color:var(--on-dark-dim)!important;line-height:1.8;">遇到什麼困難？<br>怎麼解決或調整計畫的？</div>
+        </div>
+        <div style="border:1px solid rgba(250,247,240,0.12);padding:1rem;">
+          <div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-light)!important;font-weight:700;margin-bottom:0.5rem;">成果</div>
+          <div style="font-size:0.82rem;color:var(--on-dark-dim)!important;line-height:1.8;">學到了什麼？<br>有什麼具體的產出或改變？</div>
+        </div>
+        <div style="border:1px solid rgba(250,247,240,0.12);padding:1rem;">
+          <div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-light)!important;font-weight:700;margin-bottom:0.5rem;">收尾</div>
+          <div style="font-size:0.82rem;color:var(--on-dark-dim)!important;line-height:1.8;">這段學習對你的影響，<br>以及未來想繼續做的事。</div>
+        </div>
+      </div>
+      <div style="margin-top:0.75rem;padding:0.7rem 1rem;background:rgba(200,146,42,0.08)!important;border-left:2px solid var(--gold);font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.8;">
+        💡 可以自備平板、筆電、書面資料或實作作品輔助說明，不是必須。
+      </div>
+    </div>
+
+    <!-- 評分標準 -->
+    <div>
+      <div style="font-family:'Noto Serif TC',serif;font-size:1rem;font-weight:700;color:var(--on-dark)!important;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(250,247,240,0.12);">
+        📋 評分標準
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;padding:1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--gold)!important;line-height:1;text-align:center;min-width:3.5rem;">40%</div>
+          <div>
+            <div style="font-weight:700;font-size:0.88rem;color:var(--on-dark)!important;margin-bottom:0.25rem;">計劃與執行</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.7;">動機目標是否明確、計畫規劃歷程（資源蒐集、時間管理）、執行中的挑戰與調整策略</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;padding:1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--gold)!important;line-height:1;text-align:center;min-width:3.5rem;">40%</div>
+          <div>
+            <div style="font-weight:700;font-size:0.88rem;color:var(--on-dark)!important;margin-bottom:0.25rem;">成果與反思</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.7;">充分展現作品與學習成果、學習心得反思、能力成長與未來展望</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;padding:1rem;border:1px solid rgba(250,247,240,0.1);">
+          <div style="font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--gold)!important;line-height:1;text-align:center;min-width:3.5rem;">20%</div>
+          <div>
+            <div style="font-weight:700;font-size:0.88rem;color:var(--on-dark)!important;margin-bottom:0.25rem;">口語表達</div>
+            <div style="font-size:0.78rem;color:var(--on-dark-dim)!important;line-height:1.7;">表達能力與語意清晰度、對評審提問的應答情形</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slot-modal-bg" id="slot-modal" onclick="if(event.target===this)closeSlotModal()">
+  <div class="slot-modal-box">
+    <button class="slot-modal-close" onclick="closeSlotModal()">×</button>
+    <div class="slot-modal-num" id="m-num"></div>
+    <div id="m-badge" style="font-size:0.62rem;letter-spacing:0.12em;margin-bottom:0.7rem;position:relative;z-index:1;"></div>
+    <h3 id="m-title" style="font-family:'Noto Serif TC',serif;font-size:1.15rem;font-weight:900;color:var(--ink);margin-bottom:0.4rem;position:relative;z-index:1;line-height:1.4;"></h3>
+    <div id="m-author" style="font-size:0.85rem;color:rgba(26,18,8,0.58);margin-bottom:1rem;"></div>
+    <div id="m-meta" style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.2rem;"></div>
+    <div id="m-actions"></div>
+  </div>
+</div>
+
+<script>
+// ══ TAB SWITCHING ══
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'map' && !mapLoaded) { loadMap(); mapLoaded = true; }
+  if (id === 'vote' && !voteLoaded) { loadVote(); voteLoaded = true; }
+}
+
+// ══ MAP ══
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSGnHjF7f1ScNSVSN9ULVvdqW7ggNZhVVFLBw2LoAEeMpPNXgWMJsoH2vXJJN-ybhE0uFwPFIzneRiE/pub?gid=187470523&single=true&output=csv';
+const COL = { num:0, grade:1, cls:2, author:3, colearn:4, type:5, method:6, title:7, rec:8, url:9 };
+
+const LEFT_COL  = ['G1-01','G2-01','G1-02','G2-02','G1-03','G2-03','G1-04','G2-04','G1-05','G2-05','G1-06','G2-06','G1-07','G2-07','G1-08','G2-08','G1-09','G2-09','G1-10','G2-10','G1-11','G2-11','G1-12','G2-12','G1-13','G2-13'];
+const CENTER_G1 = ['G1-27','G1-28','G1-29','G1-30','G1-31','G1-32','G1-33','G1-34','G1-35','G1-36','G1-37','G1-38','G1-39','G1-40','G1-41','G1-42','G1-43','G1-44','G1-45','G1-46','G1-47','G1-48','G1-49','G1-50','G1-51','G1-52','G1-53','G1-54','G1-55','G1-56','G1-57','G1-58','G1-59','G1-60','G1-61','G1-62'];
+const CENTER_G2 = ['G2-27','G2-28','G2-29','G2-30','G2-31','G2-32','G2-33','G2-34','G2-35','G2-36','G2-37','G2-38','G2-39','G2-40','G2-41','G2-42','G2-43','G2-44','G2-45','G2-46','G2-47','G2-48','G2-49','G2-50','G2-51','G2-52','G2-53','G2-54','G2-55','G2-56','G2-57','G2-58','G2-59','G2-60','G2-61','G2-62'];
+const RIGHT_COL = ['G1-14','G2-14','G1-15','G2-15','G1-16','G2-16','G1-17','G2-17','G1-18','G2-18','G1-19','G2-19','G1-20','G2-20','G1-21','G2-21','G1-22','G2-22','G1-23','G2-23','G1-24','G2-24','G1-25','G2-25','G1-26','G2-26'];
+
+let allWorks = {};
+let mapLoaded = false;
+let voteLoaded = false;
+let mapActiveTab = 'all';
+let mapSearchQ = '';
+
+function typeClass(t) {
+  if (!t) return 'type-empty';
+  if (t.includes('語文') || t.includes('社會')) return 'type-lang';
+  if (t.includes('數學') || t.includes('自然')) return 'type-sci';
+  if (t.includes('藝')) return 'type-art';
+  return 'type-other';
+}
+
+async function loadSheet() {
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    const text = await res.text();
+    const rows = text.trim().split('\n').slice(1);
+    rows.forEach(row => {
+      const cols = []; let cur = '', inQ = false;
+      for (let i = 0; i < row.length; i++) {
+        const ch = row[i];
+        if (ch === '"') { inQ = !inQ; }
+        else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+        else { cur += ch; }
+      }
+      cols.push(cur.trim());
+      const rawNum = cols[COL.num]?.trim();
+      const grade  = cols[COL.grade]?.trim();
+      const title  = cols[COL.title]?.trim();
+      if (!rawNum || !title) return;
+
+      // 編號格式：「高一-01」或「高二-03」→ 取後兩碼數字
+      // 也相容純數字格式「1」「2」
+      const numMatch = rawNum.match(/(\d+)$/);
+      if (!numMatch) return;
+      const padded = numMatch[1].padStart(2, '0');
+
+      // 年級優先用 grade 欄；若 grade 為空則從 rawNum 推斷
+      const isG1 = grade ? grade.includes('一') : rawNum.includes('一');
+      const gNum = isG1 ? 'G1' : 'G2';
+      const slotId = `${gNum}-${padded}`;
+
+      allWorks[slotId] = {
+        num: padded, grade, cls: cols[COL.cls]?.trim(), author: cols[COL.author]?.trim(),
+        colearn: cols[COL.colearn]?.trim(), type: cols[COL.type]?.trim(),
+        method: cols[COL.method]?.trim(), title,
+        rec: cols[COL.rec]?.trim(), url: cols[COL.url]?.trim()
+      };
+    });
+  } catch(e) { console.warn('Sheet load failed', e); }
+}
+
+function makeMapSlot(slotId) {
+  const w = allWorks[slotId];
+  if (!w) return null;
+  const isG1 = slotId.startsWith('G1');
+  const num = slotId.split('-')[1];
+  const div = document.createElement('div');
+  div.className = `slot ${typeClass(w.type)}`;
+  div.dataset.slotId = slotId;
+  div.dataset.grade = isG1 ? 'G1' : 'G2';
+  const clsAuthor = [w.cls ? w.cls + '班' : '', w.author].filter(Boolean).join(' ');
+  div.innerHTML =
+    `<span class="slot-num">${clsAuthor}</span>
+     <span class="slot-name">${w.title}</span>
+     <span class="slot-author"></span>`;
+  div.addEventListener('click', () => openSlotModal(slotId));
+  return div;
+}
+
+function loadMap() {
+  loadSheet().then(() => {
+    ['col-left','col-center-g1','col-center-g2','col-right'].forEach(id => document.getElementById(id).innerHTML = '');
+    LEFT_COL.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-left').appendChild(el); });
+    CENTER_G1.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-center-g1').appendChild(el); });
+    CENTER_G2.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-center-g2').appendChild(el); });
+    RIGHT_COL.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-right').appendChild(el); });
+    updateMapCount();
+  });
+}
+
+function filterMap(q) { mapSearchQ = q.toLowerCase(); applyMapFilters(); }
+function switchMapTab(tab, btn) {
+  mapActiveTab = tab;
+  document.querySelectorAll('.map-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyMapFilters();
+}
+function applyMapFilters() {
+  let n = 0;
+  document.querySelectorAll('#panel-map .slot').forEach(el => {
+    const sid = el.dataset.slotId; if (!sid) return;
+    const w = allWorks[sid];
+    const gm = mapActiveTab === 'all' || el.dataset.grade === mapActiveTab;
+    const sm = !mapSearchQ || (w?.title?.toLowerCase().includes(mapSearchQ)) || (w?.author?.toLowerCase().includes(mapSearchQ)) || (w?.type?.toLowerCase().includes(mapSearchQ)) || sid.toLowerCase().includes(mapSearchQ);
+    const show = gm && sm;
+    el.classList.toggle('hidden', !show);
+    if (show && w) n++;
+  });
+  updateMapCount(n);
+}
+function updateMapCount(n) {
+  const total = Object.keys(allWorks).length;
+  const el = document.getElementById('map-count');
+  if (el) el.textContent = (n !== undefined && n < total) ? `顯示 ${n} / ${total} 件` : `共 ${total} 件`;
+}
+
+// Slot Modal
+function openSlotModal(slotId) {
+  const w = allWorks[slotId];
+  if (!w) return;
+  const isG1 = slotId.startsWith('G1');
+  const num = slotId.split('-')[1];
+  document.getElementById('m-num').textContent = num;
+  document.getElementById('m-badge').innerHTML =
+    `<span style="background:var(--gold);color:var(--paper);padding:0.14rem 0.5rem;font-size:0.6rem;letter-spacing:0.1em;">${isG1?'高一':'高二'}</span>
+     &nbsp;<span style="color:rgba(26,18,8,0.42);">${isG1?'高一':'高二'}${num} · ${w.type||'類型待公布'}</span>`;
+  document.getElementById('m-title').textContent = w.title;
+  document.getElementById('m-author').textContent = `${w.author||''}${w.cls ? '　' + w.cls + ' 班' : ''}`;
+  const meta = document.getElementById('m-meta');
+  meta.innerHTML = '';
+  [['共學同學', w.colearn],['執行方式', w.method],['老師推薦', w.rec?.startsWith('是') ? '✓ 是' : null]].forEach(([k,v]) => {
+    if (!v) return;
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:baseline;gap:0.5rem;font-size:0.81rem;padding:0.28rem 0;border-bottom:1px dashed rgba(26,18,8,0.08);';
+    row.innerHTML = `<span style="color:var(--gold);font-weight:700;min-width:4.2em;flex-shrink:0;">${k}</span><span>${v}</span>`;
+    meta.appendChild(row);
+  });
+  const actions = document.getElementById('m-actions');
+  actions.innerHTML = '';
+  if (w.url) {
+    const btn = document.createElement('a');
+    btn.href = w.url; btn.target = '_blank';
+    btn.style.cssText = 'display:inline-flex;align-items:center;gap:0.55rem;background:var(--gold);color:var(--paper);font-size:0.82rem;font-weight:700;padding:0.72rem 1.3rem;text-decoration:none;box-shadow:3px 3px 0 var(--ink);transition:all 0.2s;';
+    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>查看線上海報`;
+    btn.onmouseover = () => { btn.style.transform='translate(-2px,-2px)'; btn.style.boxShadow='5px 5px 0 var(--ink)'; };
+    btn.onmouseout  = () => { btn.style.transform=''; btn.style.boxShadow='3px 3px 0 var(--ink)'; };
+    actions.appendChild(btn);
+  }
+  document.getElementById('slot-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSlotModal() {
+  document.getElementById('slot-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ══ VOTE (模擬流程) ══
+let voteUser = '';
+let selectedVotes = new Set();
+let voteActiveTab = 'all';
+let voteSearchQ = '';
+
+function simulateLogin() {
+  // 模擬 Google 登入
+  voteUser = 'student@nhsh.tp.edu.tw';
+  document.getElementById('vote-user-display').textContent = voteUser;
+  document.getElementById('vote-step-0').classList.remove('active');
+  document.getElementById('vote-step-1').classList.add('active');
+  loadVote();
+}
+
+function loadVote() {
+  if (Object.keys(allWorks).length === 0) {
+    loadSheet().then(renderVoteGrid);
+  } else {
+    renderVoteGrid();
+  }
+}
+
+function renderVoteGrid() {
+  const grid = document.getElementById('vote-grid');
+  grid.innerHTML = '';
+  const allIds = [...LEFT_COL, ...CENTER_G1, ...CENTER_G2, ...RIGHT_COL];
+  allIds.forEach(slotId => {
+    const w = allWorks[slotId];
+    if (!w) return;
+    const isG1 = slotId.startsWith('G1');
+    const num = slotId.split('-')[1];
+    const card = document.createElement('div');
+    card.className = 'vote-card';
+    card.dataset.slotId = slotId;
+    card.dataset.grade = isG1 ? 'G1' : 'G2';
+    card.dataset.title = w.title;
+    card.dataset.author = w.author || '';
+    card.dataset.cls = w.cls || '';
+    const clsAuthor = [w.cls ? w.cls + '班' : '', w.author].filter(Boolean).join(' ');
+    card.innerHTML =
+      `<div class="vote-card-grade">${isG1?'高一':'高二'} ${num}</div>
+       <div class="vote-card-title">${w.title}</div>
+       <div class="vote-card-author">${clsAuthor}</div>
+       <span class="vote-card-type ${typeClass(w.type)}">${w.type?.replace('領域','') || '未分類'}</span>`;
+    card.addEventListener('click', () => toggleVote(slotId, card));
+    grid.appendChild(card);
+  });
+  updateVoteStatus();
+}
+
+function toggleVote(slotId, card) {
+  if (card.classList.contains('disabled')) return;
+  if (selectedVotes.has(slotId)) {
+    selectedVotes.delete(slotId);
+    card.classList.remove('selected');
+  } else {
+    if (selectedVotes.size >= 2) return;
+    selectedVotes.add(slotId);
+    card.classList.add('selected');
+  }
+  updateVoteStatus();
+}
+
+function updateVoteStatus() {
+  const count = selectedVotes.size;
+  document.getElementById('vote-selected-count').textContent = count;
+  document.getElementById('vote-submit-btn').disabled = count < 2;
+  // 票圈
+  document.getElementById('ticket-1').className = 'ticket' + (count >= 1 ? ' used' : '');
+  document.getElementById('ticket-2').className = 'ticket' + (count >= 2 ? ' used' : '');
+  // 未選的卡片灰掉
+  document.querySelectorAll('.vote-card').forEach(card => {
+    const sid = card.dataset.slotId;
+    card.classList.toggle('disabled', count >= 2 && !selectedVotes.has(sid));
+  });
+}
+
+function filterVote(q) {
+  voteSearchQ = q.toLowerCase();
+  applyVoteFilters();
+}
+function switchVoteTab(tab, btn) {
+  voteActiveTab = tab;
+  document.querySelectorAll('.vote-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyVoteFilters();
+}
+function applyVoteFilters() {
+  document.querySelectorAll('.vote-card').forEach(el => {
+    const gm = voteActiveTab === 'all' || el.dataset.grade === voteActiveTab;
+    const sm = !voteSearchQ || el.dataset.title?.toLowerCase().includes(voteSearchQ) || el.dataset.author?.toLowerCase().includes(voteSearchQ) || el.dataset.cls?.toLowerCase().includes(voteSearchQ);
+    el.classList.toggle('hidden', !(gm && sm));
+  });
+}
+
+function goToConfirm() {
+  const container = document.getElementById('vote-confirm-cards');
+  container.innerHTML = '';
+  let i = 1;
+  selectedVotes.forEach(slotId => {
+    const w = allWorks[slotId];
+    const isG1 = slotId.startsWith('G1');
+    const num = slotId.split('-')[1];
+    const card = document.createElement('div');
+    card.className = 'vote-confirm-card';
+    card.innerHTML =
+      `<div class="vote-confirm-num">${i++}</div>
+       <div>
+         <div class="vote-confirm-info-title">${w?.title||'未知作品'}</div>
+         <div class="vote-confirm-info-sub">${isG1?'高一':'高二'} ${num}　${w?.author||''}${w?.cls ? ' · ' + w.cls : ''}</div>
+       </div>`;
+    container.appendChild(card);
+  });
+  document.getElementById('vote-step-1').classList.remove('active');
+  document.getElementById('vote-step-2').classList.add('active');
+}
+
+function backToSelect() {
+  document.getElementById('vote-step-2').classList.remove('active');
+  document.getElementById('vote-step-1').classList.add('active');
+}
+
+function submitVote() {
+  // 模擬送出（實際串接時改這裡）
+  const doneCards = document.getElementById('vote-done-cards');
+  doneCards.innerHTML = '';
+  selectedVotes.forEach(slotId => {
+    const w = allWorks[slotId];
+    const isG1 = slotId.startsWith('G1');
+    const num = slotId.split('-')[1];
+    const card = document.createElement('div');
+    card.className = 'vote-done-card';
+    card.innerHTML =
+      `<div class="vote-done-card-grade">${isG1?'高一':'高二'} ${num}</div>
+       <div class="vote-done-card-title">${w?.title||''}</div>`;
+    doneCards.appendChild(card);
+  });
+  document.getElementById('vote-step-2').classList.remove('active');
+  document.getElementById('vote-step-3').classList.add('active');
+}
+</script>
+</body>
+</html>
