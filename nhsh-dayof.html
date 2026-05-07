@@ -1041,7 +1041,7 @@ function makeMapSlot(slotId) {
   div.dataset.grade = isG1 ? 'G1' : 'G2';
   const clsAuthor = [w.cls ? w.cls + '班' : '', w.author].filter(Boolean).join(' ');
   div.innerHTML =
-    `<span class="slot-num">${clsAuthor}</span>
+    `<span class="slot-num">${isG1?'高一':'高二'}${num}　${clsAuthor}</span>
      <span class="slot-name">${w.title}</span>
      <span class="slot-author"></span>`;
   div.addEventListener('click', () => openSlotModal(slotId));
