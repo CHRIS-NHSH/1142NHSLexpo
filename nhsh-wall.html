@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>鼓勵牆 · 自主學習成果發表 114-2</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light only;
+  --ink: #1a1208;
+  --paper: #faf7f0;
+  --gold: #c8922a;
+  --gold-light: #e8bb66;
+  --gold-pale: #f5e8c8;
+  --dark-bg: #1a1208;
+  --on-dark: #faf7f0;
+  --line: rgba(26,18,8,0.12);
+}
+@media (prefers-color-scheme: dark) {
+  html, body { background: var(--paper) !important; color: var(--ink) !important; }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--dark-bg) !important;
+  color: var(--on-dark) !important;
+  font-family: 'Noto Sans TC', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ══ HEADER ══ */
+.wall-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.8rem 1.5rem;
+  background: rgba(26,18,8,0.92) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(250,247,240,0.08);
+}
+.wall-logo {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 0.85rem; color: var(--on-dark) !important; line-height: 1.4;
+}
+.wall-logo span { color: var(--gold) !important; }
+.wall-tabs {
+  display: flex; gap: 0.4rem;
+}
+.wall-tab {
+  background: none; border: 1.5px solid rgba(250,247,240,0.2);
+  padding: 0.35rem 0.9rem; font-size: 0.78rem; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+  color: rgba(250,247,240,0.5) !important; transition: all 0.2s;
+}
+.wall-tab.active {
+  background: var(--gold) !important; border-color: var(--gold);
+  color: var(--dark-bg) !important;
+}
+.wall-back {
+  font-size: 0.75rem; color: rgba(250,247,240,0.4) !important;
+  text-decoration: none; transition: color 0.2s;
+}
+.wall-back:hover { color: var(--gold) !important; }
+
+/* ══ PANELS ══ */
+.wall-panel { display: none; padding-top: 60px; min-height: 100vh; }
+.wall-panel.active { display: block; }
+
+/* ══ ENCOURAGE WALL ══ */
+#panel-wall {
+  padding: 70px 1rem 2rem;
+}
+.wall-status {
+  text-align: center; padding: 1rem;
+  font-size: 0.78rem; color: rgba(250,247,240,0.4) !important;
+  letter-spacing: 0.1em;
+}
+.wall-status strong { color: var(--gold) !important; }
+
+/* 瀑布流容器 */
+.masonry {
+  columns: 4 220px;
+  column-gap: 0.75rem;
+  padding: 0 0.5rem;
+}
+@media (max-width: 600px) { .masonry { columns: 2 160px; } }
+
+.sticky-card {
+  break-inside: avoid;
+  display: block;
+  margin-bottom: 0.75rem;
+  padding: 1.2rem 1.1rem;
+  position: relative;
+  animation: cardIn 0.5s ease both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px) rotate(var(--r, 0deg)); }
+  to   { opacity: 1; transform: translateY(0) rotate(var(--r, 0deg)); }
+}
+
+/* 便利貼顏色 */
+.sticky-card:nth-child(5n+1) { background: #fef9c3 !important; color: #3d2e00 !important; }
+.sticky-card:nth-child(5n+2) { background: #dcfce7 !important; color: #14532d !important; }
+.sticky-card:nth-child(5n+3) { background: #fee2e2 !important; color: #7f1d1d !important; }
+.sticky-card:nth-child(5n+4) { background: #dbeafe !important; color: #1e3a8a !important; }
+.sticky-card:nth-child(5n+5) { background: #f3e8ff !important; color: #4a1d96 !important; }
+
+.sticky-to {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+  opacity: 0.6; margin-bottom: 0.5rem; display: block;
+}
+.sticky-msg {
+  font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 700;
+  line-height: 1.6; word-break: break-all;
+}
+.sticky-work {
+  font-size: 0.68rem; margin-top: 0.6rem; opacity: 0.55;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* 無鼓勵時的提示 */
+.wall-empty {
+  text-align: center; padding: 5rem 2rem;
+  color: rgba(250,247,240,0.3) !important;
+}
+.wall-empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+.wall-empty-text { font-size: 0.88rem; line-height: 1.9; }
+
+/* ══ RESULTS PANEL ══ */
+.results-inner { max-width: 800px; margin: 0 auto; padding: 1.5rem; }
+.results-header {
+  text-align: center; padding: 2rem 1rem 1.5rem;
+}
+.results-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--on-dark) !important;
+  margin-bottom: 0.5rem;
+}
+.results-sub { font-size: 0.85rem; color: rgba(250,247,240,0.5) !important; }
+
+/* 投票未截止 */
+.results-locked {
+  text-align: center; padding: 4rem 1.5rem;
+  border: 1px dashed rgba(250,247,240,0.15); max-width: 420px; margin: 2rem auto;
+}
+.results-countdown {
+  font-family: 'DM Serif Display', serif;
+  font-size: 3rem; color: var(--gold) !important; line-height: 1;
+  margin: 1rem 0;
+}
+.results-countdown-label {
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(250,247,240,0.4) !important; margin-bottom: 0.5rem;
+}
+
+/* 排行榜 */
+.rank-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+.rank-row {
+  display: grid; grid-template-columns: 2.5rem 1fr auto;
+  align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem; border: 1px solid rgba(250,247,240,0.08);
+  transition: background 0.2s;
+}
+.rank-row:hover { background: rgba(250,247,240,0.04) !important; }
+.rank-row.top1 { border-color: #ffd700; background: rgba(255,215,0,0.06) !important; }
+.rank-row.top2 { border-color: #c0c0c0; background: rgba(192,192,192,0.05) !important; }
+.rank-row.top3 { border-color: #cd7f32; background: rgba(205,127,50,0.05) !important; }
+.rank-num {
+  font-family: 'DM Serif Display', serif; font-size: 1.6rem;
+  color: rgba(250,247,240,0.25) !important; text-align: center; line-height: 1;
+}
+.rank-row.top1 .rank-num { color: #ffd700 !important; }
+.rank-row.top2 .rank-num { color: #c0c0c0 !important; }
+.rank-row.top3 .rank-num { color: #cd7f32 !important; }
+.rank-title {
+  font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 700;
+  color: var(--on-dark) !important; margin-bottom: 0.2rem;
+}
+.rank-meta { font-size: 0.75rem; color: rgba(250,247,240,0.45) !important; }
+.rank-votes {
+  text-align: right;
+  font-family: 'DM Serif Display', serif; font-size: 1.8rem;
+  color: var(--gold) !important; line-height: 1;
+}
+.rank-votes-label {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: rgba(250,247,240,0.35) !important; display: block;
+}
+.rank-bar-wrap {
+  grid-column: 1 / -1; height: 3px; background: rgba(250,247,240,0.06) !important;
+  margin-top: 0.4rem;
+}
+.rank-bar { height: 100%; background: var(--gold) !important; transition: width 1s ease; }
+.rank-row.top1 .rank-bar { background: #ffd700 !important; }
+
+/* 抽獎區 */
+.lottery-section {
+  margin-top: 2.5rem; border: 1px solid rgba(250,247,240,0.1);
+  padding: 1.5rem; text-align: center;
+}
+.lottery-title {
+  font-family: 'Noto Serif TC', serif; font-size: 1.1rem; font-weight: 700;
+  color: var(--on-dark) !important; margin-bottom: 1rem;
+}
+.lottery-result {
+  font-family: 'DM Serif Display', serif; font-size: 2rem;
+  color: var(--gold) !important; padding: 1rem; line-height: 1.4;
+}
+.lottery-btn {
+  background: var(--gold) !important; color: var(--dark-bg) !important;
+  border: none; padding: 0.8rem 2rem; font-size: 0.85rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; letter-spacing: 0.08em;
+  box-shadow: 3px 3px 0 rgba(250,247,240,0.2);
+  transition: all 0.2s;
+}
+.lottery-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 rgba(250,247,240,0.2); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="wall-header">
+  <div class="wall-logo">內湖高中 <span>自主學習成果發表</span></div>
+  <div class="wall-tabs">
+    <button class="wall-tab active" onclick="switchWallTab('wall',this)">💬 鼓勵牆</button>
+    <button class="wall-tab" onclick="switchWallTab('results',this)">🏆 投票結果</button>
+  </div>
+  <a href="nhsh-dayof.html" class="wall-back">← 返回</a>
+</div>
+
+<!-- ══ PANEL: 鼓勵牆 ══ -->
+<div id="panel-wall" class="wall-panel active">
+  <div class="wall-status">
+    鼓勵話語即時更新中 · 每 <strong>8</strong> 秒刷新一次 · <span id="msg-count">0</span> 則留言
+  </div>
+  <div id="masonry-wall" class="masonry">
+    <div class="wall-empty">
+      <div class="wall-empty-icon">💬</div>
+      <div class="wall-empty-text">還沒有鼓勵話語<br>快去投票並留下你的鼓勵！</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL: 投票結果 ══ -->
+<div id="panel-results" class="wall-panel">
+  <div class="results-inner">
+    <div class="results-header">
+      <div class="results-title">🏆 投票結果</div>
+      <div class="results-sub" id="results-sub">投票截止後公布</div>
+    </div>
+
+    <!-- 未截止時顯示倒數 -->
+    <div id="results-locked" class="results-locked">
+      <div class="results-countdown-label">距離投票截止</div>
+      <div class="results-countdown" id="countdown-display">--:--</div>
+      <div style="font-size:0.82rem;color:rgba(250,247,240,0.45);margin-top:0.5rem;">
+        投票將於 12:10 截止<br>截止後自動顯示結果
+      </div>
+    </div>
+
+    <!-- 結果（截止後顯示） -->
+    <div id="results-open" style="display:none;">
+      <!-- 高一排行 -->
+      <div style="font-family:'Noto Serif TC',serif;font-size:1rem;font-weight:700;color:var(--on-dark);margin:1.5rem 0 0.8rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(250,247,240,0.1);">
+        高一 排行
+      </div>
+      <div id="rank-g1" class="rank-list"></div>
+
+      <!-- 高二排行 -->
+      <div style="font-family:'Noto Serif TC',serif;font-size:1rem;font-weight:700;color:var(--on-dark);margin:2rem 0 0.8rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(250,247,240,0.1);">
+        高二 排行
+      </div>
+      <div id="rank-g2" class="rank-list"></div>
+
+      <!-- 幸運得主抽獎 -->
+      <div class="lottery-section">
+        <div class="lottery-title">🎁 參與獎抽獎</div>
+        <p style="font-size:0.82rem;color:rgba(250,247,240,0.5);margin-bottom:1.2rem;">從所有投票者中隨機抽出幸運得主各1名</p>
+        <div id="lottery-result-g1" class="lottery-result" style="display:none;"></div>
+        <div id="lottery-result-g2" class="lottery-result" style="display:none;"></div>
+        <button class="lottery-btn" id="lottery-btn" onclick="runLottery()">🎲 開始抽獎</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ✏️ 貼上你的 GAS Web App 網址
+const GAS_URL = '';
+
+// ── 截止時間：6月11日 12:10 ──
+const VOTE_DEADLINE = new Date('2026-06-11T12:10:00+08:00');
+const MAX_VOTES = 3;
+
+let wallMessages = [];    // { to, msg, work } 鼓勵話語
+let voteResults  = null;  // { G1: [{slotId, title, author, votes}], G2: [...], voters: {G1:[], G2:[]} }
+let lotteryDone  = false;
+
+// ══ TAB SWITCHING ══
+function switchWallTab(id, btn) {
+  document.querySelectorAll('.wall-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.wall-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══ 倒數計時 ══
+function updateCountdown() {
+  const now = new Date();
+  const diff = VOTE_DEADLINE - now;
+  if (diff <= 0) {
+    document.getElementById('results-locked').style.display = 'none';
+    document.getElementById('results-open').style.display = 'block';
+    document.getElementById('results-sub').textContent = '投票已截止，結果如下：';
+    fetchResults();
+    return;
+  }
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('countdown-display').textContent =
+    h > 0 ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+           : `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ══ 從 GAS 取得鼓勵話語 ══
+async function fetchMessages() {
+  if (!GAS_URL) {
+    // 無 GAS 時顯示範例資料
+    renderWall([
+      { to:'俞姵綺', msg:'加油！你的主題好有趣！', work:'色彩心理學' },
+      { to:'柳名謙', msg:'報告講得很清楚，佩服！', work:'無人機' },
+      { to:'謝鈞凱', msg:'龍舟太強了，繼續加油！', work:'STEAM跨域競賽' },
+    ]);
+    return;
+  }
+  try {
+    const res = await fetch(`${GAS_URL}?action=messages`);
+    const data = await res.json();
+    if (data.messages) renderWall(data.messages);
+  } catch(e) { console.warn('fetch messages failed', e); }
+}
+
+function renderWall(messages) {
+  wallMessages = messages;
+  document.getElementById('msg-count').textContent = messages.length;
+  const wall = document.getElementById('masonry-wall');
+  if (messages.length === 0) {
+    wall.innerHTML = `<div class="wall-empty"><div class="wall-empty-icon">💬</div><div class="wall-empty-text">還沒有鼓勵話語<br>快去投票並留下你的鼓勵！</div></div>`;
+    return;
+  }
+  wall.innerHTML = '';
+  // 隨機微旋轉製造手寫感
+  const rotations = [-2.5,-1.5,-0.8,0,0.8,1.5,2.5];
+  messages.forEach((m, i) => {
+    const r = rotations[i % rotations.length];
+    const card = document.createElement('div');
+    card.className = 'sticky-card';
+    card.style.setProperty('--r', `${r}deg`);
+    card.style.transform = `rotate(${r}deg)`;
+    card.style.animationDelay = `${(i % 8) * 0.06}s`;
+    card.innerHTML =
+      `<span class="sticky-to">To ${escHtml(m.to)}</span>
+       <div class="sticky-msg">${escHtml(m.msg)}</div>
+       <div class="sticky-work">📋 ${escHtml(m.work)}</div>`;
+    wall.appendChild(card);
+  });
+}
+
+// ══ 從 GAS 取得投票結果 ══
+async function fetchResults() {
+  if (!GAS_URL) {
+    // 範例資料
+    const mock = {
+      G1: [
+        { slotId:'G1-01', title:'色彩心理學', author:'23俞姵綺', cls:'102', votes:12 },
+        { slotId:'G1-05', title:'無人機', author:'05柳名謙', cls:'108', votes:9 },
+        { slotId:'G1-07', title:'STEAM跨域競賽', author:'31謝鈞凱', cls:'108', votes:7 },
+      ],
+      G2: [
+        { slotId:'G2-15', title:'台灣ETF比較分析', author:'33黃南緊', cls:'102', votes:15 },
+        { slotId:'G2-03', title:'素描技巧掌握和運用', author:'12陳科名', cls:'109', votes:8 },
+      ],
+      voters: { G1: ['a@nhsh','b@nhsh','c@nhsh'], G2: ['d@nhsh','e@nhsh'] }
+    };
+    renderResults(mock);
+    return;
+  }
+  try {
+    const res = await fetch(`${GAS_URL}?action=results`);
+    const data = await res.json();
+    renderResults(data);
+  } catch(e) { console.warn('fetch results failed', e); }
+}
+
+function renderResults(data) {
+  voteResults = data;
+  renderRankList('rank-g1', data.G1 || []);
+  renderRankList('rank-g2', data.G2 || []);
+}
+
+function renderRankList(containerId, list) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  const sorted = [...list].sort((a,b) => b.votes - a.votes);
+  const maxVotes = sorted[0]?.votes || 1;
+  sorted.forEach((item, i) => {
+    const rank = i + 1;
+    const cls = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+    const isG1 = item.slotId.startsWith('G1');
+    const num = item.slotId.split('-')[1];
+    const row = document.createElement('div');
+    row.className = `rank-row ${cls}`;
+    row.innerHTML =
+      `<div class="rank-num">${rank}</div>
+       <div>
+         <div class="rank-title">${escHtml(item.title)}</div>
+         <div class="rank-meta">${isG1?'高一':'高二'}${num}　${escHtml(item.author||'')}${item.cls ? '　' + item.cls + '班' : ''}</div>
+         <div class="rank-bar-wrap"><div class="rank-bar" style="width:${Math.round(item.votes/maxVotes*100)}%"></div></div>
+       </div>
+       <div style="text-align:right">
+         <div class="rank-votes">${item.votes}</div>
+         <span class="rank-votes-label">票</span>
+       </div>`;
+    el.appendChild(row);
+  });
+}
+
+// ══ 抽獎 ══
+function runLottery() {
+  if (!voteResults || lotteryDone) return;
+  lotteryDone = true;
+  const btn = document.getElementById('lottery-btn');
+  btn.disabled = true; btn.textContent = '已抽出 ✓';
+
+  const g1voters = voteResults.voters?.G1 || [];
+  const g2voters = voteResults.voters?.G2 || [];
+
+  if (g1voters.length > 0) {
+    const winner = g1voters[Math.floor(Math.random() * g1voters.length)];
+    const el = document.getElementById('lottery-result-g1');
+    el.style.display = 'block';
+    el.innerHTML = `🎉 高一幸運得主<br><span style="font-size:1.2rem;">${escHtml(winner)}</span>`;
+  }
+  if (g2voters.length > 0) {
+    const winner = g2voters[Math.floor(Math.random() * g2voters.length)];
+    const el = document.getElementById('lottery-result-g2');
+    el.style.display = 'block';
+    el.innerHTML = `🎉 高二幸運得主<br><span style="font-size:1.2rem;">${escHtml(winner)}</span>`;
+  }
+}
+
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ══ 初始載入 + 定期刷新 ══
+fetchMessages();
+setInterval(fetchMessages, 8000);
+</script>
+</body>
+</html>
