@@ -216,6 +216,40 @@ body {
   transition: all 0.2s;
 }
 .lottery-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 rgba(250,247,240,0.2); }
+.live-vote-card {
+  margin: 1.2rem auto 0;
+  max-width: 360px;
+  border: 1.5px solid rgba(232,187,102,0.45);
+  background: rgba(200,146,42,0.08) !important;
+  padding: 1rem 1.2rem;
+  text-align: center;
+}
+.live-vote-kicker {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: var(--gold-light) !important;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.live-vote-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.4rem, 8vw, 4.2rem);
+  color: var(--gold) !important;
+  line-height: 1;
+}
+.live-vote-unit {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(250,247,240,0.7) !important;
+  margin-left: 0.25rem;
+}
+.live-vote-meta {
+  margin-top: 0.45rem;
+  font-size: 0.75rem;
+  color: rgba(250,247,240,0.45) !important;
+  line-height: 1.7;
+}
+  
 </style>
 </head>
 <body>
@@ -255,6 +289,16 @@ body {
     <div id="results-locked" class="results-locked">
       <div class="results-countdown-label">距離投票截止</div>
       <div class="results-countdown" id="countdown-display">--:--</div>
+      <div class="live-vote-card">
+  <div class="live-vote-kicker">LIVE VOTER COUNT</div>
+  <div class="live-vote-number">
+    <span id="live-voter-count">0</span><span class="live-vote-unit">人</span>
+  </div>
+  <div class="live-vote-meta">
+    目前已完成投票<br>
+    <span id="live-vote-updated">每 8 秒更新一次</span>
+  </div>
+</div>
       <div style="font-size:0.82rem;color:rgba(250,247,240,0.45);margin-top:0.5rem;">
         投票將於 12:10 截止<br>截止後自動顯示結果
       </div>
@@ -370,7 +414,38 @@ function renderWall(messages) {
     wall.appendChild(card);
   });
 }
+async function fetchVoteStats() {
+  if (!GAS_URL) return;
 
+  try {
+    const res = await fetch(`${GAS_URL}?action=voteStats&t=${Date.now()}`);
+    const data = await res.json();
+
+    if (data.ok) renderVoteStats(data);
+  } catch(e) {
+    console.warn('fetch vote stats failed', e);
+  }
+}
+
+function renderVoteStats(data) {
+  const countEl = document.getElementById('live-voter-count');
+  const updatedEl = document.getElementById('live-vote-updated');
+
+  if (!countEl) return;
+
+  countEl.textContent = Number(data.totalVoters || 0).toLocaleString('zh-TW');
+
+  if (updatedEl) {
+    const d = data.updatedAt ? new Date(data.updatedAt) : new Date();
+    updatedEl.textContent =
+      `更新時間 ${d.toLocaleTimeString('zh-TW', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      })}`;
+  }
+}
+  
 // ══ 從 GAS 取得投票結果 ══
 async function fetchResults() {
   if (!GAS_URL) {
@@ -460,7 +535,10 @@ function escHtml(str) {
 
 // ══ 初始載入 + 定期刷新 ══
 fetchMessages();
+fetchVoteStats();
+
 setInterval(fetchMessages, 8000);
+setInterval(fetchVoteStats, 8000);
 </script>
 </body>
 </html>
