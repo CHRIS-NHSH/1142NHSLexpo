@@ -1056,13 +1056,9 @@ function makeMapSlot(slotId) {
   div.dataset.typeKey = typeClass(w.type).replace('type-','');
   div.dataset.methodKey = methodKey(w.method);
   const clsAuthor = [w.cls ? w.cls + '班' : '', w.author].filter(Boolean).join(' ');
-  const methodLabel = w.method
-    ? w.method.replace('技能發展實踐','技能實踐').replace('專題製作','專題製')
-    : '';
   div.innerHTML =
     `<span class="slot-num">${isG1?'高一':'高二'}${num}　${clsAuthor}</span>
-     <span class="slot-name">${w.title}</span>
-     ${methodLabel ? `<span class="method-tag">${methodLabel}</span>` : ''}`;
+     <span class="slot-name">${w.title}</span>`;
   div.addEventListener('click', () => openSlotModal(slotId));
   return div;
 }
