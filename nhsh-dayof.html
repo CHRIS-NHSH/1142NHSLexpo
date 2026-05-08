@@ -120,8 +120,6 @@ body::before {
 }
 .tab-btn:hover { color: var(--gold-light) !important; }
 .tab-btn.active { color: var(--gold-light) !important; border-bottom-color: var(--gold); }
-.tab-btn.vote-link { text-decoration: none; }
-.tab-btn.vote-link svg { flex-shrink: 0; }
 
 /* ══ PANELS ══ */
 .panel { display: none; }
@@ -581,10 +579,10 @@ body::before {
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
     展場地圖
   </button>
-  <a class="tab-btn vote-link" href="PASTE_GAS_VOTE_WEB_APP_URL_HERE" target="_blank" rel="noopener">
+  <button class="tab-btn" onclick="switchTab('vote',this)">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-    人氣投票 ↗
-  </a>
+    人氣投票
+  </button>
   <button class="tab-btn" onclick="switchTab('record',this)">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
     活動紀錄
@@ -706,6 +704,56 @@ body::before {
       </div>
     </div>
     <div class="venue-bottom"><span>女廁</span><span>▼ 入口</span><span>樓梯間</span></div>
+  </div>
+</div>
+
+<!-- ══ PANEL: 人氣投票 ══ -->
+<div id="panel-vote" class="panel">
+  <div class="panel-inner">
+    <div class="panel-label">人氣獎</div>
+    <h2 class="panel-title">為最喜歡的作品投票</h2>
+
+    <div style="max-width:480px;margin:0 auto;text-align:center;padding:2.5rem 1rem;">
+      <div style="font-size:2.5rem;margin-bottom:1rem;">🗳️</div>
+      <p style="font-size:0.9rem;color:rgba(26,18,8,0.6);line-height:1.9;margin-bottom:0.6rem;">
+        投票系統以學校 Google 帳號驗證身份，<br>
+        點下方按鈕前往投票頁面。
+      </p>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;align-items:center;margin-top:1.5rem;">
+        <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;">
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.3rem;">每人票數</div>
+            <div style="font-size:0.9rem;color:var(--ink);">3 票</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.3rem;">投票限制</div>
+            <div style="font-size:0.9rem;color:var(--ink);">限同年級作品</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.3rem;">截止時間</div>
+            <div style="font-size:0.9rem;color:var(--ink);">12:10</div>
+          </div>
+        </div>
+        <!-- ✏️ 改成你的 GAS 部署網址 -->
+        <a id="vote-link" href="https://script.google.com/a/macros/nhsh.tp.edu.tw/s/AKfycbzJ4jBxWWJt93cXVSGXMuFxrOnbzGL1c7h890K42FMPP9IQAiNsUq28RunRosMGgpB5/exec"
+          target="_blank"
+          style="
+            display:inline-flex;align-items:center;gap:0.6rem;
+            background:var(--gold)!important;color:var(--paper)!important;
+            font-size:0.88rem;font-weight:700;letter-spacing:0.08em;
+            padding:1rem 2.5rem;text-decoration:none;
+            box-shadow:4px 4px 0 var(--ink);transition:all 0.2s;
+          "
+          onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='6px 6px 0 var(--ink)'"
+          onmouseout="this.style.transform='';this.style.boxShadow='4px 4px 0 var(--ink)'">
+          前往投票 →
+        </a>
+        <a href="nhsh-wall.html" target="_blank"
+          style="font-size:0.8rem;color:var(--gold)!important;text-decoration:none;border-bottom:1px solid var(--gold);margin-top:0.5rem;">
+          查看鼓勵牆 ＆ 結果
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -892,6 +940,7 @@ function switchTab(id, btn) {
   document.getElementById('panel-' + id).classList.add('active');
   btn.classList.add('active');
   if (id === 'map' && !mapLoaded) { loadMap(); mapLoaded = true; }
+  if (id === 'vote' && !voteLoaded) { loadVote(); voteLoaded = true; }
 }
 
 // ══ MAP ══
@@ -905,6 +954,7 @@ const RIGHT_COL = ['G1-14','G2-14','G1-15','G2-15','G1-16','G2-16','G1-17','G2-1
 
 let allWorks = {};
 let mapLoaded = false;
+let voteLoaded = false;
 let mapActiveTab = 'all';
 let mapSearchQ = '';
 
@@ -1026,7 +1076,7 @@ function openSlotModal(slotId) {
   document.getElementById('m-author').textContent = `${w.author||''}${w.cls ? '　' + w.cls + ' 班' : ''}`;
   const meta = document.getElementById('m-meta');
   meta.innerHTML = '';
-  [['共學同學', w.colearn],['執行方式', w.method],['老師推薦', w.rec?.startsWith('是') ? '✓ 是' : null]].forEach(([k,v]) => {
+  [['共學同學', w.colearn],['執行方式', w.method]].forEach(([k,v]) => {
     if (!v) return;
     const row = document.createElement('div');
     row.style.cssText = 'display:flex;align-items:baseline;gap:0.5rem;font-size:0.81rem;padding:0.28rem 0;border-bottom:1px dashed rgba(26,18,8,0.08);';
@@ -1051,6 +1101,7 @@ function closeSlotModal() {
   document.getElementById('slot-modal').classList.remove('open');
   document.body.style.overflow = '';
 }
+
 
 </script>
 </body>
