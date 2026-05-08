@@ -282,6 +282,29 @@ body::before {
   letter-spacing: 0.1em; margin-top: 0.6rem;
 }
 
+/* 多選篩選按鈕 */
+.filter-btn {
+  background: none !important; border: 1.5px solid var(--line);
+  padding: 0.28rem 0.7rem; font-size: 0.72rem; font-weight: 700;
+  font-family: inherit; cursor: pointer; color: rgba(26,18,8,0.4) !important;
+  transition: all 0.18s;
+}
+.filter-btn.active                 { border-color: var(--ink); color: var(--ink) !important; background: rgba(26,18,8,0.05) !important; }
+.filter-btn.type-lang.active       { background: rgba(200,146,42,0.15) !important; border-color: #c8922a; color: #7a5800 !important; }
+.filter-btn.type-sci.active        { background: rgba(42,74,127,0.12) !important;  border-color: #2a4a7f; color: #1a3060 !important; }
+.filter-btn.type-art.active        { background: rgba(74,103,65,0.14) !important;  border-color: #4a6741; color: #2e4a28 !important; }
+.filter-btn.type-other.active      { background: rgba(168,72,50,0.12) !important;  border-color: #a84832; color: #7a2a18 !important; }
+.filter-btn.method-practice.active { background: rgba(42,74,127,0.1) !important;   border-color: #2a4a7f; color: #1a3060 !important; }
+.filter-btn.method-project.active  { background: rgba(74,103,65,0.1) !important;   border-color: #4a6741; color: #2e4a28 !important; }
+
+/* 執行方式小標籤 */
+.method-tag {
+  display: inline-block; font-size: 0.5rem; font-weight: 700;
+  padding: 0.06rem 0.3rem; margin-top: 0.18rem;
+  border: 1px solid rgba(26,18,8,0.18); color: rgba(26,18,8,0.42) !important;
+  letter-spacing: 0.04em; line-height: 1.4; white-space: nowrap;
+}
+
 @media (max-width: 500px) {
   #venue-layout { gap: 0.25rem; }
   .slot { height: 50px; padding: 0.28rem 0.3rem; }
@@ -569,6 +592,24 @@ body::before {
   </div>
 </div>
 
+<!-- 人氣投票醒目按鈕（固定在最上方） -->
+<a href="https://script.google.com/a/macros/nhsh.tp.edu.tw/s/AKfycbzJ4jBxWWJt93cXVSGXMuFxrOnbzGL1c7h890K42FMPP9IQAiNsUq28RunRosMGgpB5/exec"
+  target="_blank"
+  style="
+    display:flex; align-items:center; justify-content:center; gap:0.8rem;
+    background:var(--gold)!important; color:var(--dark-bg)!important;
+    padding:0.85rem 1.5rem; text-decoration:none;
+    font-size:0.88rem; font-weight:900; letter-spacing:0.06em;
+    border-bottom:2px solid rgba(26,18,8,0.2);
+    transition:background 0.2s;
+  "
+  onmouseover="this.style.background='#b8821e'"
+  onmouseout="this.style.background='var(--gold)'">
+  <span style="font-size:1.1rem;">🗳️</span>
+  <span>人氣投票 — 點此前往</span>
+  <span style="font-size:0.75rem;opacity:0.7;font-weight:700;">截止 12:10 →</span>
+</a>
+
 <!-- TAB NAV -->
 <div class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('schedule',this)">
@@ -579,14 +620,18 @@ body::before {
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
     展場地圖
   </button>
-  <button class="tab-btn" onclick="switchTab('vote',this)">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-    人氣投票
-  </button>
+  <a href="https://web.jhenggao.com/iPH_NHSH/ph_index" target="_blank" class="tab-btn" style="text-decoration:none;">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    線上成果展
+  </a>
   <button class="tab-btn" onclick="switchTab('record',this)">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
     活動紀錄
   </button>
+  <a href="https://chris-nhsh.github.io/1142NHSLexpo/nhsh-wall" target="_blank" class="tab-btn" style="text-decoration:none;">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    留言牆
+  </a>
   <button class="tab-btn" onclick="switchTab('presenter',this)" style="color:var(--gold-light)!important;border-bottom:2px solid transparent;">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     發表同學
@@ -665,23 +710,43 @@ body::before {
     <div class="panel-label">展場地圖</div>
     <h2 class="panel-title">找到你的展位</h2>
 
+    <!-- 搜尋 -->
     <div class="map-search-wrap">
-      <input type="text" id="map-search" placeholder="搜尋作品名稱、作者、類型…" oninput="filterMap(this.value)"
+      <input type="text" id="map-search" placeholder="搜尋作品名稱、作者…" oninput="filterMap(this.value)"
         onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--line)'">
       <div id="map-count"></div>
     </div>
 
-    <div class="map-legend">
-      <div class="legend-dot"><span style="background:rgba(200,146,42,0.4);border:1px solid #c8922a;"></span>語文社會</div>
-      <div class="legend-dot"><span style="background:rgba(42,74,127,0.3);border:1px solid #2a4a7f;"></span>數學自然</div>
-      <div class="legend-dot"><span style="background:rgba(74,103,65,0.3);border:1px solid #4a6741;"></span>藝能</div>
-      <div class="legend-dot"><span style="background:rgba(168,72,50,0.2);border:1px solid #a84832;"></span>其他</div>
+    <!-- 年級篩選 -->
+    <div style="margin-bottom:0.8rem;">
+      <div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(26,18,8,0.4);font-weight:700;margin-bottom:0.4rem;">年級</div>
+      <div class="map-tabs">
+        <button class="map-tab active" onclick="switchMapTab('all',this)">全部</button>
+        <button class="map-tab" onclick="switchMapTab('G1',this)">高一</button>
+        <button class="map-tab" onclick="switchMapTab('G2',this)">高二</button>
+      </div>
     </div>
 
-    <div class="map-tabs">
-      <button class="map-tab active" onclick="switchMapTab('all',this)">全部</button>
-      <button class="map-tab" onclick="switchMapTab('G1',this)">高一</button>
-      <button class="map-tab" onclick="switchMapTab('G2',this)">高二</button>
+    <!-- 領域篩選 -->
+    <div style="margin-bottom:0.8rem;">
+      <div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(26,18,8,0.4);font-weight:700;margin-bottom:0.4rem;">領域</div>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;" id="type-filters">
+        <button class="filter-btn active" data-type="all" onclick="toggleTypeFilter('all',this)">全部</button>
+        <button class="filter-btn type-lang" data-type="lang" onclick="toggleTypeFilter('lang',this)">語文社會</button>
+        <button class="filter-btn type-sci"  data-type="sci"  onclick="toggleTypeFilter('sci',this)">數學自然</button>
+        <button class="filter-btn type-art"  data-type="art"  onclick="toggleTypeFilter('art',this)">藝能</button>
+        <button class="filter-btn type-other" data-type="other" onclick="toggleTypeFilter('other',this)">其他</button>
+      </div>
+    </div>
+
+    <!-- 執行方式篩選 -->
+    <div style="margin-bottom:1.2rem;">
+      <div style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(26,18,8,0.4);font-weight:700;margin-bottom:0.4rem;">執行方式</div>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;" id="method-filters">
+        <button class="filter-btn active" data-method="all" onclick="toggleMethodFilter('all',this)">全部</button>
+        <button class="filter-btn method-practice" data-method="practice" onclick="toggleMethodFilter('practice',this)">技能發展實踐</button>
+        <button class="filter-btn method-project"  data-method="project"  onclick="toggleMethodFilter('project',this)">專題製作</button>
+      </div>
     </div>
 
     <div class="venue-stage">▲ 活動中心舞台（前方）</div>
@@ -691,11 +756,11 @@ body::before {
         <div id="col-left" class="slot-col"></div>
       </div>
       <div>
-        <div class="zone-col-title" style="color:var(--accent);text-align:center;">中間架<br><span style="font-size:0.58rem;opacity:0.7;">高一</span></div>
+        <div class="zone-col-title" style="color:var(--accent);text-align:center;">中間架<br><span style="font-size:0.58rem;opacity:0.7;">奇數</span></div>
         <div id="col-center-g1" class="slot-col"></div>
       </div>
       <div>
-        <div class="zone-col-title" style="color:var(--accent);text-align:center;">中間架<br><span style="font-size:0.58rem;opacity:0.7;">高二</span></div>
+        <div class="zone-col-title" style="color:var(--accent);text-align:center;">中間架<br><span style="font-size:0.58rem;opacity:0.7;">偶數</span></div>
         <div id="col-center-g2" class="slot-col"></div>
       </div>
       <div>
@@ -707,55 +772,6 @@ body::before {
   </div>
 </div>
 
-<!-- ══ PANEL: 人氣投票 ══ -->
-<div id="panel-vote" class="panel">
-  <div class="panel-inner">
-    <div class="panel-label">人氣獎</div>
-    <h2 class="panel-title">為最喜歡的作品投票</h2>
-
-    <div style="max-width:480px;margin:0 auto;text-align:center;padding:2.5rem 1rem;">
-      <div style="font-size:2.5rem;margin-bottom:1rem;">🗳️</div>
-      <p style="font-size:0.9rem;color:rgba(26,18,8,0.6);line-height:1.9;margin-bottom:0.6rem;">
-        投票系統以學校 Google 帳號驗證身份，<br>
-        點下方按鈕前往投票頁面。
-      </p>
-      <div style="display:flex;flex-direction:column;gap:0.6rem;align-items:center;margin-top:1.5rem;">
-        <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;">
-          <div style="text-align:center;">
-            <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.3rem;">每人票數</div>
-            <div style="font-size:0.9rem;color:var(--ink);">3 票</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.3rem;">投票限制</div>
-            <div style="font-size:0.9rem;color:var(--ink);">限同年級作品</div>
-          </div>
-          <div style="text-align:center;">
-            <div style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:0.3rem;">截止時間</div>
-            <div style="font-size:0.9rem;color:var(--ink);">12:10</div>
-          </div>
-        </div>
-        <!-- ✏️ 改成你的 GAS 部署網址 -->
-        <a id="vote-link" href="https://script.google.com/a/macros/nhsh.tp.edu.tw/s/AKfycbzJ4jBxWWJt93cXVSGXMuFxrOnbzGL1c7h890K42FMPP9IQAiNsUq28RunRosMGgpB5/exec"
-          target="_blank"
-          style="
-            display:inline-flex;align-items:center;gap:0.6rem;
-            background:var(--gold)!important;color:var(--paper)!important;
-            font-size:0.88rem;font-weight:700;letter-spacing:0.08em;
-            padding:1rem 2.5rem;text-decoration:none;
-            box-shadow:4px 4px 0 var(--ink);transition:all 0.2s;
-          "
-          onmouseover="this.style.transform='translate(-2px,-2px)';this.style.boxShadow='6px 6px 0 var(--ink)'"
-          onmouseout="this.style.transform='';this.style.boxShadow='4px 4px 0 var(--ink)'">
-          前往投票 →
-        </a>
-        <a href="nhsh-wall.html" target="_blank"
-          style="font-size:0.8rem;color:var(--gold)!important;text-decoration:none;border-bottom:1px solid var(--gold);margin-top:0.5rem;">
-          查看鼓勵牆 ＆ 結果
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ══ PANEL: 活動紀錄 ══ -->
 <div id="panel-record" class="panel">
@@ -952,11 +968,27 @@ const CENTER_G1 = ['G1-27','G1-28','G1-29','G1-30','G1-31','G1-32','G1-33','G1-3
 const CENTER_G2 = ['G2-27','G2-28','G2-29','G2-30','G2-31','G2-32','G2-33','G2-34','G2-35','G2-36','G2-37','G2-38','G2-39','G2-40','G2-41','G2-42','G2-43','G2-44','G2-45','G2-46','G2-47','G2-48','G2-49','G2-50','G2-51','G2-52','G2-53','G2-54','G2-55','G2-56','G2-57','G2-58','G2-59','G2-60','G2-61','G2-62'];
 const RIGHT_COL = ['G1-14','G2-14','G1-15','G2-15','G1-16','G2-16','G1-17','G2-17','G1-18','G2-18','G1-19','G2-19','G1-20','G2-20','G1-21','G2-21','G1-22','G2-22','G1-23','G2-23','G1-24','G2-24','G1-25','G2-25','G1-26','G2-26'];
 
+// 中間架：奇數編號（左欄）、偶數編號（右欄），高一高二混合
+const CENTER_ODD  = [
+  'G1-27','G2-27','G1-29','G2-29','G1-31','G2-31','G1-33','G2-33','G1-35','G2-35',
+  'G1-37','G2-37','G1-39','G2-39','G1-41','G2-41','G1-43','G2-43','G1-45','G2-45',
+  'G1-47','G2-47','G1-49','G2-49','G1-51','G2-51','G1-53','G2-53','G1-55','G2-55',
+  'G1-57','G2-57','G1-59','G2-59','G1-61','G2-61'
+];
+const CENTER_EVEN = [
+  'G1-28','G2-28','G1-30','G2-30','G1-32','G2-32','G1-34','G2-34','G1-36','G2-36',
+  'G1-38','G2-38','G1-40','G2-40','G1-42','G2-42','G1-44','G2-44','G1-46','G2-46',
+  'G1-48','G2-48','G1-50','G2-50','G1-52','G2-52','G1-54','G2-54','G1-56','G2-56',
+  'G1-58','G2-58','G1-60','G2-60','G1-62','G2-62'
+];
+
 let allWorks = {};
 let mapLoaded = false;
 let voteLoaded = false;
 let mapActiveTab = 'all';
 let mapSearchQ = '';
+let mapActiveTypes   = new Set(['all']);
+let mapActiveMethods = new Set(['all']);
 
 function typeClass(t) {
   if (!t) return 'type-empty';
@@ -964,6 +996,12 @@ function typeClass(t) {
   if (t.includes('數學') || t.includes('自然')) return 'type-sci';
   if (t.includes('藝')) return 'type-art';
   return 'type-other';
+}
+function methodKey(m) {
+  if (!m) return '';
+  if (m.includes('技能') || m.includes('實踐')) return 'practice';
+  if (m.includes('專題') || m.includes('製作')) return 'project';
+  return 'other';
 }
 
 async function loadSheet() {
@@ -1015,12 +1053,16 @@ function makeMapSlot(slotId) {
   div.className = `slot ${typeClass(w.type)}`;
   div.dataset.slotId = slotId;
   div.dataset.grade = isG1 ? 'G1' : 'G2';
+  div.dataset.typeKey = typeClass(w.type).replace('type-','');
+  div.dataset.methodKey = methodKey(w.method);
   const clsAuthor = [w.cls ? w.cls + '班' : '', w.author].filter(Boolean).join(' ');
-  const methodShort = w.method ? w.method.replace('實踐','').replace('製作','製') : '';
+  const methodLabel = w.method
+    ? w.method.replace('技能發展實踐','技能實踐').replace('專題製作','專題製')
+    : '';
   div.innerHTML =
     `<span class="slot-num">${isG1?'高一':'高二'}${num}　${clsAuthor}</span>
      <span class="slot-name">${w.title}</span>
-     <span class="slot-author" style="opacity:0.55;font-size:0.56rem;">${methodShort}</span>`;
+     ${methodLabel ? `<span class="method-tag">${methodLabel}</span>` : ''}`;
   div.addEventListener('click', () => openSlotModal(slotId));
   return div;
 }
@@ -1028,29 +1070,96 @@ function makeMapSlot(slotId) {
 function loadMap() {
   loadSheet().then(() => {
     ['col-left','col-center-g1','col-center-g2','col-right'].forEach(id => document.getElementById(id).innerHTML = '');
-    LEFT_COL.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-left').appendChild(el); });
-    CENTER_G1.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-center-g1').appendChild(el); });
-    CENTER_G2.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-center-g2').appendChild(el); });
-    RIGHT_COL.forEach(id => { const el = makeMapSlot(id); if (el) document.getElementById('col-right').appendChild(el); });
+    LEFT_COL.forEach(id      => { const el = makeMapSlot(id); if (el) document.getElementById('col-left').appendChild(el); });
+    CENTER_ODD.forEach(id    => { const el = makeMapSlot(id); if (el) document.getElementById('col-center-g1').appendChild(el); });
+    CENTER_EVEN.forEach(id   => { const el = makeMapSlot(id); if (el) document.getElementById('col-center-g2').appendChild(el); });
+    RIGHT_COL.forEach(id     => { const el = makeMapSlot(id); if (el) document.getElementById('col-right').appendChild(el); });
     updateMapCount();
   });
 }
 
 function filterMap(q) { mapSearchQ = q.toLowerCase(); applyMapFilters(); }
+
 function switchMapTab(tab, btn) {
   mapActiveTab = tab;
   document.querySelectorAll('.map-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   applyMapFilters();
 }
+
+// 多選：領域
+function toggleTypeFilter(type, btn) {
+  if (type === 'all') {
+    mapActiveTypes = new Set(['all']);
+    document.querySelectorAll('#type-filters .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  } else {
+    mapActiveTypes.delete('all');
+    document.querySelector('#type-filters [data-type="all"]').classList.remove('active');
+    if (mapActiveTypes.has(type)) {
+      mapActiveTypes.delete(type);
+      btn.classList.remove('active');
+      if (mapActiveTypes.size === 0) {
+        mapActiveTypes.add('all');
+        document.querySelector('#type-filters [data-type="all"]').classList.add('active');
+      }
+    } else {
+      mapActiveTypes.add(type);
+      btn.classList.add('active');
+    }
+  }
+  applyMapFilters();
+}
+
+// 多選：執行方式
+function toggleMethodFilter(method, btn) {
+  if (method === 'all') {
+    mapActiveMethods = new Set(['all']);
+    document.querySelectorAll('#method-filters .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  } else {
+    mapActiveMethods.delete('all');
+    document.querySelector('#method-filters [data-method="all"]').classList.remove('active');
+    if (mapActiveMethods.has(method)) {
+      mapActiveMethods.delete(method);
+      btn.classList.remove('active');
+      if (mapActiveMethods.size === 0) {
+        mapActiveMethods.add('all');
+        document.querySelector('#method-filters [data-method="all"]').classList.add('active');
+      }
+    } else {
+      mapActiveMethods.add(method);
+      btn.classList.add('active');
+    }
+  }
+  applyMapFilters();
+}
+
 function applyMapFilters() {
   let n = 0;
   document.querySelectorAll('#panel-map .slot').forEach(el => {
     const sid = el.dataset.slotId; if (!sid) return;
     const w = allWorks[sid];
-    const gm = mapActiveTab === 'all' || el.dataset.grade === mapActiveTab;
-    const sm = !mapSearchQ || (w?.title?.toLowerCase().includes(mapSearchQ)) || (w?.author?.toLowerCase().includes(mapSearchQ)) || (w?.type?.toLowerCase().includes(mapSearchQ)) || sid.toLowerCase().includes(mapSearchQ);
-    const show = gm && sm;
+
+    // 年級
+    const gradeMatch = mapActiveTab === 'all' || el.dataset.grade === mapActiveTab;
+
+    // 領域
+    const tkey = el.dataset.typeKey || '';
+    const typeMatch = mapActiveTypes.has('all') || mapActiveTypes.has(tkey);
+
+    // 執行方式
+    const mkey = el.dataset.methodKey || '';
+    const methodMatch = mapActiveMethods.has('all') || mapActiveMethods.has(mkey);
+
+    // 搜尋
+    const sm = !mapSearchQ
+      || (w?.title?.toLowerCase().includes(mapSearchQ))
+      || (w?.author?.toLowerCase().includes(mapSearchQ))
+      || (w?.cls?.toLowerCase().includes(mapSearchQ))
+      || sid.toLowerCase().includes(mapSearchQ);
+
+    const show = gradeMatch && typeMatch && methodMatch && sm;
     el.classList.toggle('hidden', !show);
     if (show && w) n++;
   });
