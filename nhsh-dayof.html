@@ -718,7 +718,10 @@ body::before {
       <div class="vote-login-box">
         <div class="vote-login-icon">🗳️</div>
         <div class="vote-login-title">請先登入學校帳號</div>
-        <p class="vote-login-sub">每人可投 <strong>2 票</strong>，須以學校 Google 帳號登入。<br>每部作品只能投一票。</p>
+        <p class="vote-login-sub">
+          每人可投 <strong>3 票</strong>，限投<strong>同年級</strong>作品。<br>
+          每部作品只能投一票，可附上匿名鼓勵話語。
+        </p>
         <button class="vote-google-btn" onclick="simulateLogin()">
           <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
           以學校 Google 帳號登入
@@ -727,42 +730,72 @@ body::before {
       </div>
     </div>
 
-    <!-- Step 1: 選票 -->
-    <div id="vote-step-1" class="vote-step">
-      <div class="vote-info-bar">
-        <div class="user-info">已登入：<strong id="vote-user-display">載入中…</strong></div>
+    <!-- Step id: 身份確認 -->
+    <div id="vote-step-id" class="vote-step">
+      <div class="vote-login-box">
+        <div style="font-size:0.78rem;color:rgba(26,18,8,0.5);margin-bottom:0.8rem;">已登入：<strong id="vote-user-display"></strong></div>
+        <div style="font-size:0.85rem;color:rgba(26,18,8,0.6);margin-bottom:0.5rem;">你的身份是</div>
+        <div id="identity-grade-display" style="margin:0.8rem 0 0.4rem;"></div>
+        <div id="identity-scope" style="font-size:0.78rem;color:rgba(26,18,8,0.45);margin-bottom:1.8rem;"></div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          <button class="vote-submit-btn" style="opacity:1;cursor:pointer;" onclick="confirmIdentity()">
+            確認，開始投票 →
+          </button>
+          <button onclick="reportWrongIdentity()"
+            style="background:none;border:none;font-size:0.78rem;color:rgba(26,18,8,0.4);cursor:pointer;font-family:inherit;padding:0.3rem;">
+            身份顯示有誤？點此回報
+          </button>
+        </div>
+      </div>
+    </div>
         <div class="vote-ticket-status">
-          <span style="font-size:0.75rem;color:rgba(26,18,8,0.5);margin-right:0.3rem;">票數</span>
+          <span style="font-size:0.72rem;color:rgba(26,18,8,0.5);margin-right:0.3rem;">票數</span>
           <div class="ticket" id="ticket-1">1</div>
           <div class="ticket" id="ticket-2">2</div>
+          <div class="ticket" id="ticket-3">3</div>
         </div>
+      </div>
+
+      <!-- 年級說明 -->
+      <div style="background:rgba(200,146,42,0.08);border-left:3px solid var(--gold);padding:0.65rem 1rem;margin-bottom:1.2rem;font-size:0.82rem;color:rgba(26,18,8,0.7);">
+        只顯示<strong id="vote-grade-notice"></strong>的作品
       </div>
 
       <div class="vote-search-wrap">
         <input type="text" id="vote-search" placeholder="搜尋作品名稱、作者…" oninput="filterVote(this.value)">
       </div>
-      <div class="vote-filter-tabs">
-        <button class="vote-tab active" onclick="switchVoteTab('all',this)">全部</button>
-        <button class="vote-tab" onclick="switchVoteTab('G1',this)">高一</button>
-        <button class="vote-tab" onclick="switchVoteTab('G2',this)">高二</button>
-      </div>
 
       <div id="vote-grid" class="vote-grid"></div>
 
       <div class="vote-submit-bar">
-        <div class="vote-submit-status">已選 <strong id="vote-selected-count">0</strong> / 2 票</div>
-        <button class="vote-submit-btn" id="vote-submit-btn" disabled onclick="goToConfirm()">確認送出投票</button>
+        <div class="vote-submit-status">已選 <strong id="vote-selected-count">0</strong> / 3 票</div>
+        <button class="vote-submit-btn" id="vote-submit-btn" disabled onclick="goToConfirm()">下一步 →</button>
       </div>
     </div>
 
-    <!-- Step 2: 確認 -->
+    <!-- Step 1.5: 填寫鼓勵話語 -->
+    <div id="vote-step-15" class="vote-step">
+      <div style="max-width:520px;margin:0 auto;">
+        <div style="font-family:'Noto Serif TC',serif;font-size:1.1rem;font-weight:900;margin-bottom:0.5rem;color:var(--ink);">留下你的鼓勵 💬</div>
+        <p style="font-size:0.84rem;color:rgba(26,18,8,0.55);margin-bottom:1.5rem;line-height:1.8;">
+          可以為你投票的作品寫一句鼓勵的話，匿名顯示在活動大螢幕上。（選填）
+        </p>
+        <div id="encourage-fields" style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.8rem;"></div>
+        <div style="display:flex;gap:0.75rem;">
+          <button class="btn-back" onclick="backToSelect()" style="flex:1;">← 返回修改</button>
+          <button class="btn-confirm" onclick="goToConfirm2()" style="flex:2;">確認，前往送出 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: 確認送出 -->
     <div id="vote-step-2" class="vote-step">
       <div class="vote-confirm-box">
-        <div class="vote-confirm-title">確認你的投票</div>
+        <div class="vote-confirm-title">確認投票</div>
         <div id="vote-confirm-cards"></div>
-        <p style="font-size:0.82rem;color:rgba(26,18,8,0.5);margin-top:1rem;line-height:1.8;">投票送出後<strong>無法更改</strong>，每人限投一次。確認無誤後請按送出。</p>
+        <p style="font-size:0.82rem;color:rgba(26,18,8,0.5);margin-top:1rem;line-height:1.8;">投票送出後<strong>無法更改</strong>，每人限投一次。</p>
         <div class="vote-confirm-btns">
-          <button class="btn-back" onclick="backToSelect()">← 修改</button>
+          <button class="btn-back" onclick="backToEncourage()">← 修改鼓勵</button>
           <button class="btn-confirm" onclick="submitVote()">確認送出 →</button>
         </div>
       </div>
@@ -773,11 +806,25 @@ body::before {
       <div class="vote-done-box">
         <div class="vote-done-icon">🎉</div>
         <div class="vote-done-title">投票成功！</div>
-        <p class="vote-done-sub">感謝你的參與！你投票給了以下兩件作品，<br>得票最高者將獲得人氣獎禮券 100 元。<br>另外也會從投票者中隨機抽出一名參與獎得主，<br>說不定就是你 🎁</p>
+        <p class="vote-done-sub">
+          感謝你的參與！你的鼓勵已經送出，<br>
+          快去大螢幕上找找你的留言 💬<br><br>
+          投票結果將於 <strong>12:10</strong> 後公布。
+        </p>
         <div id="vote-done-cards" class="vote-done-cards"></div>
-        <p style="font-size:0.78rem;color:rgba(26,18,8,0.4);">結果將於活動結束後公布</p>
+        <a href="nhsh-wall.html" target="_blank" style="
+          display:inline-flex;align-items:center;gap:0.6rem;
+          background:var(--gold);color:var(--paper);
+          font-size:0.82rem;font-weight:700;letter-spacing:0.06em;
+          padding:0.8rem 1.8rem;text-decoration:none;
+          box-shadow:3px 3px 0 var(--ink);transition:all 0.2s;margin-top:0.5rem;
+        " onmouseover="this.style.transform='translate(-2px,-2px)'"
+           onmouseout="this.style.transform=''">
+          ✨ 查看鼓勵牆 ＆ 投票結果
+        </a>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -1040,10 +1087,11 @@ function makeMapSlot(slotId) {
   div.dataset.slotId = slotId;
   div.dataset.grade = isG1 ? 'G1' : 'G2';
   const clsAuthor = [w.cls ? w.cls + '班' : '', w.author].filter(Boolean).join(' ');
+  const methodShort = w.method ? w.method.replace('實踐','').replace('製作','製') : '';
   div.innerHTML =
     `<span class="slot-num">${isG1?'高一':'高二'}${num}　${clsAuthor}</span>
      <span class="slot-name">${w.title}</span>
-     <span class="slot-author"></span>`;
+     <span class="slot-author" style="opacity:0.55;font-size:0.56rem;">${methodShort}</span>`;
   div.addEventListener('click', () => openSlotModal(slotId));
   return div;
 }
@@ -1125,21 +1173,89 @@ function closeSlotModal() {
   document.body.style.overflow = '';
 }
 
-// ══ VOTE (模擬流程) ══
-let voteUser = '';
-let selectedVotes = new Set();
-let voteActiveTab = 'all';
-let voteSearchQ = '';
+// ══ VOTE ══
+const GAS_URL = ''; // ✏️ 貼上 GAS 部署網址
 
-function simulateLogin() {
-  // 模擬 Google 登入
+let voteUser  = '';
+let voterGrade = '';  // '高一' / '高二' / '老師'
+let selectedVotes = new Set();
+let encourageMap  = {};
+
+// Step 切換
+function showVoteStep(from, to) {
+  if (from !== null) document.getElementById(`vote-step-${from}`)?.classList.remove('active');
+  document.getElementById(`vote-step-${to}`)?.classList.add('active');
+}
+
+// 模擬 Google 登入後查詢身份
+async function simulateLogin() {
+  // 模擬用：固定帳號。串接真實 Google OAuth 後改這裡
   voteUser = 'student@nhsh.tp.edu.tw';
+
+  const btn = document.querySelector('.vote-google-btn');
+  btn.disabled = true;
+  btn.textContent = '驗證中…';
+
+  // 查詢 GAS 確認身份
+  if (GAS_URL) {
+    try {
+      const res = await fetch(`${GAS_URL}?action=identity&user=${encodeURIComponent(voteUser)}`);
+      const data = await res.json();
+      if (!data.ok) {
+        btn.disabled = false;
+        btn.innerHTML = `<span style="color:#e53e3e">⚠ ${data.error}</span><br><small style="font-size:0.72rem;">請確認帳號正確，或聯繫學務處</small>`;
+        return;
+      }
+      voterGrade = data.grade;
+    } catch(e) {
+      btn.disabled = false;
+      btn.textContent = '網路錯誤，請重試';
+      return;
+    }
+  } else {
+    // 無 GAS 時模擬高一
+    voterGrade = '高一';
+  }
+
   document.getElementById('vote-user-display').textContent = voteUser;
-  document.getElementById('vote-step-0').classList.remove('active');
-  document.getElementById('vote-step-1').classList.add('active');
+  showIdentityConfirm();
+}
+
+// 顯示身份確認畫面
+function showIdentityConfirm() {
+  showVoteStep(0, 'id');
+  const gradeLabel = voterGrade === '老師' ? '老師／工作人員' : voterGrade + '生';
+  const gradeColor = voterGrade === '高一' ? '#c8922a' : voterGrade === '高二' ? '#2a4a7f' : '#4a6741';
+  document.getElementById('identity-grade-display').innerHTML =
+    `<span style="color:${gradeColor};font-size:1.6rem;font-weight:900;font-family:'Noto Serif TC',serif;">${gradeLabel}</span>`;
+  document.getElementById('identity-scope').textContent =
+    voterGrade === '老師' ? '可投票給高一及高二所有作品' : `只能投票給${voterGrade}的作品`;
+}
+
+function confirmIdentity() {
+  // 同步 step 1 的顯示
+  const d2 = document.getElementById('vote-user-display-2');
+  if (d2) d2.textContent = voteUser;
+  const notice = document.getElementById('vote-grade-notice');
+  if (notice) notice.textContent = voterGrade === '老師' ? '全年級' : voterGrade;
+  showVoteStep('id', 1);
   loadVote();
 }
 
+function reportWrongIdentity() {
+  document.getElementById('vote-step-id').innerHTML = `
+    <div style="text-align:center;padding:2rem 1rem;">
+      <div style="font-size:1.5rem;margin-bottom:0.8rem;">🙏</div>
+      <div style="font-family:'Noto Serif TC',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">感謝回報</div>
+      <p style="font-size:0.84rem;color:rgba(26,18,8,0.6);line-height:1.8;">
+        請聯繫學務處訓育組更新帳號清單，<br>修正後重新整理頁面即可投票。<br><br>
+        帳號：<strong>${voteUser}</strong><br>
+        顯示年級：<strong>${voterGrade}</strong>
+      </p>
+    </div>`;
+}
+
+// 載入作品清單
 function loadVote() {
   if (Object.keys(allWorks).length === 0) {
     loadSheet().then(renderVoteGrid);
@@ -1156,6 +1272,9 @@ function renderVoteGrid() {
     const w = allWorks[slotId];
     if (!w) return;
     const isG1 = slotId.startsWith('G1');
+    const slotGrade = isG1 ? '高一' : '高二';
+    // 老師不限；學生只能投同年級
+    if (voterGrade !== '老師' && slotGrade !== voterGrade) return;
     const num = slotId.split('-')[1];
     const card = document.createElement('div');
     card.className = 'vote-card';
@@ -1180,48 +1299,73 @@ function toggleVote(slotId, card) {
   if (card.classList.contains('disabled')) return;
   if (selectedVotes.has(slotId)) {
     selectedVotes.delete(slotId);
+    delete encourageMap[slotId];
     card.classList.remove('selected');
   } else {
-    if (selectedVotes.size >= 2) return;
+    if (selectedVotes.size >= MAX_VOTES) return;
     selectedVotes.add(slotId);
     card.classList.add('selected');
   }
   updateVoteStatus();
 }
 
+const MAX_VOTES = 3;
+
 function updateVoteStatus() {
   const count = selectedVotes.size;
   document.getElementById('vote-selected-count').textContent = count;
-  document.getElementById('vote-submit-btn').disabled = count < 2;
-  // 票圈
-  document.getElementById('ticket-1').className = 'ticket' + (count >= 1 ? ' used' : '');
-  document.getElementById('ticket-2').className = 'ticket' + (count >= 2 ? ' used' : '');
-  // 未選的卡片灰掉
+  document.getElementById('vote-submit-btn').disabled = count < 1;
+  [1,2,3].forEach(i => {
+    document.getElementById(`ticket-${i}`).className = 'ticket' + (count >= i ? ' used' : '');
+  });
   document.querySelectorAll('.vote-card').forEach(card => {
-    const sid = card.dataset.slotId;
-    card.classList.toggle('disabled', count >= 2 && !selectedVotes.has(sid));
+    card.classList.toggle('disabled', count >= MAX_VOTES && !selectedVotes.has(card.dataset.slotId));
   });
 }
 
 function filterVote(q) {
-  voteSearchQ = q.toLowerCase();
-  applyVoteFilters();
-}
-function switchVoteTab(tab, btn) {
-  voteActiveTab = tab;
-  document.querySelectorAll('.vote-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  applyVoteFilters();
-}
-function applyVoteFilters() {
+  const qq = q.toLowerCase();
   document.querySelectorAll('.vote-card').forEach(el => {
-    const gm = voteActiveTab === 'all' || el.dataset.grade === voteActiveTab;
-    const sm = !voteSearchQ || el.dataset.title?.toLowerCase().includes(voteSearchQ) || el.dataset.author?.toLowerCase().includes(voteSearchQ) || el.dataset.cls?.toLowerCase().includes(voteSearchQ);
-    el.classList.toggle('hidden', !(gm && sm));
+    const sm = !qq || el.dataset.title?.toLowerCase().includes(qq)
+                    || el.dataset.author?.toLowerCase().includes(qq)
+                    || el.dataset.cls?.toLowerCase().includes(qq);
+    el.classList.toggle('hidden', !sm);
   });
 }
 
+// Step 1 → 1.5（填鼓勵話語）
 function goToConfirm() {
+  const fields = document.getElementById('encourage-fields');
+  fields.innerHTML = '';
+  selectedVotes.forEach(slotId => {
+    const w = allWorks[slotId];
+    const isG1 = slotId.startsWith('G1');
+    const num = slotId.split('-')[1];
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'border:1.5px solid var(--line);padding:1rem;';
+    wrap.innerHTML =
+      `<div style="font-size:0.75rem;font-weight:700;color:var(--gold);margin-bottom:0.5rem;">${isG1?'高一':'高二'}${num}　${w?.title||''}</div>
+       <textarea data-slot="${slotId}" placeholder="寫一句鼓勵的話給這位同學（選填）…"
+         style="width:100%;border:1px solid var(--line);padding:0.6rem 0.8rem;font-family:inherit;font-size:0.85rem;resize:vertical;min-height:64px;background:var(--paper);color:var(--ink);outline:none;"
+         onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--line)'"
+         maxlength="80">${encourageMap[slotId]||''}</textarea>
+       <div style="font-size:0.7rem;color:rgba(26,18,8,0.35);margin-top:0.3rem;text-align:right;">最多 80 字・完全匿名</div>`;
+    fields.appendChild(wrap);
+  });
+  showVoteStep(1, 15);
+}
+
+function backToSelect() {
+  document.querySelectorAll('#encourage-fields textarea').forEach(ta => {
+    encourageMap[ta.dataset.slot] = ta.value;
+  });
+  showVoteStep(15, 1);
+}
+
+function goToConfirm2() {
+  document.querySelectorAll('#encourage-fields textarea').forEach(ta => {
+    encourageMap[ta.dataset.slot] = ta.value.trim();
+  });
   const container = document.getElementById('vote-confirm-cards');
   container.innerHTML = '';
   let i = 1;
@@ -1229,27 +1373,58 @@ function goToConfirm() {
     const w = allWorks[slotId];
     const isG1 = slotId.startsWith('G1');
     const num = slotId.split('-')[1];
+    const enc = encourageMap[slotId];
     const card = document.createElement('div');
     card.className = 'vote-confirm-card';
     card.innerHTML =
       `<div class="vote-confirm-num">${i++}</div>
        <div>
-         <div class="vote-confirm-info-title">${w?.title||'未知作品'}</div>
-         <div class="vote-confirm-info-sub">${isG1?'高一':'高二'} ${num}　${w?.author||''}${w?.cls ? ' · ' + w.cls : ''}</div>
+         <div class="vote-confirm-info-title">${w?.title||''}</div>
+         <div class="vote-confirm-info-sub">${isG1?'高一':'高二'} ${num}　${w?.author||''}${w?.cls ? ' · '+w.cls : ''}</div>
+         ${enc ? `<div style="font-size:0.75rem;color:var(--gold);margin-top:0.3rem;">💬「${enc}」</div>` : ''}
        </div>`;
     container.appendChild(card);
   });
-  document.getElementById('vote-step-1').classList.remove('active');
-  document.getElementById('vote-step-2').classList.add('active');
+  showVoteStep(15, 2);
 }
 
-function backToSelect() {
-  document.getElementById('vote-step-2').classList.remove('active');
-  document.getElementById('vote-step-1').classList.add('active');
-}
+function backToEncourage() { showVoteStep(2, 15); }
 
-function submitVote() {
-  // 模擬送出（實際串接時改這裡）
+async function submitVote() {
+  const submitBtn = document.querySelector('.btn-confirm');
+  submitBtn.disabled = true;
+  submitBtn.textContent = '送出中…';
+
+  const votes = [...selectedVotes].map(sid => ({
+    slotId: sid,
+    title:   allWorks[sid]?.title || '',
+    author:  allWorks[sid]?.author || '',
+    encourage: encourageMap[sid] || ''
+  }));
+
+  // 送到 GAS
+  if (GAS_URL) {
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify({ user: voteUser, grade: voterGrade, votes })
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '確認送出 →';
+        alert('送出失敗：' + data.error);
+        return;
+      }
+    } catch(e) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '確認送出 →';
+      alert('網路錯誤，請重試');
+      return;
+    }
+  }
+
+  // 顯示完成頁
   const doneCards = document.getElementById('vote-done-cards');
   doneCards.innerHTML = '';
   selectedVotes.forEach(slotId => {
@@ -1263,8 +1438,7 @@ function submitVote() {
        <div class="vote-done-card-title">${w?.title||''}</div>`;
     doneCards.appendChild(card);
   });
-  document.getElementById('vote-step-2').classList.remove('active');
-  document.getElementById('vote-step-3').classList.add('active');
+  showVoteStep(2, 3);
 }
 </script>
 </body>
