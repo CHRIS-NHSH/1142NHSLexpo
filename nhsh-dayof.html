@@ -960,8 +960,8 @@ function switchTab(id, btn) {
 }
 
 // ══ MAP ══
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSGnHjF7f1ScNSVSN9ULVvdqW7ggNZhVVFLBw2LoAEeMpPNXgWMJsoH2vXJJN-ybhE0uFwPFIzneRiE/pub?gid=187470523&single=true&output=csv';
-const COL = { num:0, grade:1, cls:2, author:3, colearn:4, type:5, method:6, title:7, rec:8, url:9 };
+// ✏️ GAS 部署網址（同投票系統）
+const GAS_URL = 'https://script.google.com/a/macros/nhsh.tp.edu.tw/s/AKfycbzJ4jBxWWJt93cXVSGXMuFxrOnbzGL1c7h890K42FMPP9IQAiNsUq28RunRosMGgpB5/exec';
 
 const LEFT_COL  = ['G1-01','G2-01','G1-02','G2-02','G1-03','G2-03','G1-04','G2-04','G1-05','G2-05','G1-06','G2-06','G1-07','G2-07','G1-08','G2-08','G1-09','G2-09','G1-10','G2-10','G1-11','G2-11','G1-12','G2-12','G1-13','G2-13'];
 const CENTER_G1 = ['G1-27','G1-28','G1-29','G1-30','G1-31','G1-32','G1-33','G1-34','G1-35','G1-36','G1-37','G1-38','G1-39','G1-40','G1-41','G1-42','G1-43','G1-44','G1-45','G1-46','G1-47','G1-48','G1-49','G1-50','G1-51','G1-52','G1-53','G1-54','G1-55','G1-56','G1-57','G1-58','G1-59','G1-60','G1-61','G1-62'];
@@ -1006,42 +1006,13 @@ function methodKey(m) {
 
 async function loadSheet() {
   try {
-    const res = await fetch(SHEET_CSV_URL);
-    const text = await res.text();
-    const rows = text.trim().split('\n').slice(1);
-    rows.forEach(row => {
-      const cols = []; let cur = '', inQ = false;
-      for (let i = 0; i < row.length; i++) {
-        const ch = row[i];
-        if (ch === '"') { inQ = !inQ; }
-        else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
-        else { cur += ch; }
-      }
-      cols.push(cur.trim());
-      const rawNum = cols[COL.num]?.trim();
-      const grade  = cols[COL.grade]?.trim();
-      const title  = cols[COL.title]?.trim();
-      if (!rawNum || !title) return;
-
-      // 編號格式：「高一-01」或「高二-03」→ 取後兩碼數字
-      // 也相容純數字格式「1」「2」
-      const numMatch = rawNum.match(/(\d+)$/);
-      if (!numMatch) return;
-      const padded = numMatch[1].padStart(2, '0');
-
-      // 年級優先用 grade 欄；若 grade 為空則從 rawNum 推斷
-      const isG1 = grade ? grade.includes('一') : rawNum.includes('一');
-      const gNum = isG1 ? 'G1' : 'G2';
-      const slotId = `${gNum}-${padded}`;
-
-      allWorks[slotId] = {
-        num: padded, grade, cls: cols[COL.cls]?.trim(), author: cols[COL.author]?.trim(),
-        colearn: cols[COL.colearn]?.trim(), type: cols[COL.type]?.trim(),
-        method: cols[COL.method]?.trim(), title,
-        rec: cols[COL.rec]?.trim(), url: cols[COL.url]?.trim()
-      };
+    const res  = await fetch(`${GAS_URL}?action=works`);
+    const data = await res.json();
+    if (!data.ok || !data.works) return;
+    data.works.forEach(w => {
+      allWorks[w.slotId] = w;
     });
-  } catch(e) { console.warn('Sheet load failed', e); }
+  } catch(e) { console.warn('GAS works 載入失敗', e); }
 }
 
 function makeMapSlot(slotId) {
