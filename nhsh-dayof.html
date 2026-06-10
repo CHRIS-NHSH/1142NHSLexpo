@@ -94,55 +94,99 @@ body::before {
 .filter-btn.fa.active  { background: rgba(74,103,65,0.14) !important; border-color: #4a6741; color: #2e4a28 !important; }
 .filter-btn.fo.active  { background: rgba(168,72,50,0.12) !important; border-color: #a84832; color: #7a2a18 !important; }
 .filter-btn.fsp.active { background: rgba(100,60,140,0.12) !important; border-color: #643c8c; color: #3a1a5a !important; }
-/* Venue layout */
-.venue-map-wrap { overflow-x: auto; }
-.venue-stage { text-align: center; padding: 0.45rem; background: rgba(26,18,8,0.05) !important; border: 1px dashed rgba(26,18,8,0.15); font-size: 0.72rem; color: rgba(26,18,8,0.38) !important; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+/* ══ Venue layout ══ */
+.venue-map-wrap { width: 100%; }
+.venue-stage {
+  text-align: center; padding: 0.45rem;
+  background: rgba(26,18,8,0.05) !important;
+  border: 1px dashed rgba(26,18,8,0.15);
+  font-size: 0.72rem; color: rgba(26,18,8,0.38) !important;
+  letter-spacing: 0.12em; margin-bottom: 0.5rem;
+}
 /* 專班前區 */
-.special-front { display: flex; gap: 4px; margin-bottom: 0.5rem; justify-content: flex-end; padding-right: 2px; }
-.special-front-label { font-size: 0.58rem; color: rgba(26,18,8,0.35); writing-mode: vertical-rl; margin-right: 2px; align-self: center; }
-/* 主要展區 grid：左牆｜走道（專班）｜中間架奇數｜中間架偶數｜走道（專班）｜右牆 */
+.special-front { display: flex; gap: 4px; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.slot-col { display: flex; flex-direction: column; gap: 4px; }
+.col-header {
+  font-size: 0.6rem; font-weight: 700; text-align: center;
+  color: rgba(26,18,8,0.4); margin-bottom: 4px;
+  letter-spacing: 0.06em; padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(26,18,8,0.08);
+}
+/* 主要展區：桌機四欄，手機兩欄 */
 .venue-main-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 4px;
+  gap: 6px;
   align-items: start;
 }
-@media (max-width: 480px) {
-  .venue-main-grid { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 2px; }
+/* 桌機：display:contents 讓中間兩欄直接進入 4-col grid */
+.venue-center-wrap { display: contents; }
+/* 手機：3欄（左牆 | 中間兩子欄 | 右牆） */
+@media (max-width: 640px) {
+  .venue-main-grid {
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 4px;
+  }
+  .venue-center-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    min-width: 0;
+  }
 }
-.venue-aisle {
-  display: flex; flex-direction: column; gap: 2px;
-  align-items: center; font-size: 0.5rem;
-  color: rgba(26,18,8,0.28); writing-mode: vertical-rl;
-  justify-content: flex-start; padding-top: 4px;
+/* 手機讓左牆和右牆欄標題顯示方向 */
+@media (max-width: 640px) {
+  .col-header-left::before  { content: '← '; }
+  .col-header-right::after  { content: ' →'; }
 }
-.venue-aisle-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em; }
-.slot-col { display: flex; flex-direction: column; gap: 3px; }
-.col-header { font-size: 0.58rem; font-weight: 700; text-align: center; color: rgba(26,18,8,0.45); margin-bottom: 3px; letter-spacing: 0.08em; }
-/* Bottom special */
-.special-bottom { display: flex; gap: 4px; margin-top: 0.5rem; flex-wrap: wrap; }
-.special-group { display: flex; flex-direction: column; gap: 2px; }
-.special-group-label { font-size: 0.58rem; font-weight: 700; color: rgba(100,60,140,0.7); margin-bottom: 2px; text-align: center; }
-/* Slots */
+/* Slots 桌機 */
 .slot {
-  border: 1.5px solid; padding: 0.3rem 0.4rem;
+  border: 1.5px solid; padding: 0.35rem 0.45rem;
   cursor: pointer; transition: all 0.15s;
-  min-height: 52px; display: flex; flex-direction: column;
-  justify-content: center; overflow: hidden;
+  height: 60px; display: flex; flex-direction: column;
+  justify-content: flex-start; overflow: hidden;
+  border-radius: 2px;
 }
 .slot:hover { transform: translateY(-1px); box-shadow: 2px 2px 0 rgba(26,18,8,0.15); z-index: 1; position: relative; }
 .slot.slot-hidden { display: none !important; }
-.slot-num { font-size: 0.52rem; opacity: 0.5; display: block; line-height: 1; margin-bottom: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.slot-name { font-size: 0.64rem; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.25; }
-.slot-author { font-size: 0.54rem; opacity: 0.55; display: block; margin-top: 0.06rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.slot-num { font-size: 0.52rem; opacity: 0.48; display: block; line-height: 1.1; margin-bottom: 0.12rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+.slot-name { font-size: 0.65rem; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; flex-shrink: 0; }
+.slot-author { font-size: 0.52rem; opacity: 0.55; display: block; margin-top: 0.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* 手機 slot 稍大方便點按 */
+@media (max-width: 640px) {
+  .slot { height: 68px; padding: 0.4rem 0.5rem; }
+  .slot-num { font-size: 0.55rem; }
+  .slot-name { font-size: 0.7rem; }
+  .slot-author { font-size: 0.54rem; }
+}
+@media (max-width: 380px) {
+  .slot { height: 62px; padding: 0.32rem 0.38rem; }
+  .slot-name { font-size: 0.64rem; }
+  .slot-author { display: none; }
+}
+/* 專班小格（前區/Maker）*/
+.slot-sm {
+  height: 44px !important;
+  padding: 0.25rem 0.35rem !important;
+}
+.slot-sm .slot-name { font-size: 0.58rem !important; -webkit-line-clamp: 1 !important; }
+.slot-sm .slot-author { display: none; }
+/* 顏色 */
 .slot.tl  { background: rgba(200,146,42,0.12); border-color: #c8922a; color: #7a5800; }
 .slot.ts  { background: rgba(42,74,127,0.10);  border-color: #2a4a7f; color: #1a3060; }
 .slot.ta  { background: rgba(74,103,65,0.12);  border-color: #4a6741; color: #2e4a28; }
 .slot.to  { background: rgba(168,72,50,0.10);  border-color: #a84832; color: #7a2a18; }
 .slot.tsp { background: rgba(100,60,140,0.10); border-color: #643c8c; color: #3a1a5a; }
-.slot.te  { background: rgba(26,18,8,0.03);    border-color: rgba(26,18,8,0.15); color: rgba(26,18,8,0.28); cursor: default; }
+.slot.te  { background: rgba(26,18,8,0.03);    border-color: rgba(26,18,8,0.12); color: rgba(26,18,8,0.25); cursor: default; }
 .slot.te:hover { transform: none; box-shadow: none; }
-.venue-bottom { display: flex; justify-content: space-between; padding: 0.4rem 0.5rem; background: rgba(26,18,8,0.05) !important; border: 1px dashed rgba(26,18,8,0.15); font-size: 0.7rem; color: rgba(26,18,8,0.38) !important; letter-spacing: 0.1em; margin-top: 0.5rem; }
+.venue-bottom {
+  display: flex; justify-content: space-between;
+  padding: 0.4rem 0.5rem;
+  background: rgba(26,18,8,0.05) !important;
+  border: 1px dashed rgba(26,18,8,0.15);
+  font-size: 0.7rem; color: rgba(26,18,8,0.38) !important;
+  letter-spacing: 0.1em; margin-top: 0.5rem;
+}
 /* Modal */
 .slot-modal-bg { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(26,18,8,0.6); backdrop-filter: blur(6px); padding: 1.5rem; align-items: center; justify-content: center; }
 .slot-modal-bg.open { display: flex; }
@@ -164,13 +208,14 @@ body::before {
 .record-step-desc { font-size: 0.8rem; color: rgba(26,18,8,0.6) !important; line-height: 1.75; }
 .record-note { margin-top: 1.2rem; max-width: 500px; margin-left: auto; margin-right: auto; padding: 0.8rem 1rem; background: var(--gold-pale) !important; border-left: 3px solid var(--gold); font-size: 0.8rem; color: rgba(26,18,8,0.7) !important; line-height: 1.8; }
 @media (max-width: 500px) {
-  .slot { min-height: 44px; padding: 0.22rem 0.28rem; }
-  .slot-name { font-size: 0.56rem; }
+  .slot { height: 50px; padding: 0.22rem 0.28rem; }
+  .slot-name { font-size: 0.54rem; }
   .slot-author { display: none; }
 }
 @media (max-width: 380px) {
+  .slot { height: 44px; }
   .slot-num { display: none; }
-  .slot-name { font-size: 0.5rem; }
+  .slot-name { font-size: 0.48rem; }
 }
 </style>
 </head>
@@ -290,7 +335,7 @@ body::before {
       <div class="venue-stage">▲ 活動中心舞台（前方）</div>
 
       <!-- 專班前區（永續01-05） -->
-      <div style="margin-bottom:0.4rem;display:flex;align-items:center;gap:4px;">
+      <div style="margin-bottom:0.4rem;display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
         <span style="font-size:0.58rem;color:rgba(100,60,140,0.6);font-weight:700;">永續專班</span>
         <div style="display:flex;gap:3px;flex-wrap:wrap;" id="sp-front"></div>
       </div>
@@ -299,22 +344,23 @@ body::before {
       <div class="venue-main-grid">
         <!-- 左牆 -->
         <div>
-          <div class="col-header">← 左牆（觀眾席50-25）</div>
+          <div class="col-header col-header-left">左牆</div>
           <div class="slot-col" id="col-left"></div>
         </div>
-        <!-- 中間左欄：地理→法律→中間架→海洋 -->
-        <div>
-          <div class="col-header">中間（左）</div>
-          <div class="slot-col" id="col-center-left"></div>
-        </div>
-        <!-- 中間右欄 -->
-        <div>
-          <div class="col-header">中間（右）</div>
-          <div class="slot-col" id="col-center-right"></div>
+        <!-- 中間兩欄（手機時合為一組） -->
+        <div class="venue-center-wrap">
+          <div>
+            <div class="col-header">中間（左）</div>
+            <div class="slot-col" id="col-center-left"></div>
+          </div>
+          <div>
+            <div class="col-header">中間（右）</div>
+            <div class="slot-col" id="col-center-right"></div>
+          </div>
         </div>
         <!-- 右牆 -->
         <div>
-          <div class="col-header">右牆 →（觀眾席1-25）</div>
+          <div class="col-header col-header-right">右牆</div>
           <div class="slot-col" id="col-right"></div>
         </div>
       </div>
@@ -536,6 +582,7 @@ function makeSlot(slotRaw) {
   const gradePart = slotRaw.startsWith('高一') ? '高一' : slotRaw.startsWith('高二') ? '高二' : '專班';
 
   if (w) {
+    div.title = slotRaw + ' ' + w.title + (w.author ? '　' + w.author : '');
     div.innerHTML =
       '<span class="slot-num">' + slotRaw + '</span>' +
       '<span class="slot-name">' + w.title + '</span>' +
@@ -549,10 +596,8 @@ function makeSlot(slotRaw) {
 }
 
 function makeSmallSlot(slotRaw) {
-  // 走道專班用較小的格子
   const el = makeSlot(slotRaw);
-  el.style.minHeight = '38px';
-  el.style.fontSize = '0.5rem';
+  el.classList.add('slot-sm');
   return el;
 }
 
