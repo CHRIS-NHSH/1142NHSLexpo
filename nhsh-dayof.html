@@ -103,12 +103,12 @@ body::before {
 /* 主要展區 grid：左牆｜走道（專班）｜中間架奇數｜中間架偶數｜走道（專班）｜右牆 */
 .venue-main-grid {
   display: grid;
-  grid-template-columns: 1fr 36px 1fr 1fr 36px 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 4px;
   align-items: start;
 }
 @media (max-width: 480px) {
-  .venue-main-grid { grid-template-columns: 1fr 24px 1fr 1fr 24px 1fr; gap: 2px; }
+  .venue-main-grid { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 2px; }
 }
 .venue-aisle {
   display: flex; flex-direction: column; gap: 2px;
@@ -302,25 +302,15 @@ body::before {
           <div class="col-header">← 左牆（觀眾席50-25）</div>
           <div class="slot-col" id="col-left"></div>
         </div>
-        <!-- 左走道（地理+法律專班） -->
-        <div class="venue-aisle">
-          <div class="venue-aisle-label">走道</div>
-          <div style="display:flex;flex-direction:column;gap:2px;margin-top:4px;" id="sp-left-aisle"></div>
-        </div>
-        <!-- 中間架奇數 -->
+        <!-- 中間左欄：地理→法律→中間架→海洋 -->
         <div>
-          <div class="col-header">中間架（奇數）</div>
-          <div class="slot-col" id="col-center-odd"></div>
+          <div class="col-header">中間（左）</div>
+          <div class="slot-col" id="col-center-left"></div>
         </div>
-        <!-- 中間架偶數 -->
+        <!-- 中間右欄 -->
         <div>
-          <div class="col-header">中間架（偶數）</div>
-          <div class="slot-col" id="col-center-even"></div>
-        </div>
-        <!-- 右走道（海洋專班） -->
-        <div class="venue-aisle">
-          <div class="venue-aisle-label">走道</div>
-          <div style="display:flex;flex-direction:column;gap:2px;margin-top:4px;" id="sp-right-aisle"></div>
+          <div class="col-header">中間（右）</div>
+          <div class="slot-col" id="col-center-right"></div>
         </div>
         <!-- 右牆 -->
         <div>
@@ -329,9 +319,9 @@ body::before {
         </div>
       </div>
 
-      <!-- 底部 Maker 專班 -->
+      <!-- 底部 Maker 專班（單層海報架 32-40） -->
       <div style="margin-top:0.5rem;padding:0.4rem;border:1px dashed rgba(100,60,140,0.3);background:rgba(100,60,140,0.04);">
-        <div style="font-size:0.6rem;color:rgba(100,60,140,0.6);font-weight:700;margin-bottom:4px;">Maker 專班</div>
+        <div style="font-size:0.6rem;color:rgba(100,60,140,0.6);font-weight:700;margin-bottom:4px;">Maker 專班（單層海報架）</div>
         <div style="display:flex;gap:3px;flex-wrap:wrap;" id="sp-bottom"></div>
       </div>
 
@@ -426,28 +416,31 @@ const RIGHT_COL = [
   '高一-26','高二-26',
 ];
 // 中間架奇數欄（27,29,31...47）
-const CENTER_ODD = [
+// 中間左欄（從舞台往入口）：地理專班→法律專班→高一二中間架→海洋專班
+const CENTER_LEFT = [
+  '專班-06','專班-07',
+  '專班-10','專班-11','專班-12','專班-13','專班-14',
   '高一-27','高二-27','高一-29','高二-29','高一-31','高二-31',
   '高一-33','高二-33','高一-35','高二-35','高一-37','高二-37',
   '高一-39','高二-39','高一-41','高二-41','高一-43','高二-43',
   '高一-45','高二-45','高一-47','高二-47',
+  '專班-20','專班-21','專班-22','專班-23','專班-24','專班-30',
 ];
 // 中間架偶數欄（28,30,32...48）
-const CENTER_EVEN = [
+// 中間右欄
+const CENTER_RIGHT = [
+  '專班-08','專班-09',
+  '專班-15','專班-16','專班-17','專班-18','專班-19',
   '高一-28','高二-28','高一-30','高二-30','高一-32','高二-32',
   '高一-34','高二-34','高一-36','高二-36','高一-38','高二-38',
   '高一-40','高二-40','高一-42','高二-42','高一-44','高二-44',
   '高一-46','高二-46','高一-48','高二-48',
+  '專班-25','專班-26','專班-27','專班-28','專班-29','專班-31',
 ];
 // 專班
-const SP_FRONT       = ['專班-01','專班-02','專班-03','專班-04','專班-05']; // 永續
-const SP_LEFT_AISLE  = ['專班-06','專班-07','專班-08','專班-09',           // 地理
-                         '專班-10','專班-11','專班-12','專班-13','專班-14',
-                         '專班-15','專班-16','專班-17','專班-18','專班-19']; // 法律
-const SP_RIGHT_AISLE = ['專班-20','專班-21','專班-22','專班-23','專班-24',
-                         '專班-25','專班-26','專班-27','專班-28','專班-29']; // 海洋
-const SP_BOTTOM      = ['專班-30','專班-31','專班-32','專班-33','專班-34',
-                         '專班-35','專班-36','專班-37','專班-38','專班-39','專班-40']; // Maker
+const SP_FRONT  = ['專班-01','專班-02','專班-03','專班-04','專班-05']; // 永續
+const SP_BOTTOM = ['專班-32','專班-33','專班-34','專班-35','專班-36',
+                    '專班-37','專班-38','專班-39','專班-40']; // Maker（底部單層架）
 
 let allWorks = {}; // slotRaw → work
 let mapLoaded = false;
@@ -537,14 +530,12 @@ function loadMap() {
       if (!col) return;
       slots.forEach(s => col.appendChild(small ? makeSmallSlot(s) : makeSlot(s)));
     };
-    fill('col-left',        LEFT_COL);
-    fill('col-right',       RIGHT_COL);
-    fill('col-center-odd',  CENTER_ODD);
-    fill('col-center-even', CENTER_EVEN);
-    fill('sp-front',        SP_FRONT, true);
-    fill('sp-left-aisle',   SP_LEFT_AISLE, true);
-    fill('sp-right-aisle',  SP_RIGHT_AISLE, true);
-    fill('sp-bottom',       SP_BOTTOM, true);
+    fill('col-left',         LEFT_COL);
+    fill('col-right',        RIGHT_COL);
+    fill('col-center-left',  CENTER_LEFT);
+    fill('col-center-right', CENTER_RIGHT);
+    fill('sp-front',         SP_FRONT, true);
+    fill('sp-bottom',        SP_BOTTOM, true);
     updateMapCount();
   });
 }
