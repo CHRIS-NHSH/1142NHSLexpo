@@ -395,6 +395,15 @@ body::before {
 
 <script>
 // GAS 網址
+// 把位置圖編號轉成 slotId（對應 GAS 舊版格式）
+function normalizeSlotId(raw) {
+  var s = String(raw || '');
+  var g1 = s.match(/高一[-－]?(\d+)/); if (g1) return 'G1-' + g1[1].padStart(2,'0');
+  var g2 = s.match(/高二[-－]?(\d+)/); if (g2) return 'G2-' + g2[1].padStart(2,'0');
+  var sp = s.match(/專班[-－]?(\d+)/); if (sp) return 'SP-' + sp[1].padStart(2,'0');
+  return s;
+}
+
 const GAS_URL = 'https://script.google.com/a/macros/nhsh.tp.edu.tw/s/AKfycbzJ4jBxWWJt93cXVSGXMuFxrOnbzGL1c7h890K42FMPP9IQAiNsUq28RunRosMGgpB5/exec';
 
 // ══ 場地配置（根據 PDF）══
@@ -484,13 +493,36 @@ async function loadSheet() {
     const res  = await fetch(GAS_URL + '?action=works');
     const data = await res.json();
     if (data.ok && data.works) {
-      data.works.forEach(w => { allWorks[w.slotRaw] = w; });
+      data.works.forEach(w => {
+        // 優先用 slotRaw（位置圖編號，如 高一-01）
+        // 若 GAS 舊版沒有 slotRaw，fallback 到 slotId（如 G1-01）
+        var key = w.slotRaw || w.slotId;
+        if (key) allWorks[key] = w;
+        // 兩個 key 都建立，確保新舊格式都能查到
+        if (w.slotRaw) allWorks[w.slotRaw] = w;
+        if (w.slotId)  allWorks[w.slotId]  = w;
+      });
+      console.log('✅ 載入作品數:', data.works.length);
+      if (data.works.length > 0) {
+        console.log('第一筆 slotRaw:', data.works[0].slotRaw, '| slotId:', data.works[0].slotId);
+        console.log('第一筆 title:', data.works[0].title);
+      }
+    } else {
+      console.warn('⚠ GAS 回應:', data);
+      // 顯示錯誤在地圖上
+      const cnt = document.getElementById('map-count');
+      if (cnt) cnt.innerHTML = '<span style="color:#b83232;">載入失敗：' + (data?.error || '請確認 GAS 網址與部署') + '</span>';
     }
-  } catch(e) { console.warn('載入失敗', e); }
+  } catch(e) {
+    console.warn('❌ 載入失敗', e);
+    const cnt = document.getElementById('map-count');
+    if (cnt) cnt.innerHTML = '<span style="color:#b83232;">網路錯誤：' + e.message + '</span>';
+  }
 }
 
 function makeSlot(slotRaw) {
-  const w = allWorks[slotRaw];
+  // 先用 slotRaw 查，找不到再用 normalizeSlotId 轉換後查
+  const w = allWorks[slotRaw] || allWorks[normalizeSlotId(slotRaw)];
   const div = document.createElement('div');
   const cls = slotCls(slotRaw, w);
   div.className = 'slot ' + cls;
@@ -510,7 +542,8 @@ function makeSlot(slotRaw) {
       '<span class="slot-author">' + (w.author || '') + '</span>';
     div.addEventListener('click', () => openSlotModal(slotRaw));
   } else {
-    div.innerHTML = '<span class="slot-num">' + slotRaw + '</span><span class="slot-name pending">尚未公布</span>';
+    div.innerHTML = '<span class="slot-num">' + slotRaw + '</span><span class="slot-name pending">未載入</span>';
+    div.title = slotRaw;
   }
   return div;
 }
@@ -602,7 +635,8 @@ function updateMapCount(n) {
 
 // Slot Modal
 function openSlotModal(slotRaw) {
-  const w = allWorks[slotRaw];
+  // 先用 slotRaw 查，找不到再用 normalizeSlotId 轉換後查
+  const w = allWorks[slotRaw] || allWorks[normalizeSlotId(slotRaw)];
   if (!w) return;
   const numPart = slotRaw.replace('高一-','').replace('高二-','').replace('專班-','');
   document.getElementById('m-num').textContent = numPart;
