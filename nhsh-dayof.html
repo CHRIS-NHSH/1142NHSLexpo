@@ -149,6 +149,14 @@ body::before {
 }
 .slot:hover { transform: translateY(-1px); box-shadow: 2px 2px 0 rgba(26,18,8,0.15); z-index: 1; position: relative; }
 .slot.slot-hidden { display: none !important; }
+.slot.slot-dim { opacity: 0.18; }
+.slot.slot-highlight {
+  outline: 2.5px solid var(--gold);
+  outline-offset: -1px;
+  box-shadow: 0 0 0 3px rgba(200,146,42,0.25);
+  z-index: 2;
+  position: relative;
+}
 .slot-num { font-size: 0.52rem; opacity: 0.48; display: block; line-height: 1.1; margin-bottom: 0.12rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
 .slot-name { font-size: 0.65rem; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; flex-shrink: 0; }
 .slot-author { font-size: 0.52rem; opacity: 0.55; display: block; margin-top: 0.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -670,32 +678,50 @@ function toggleTypeF(t, btn) {
 function filterMap(q) { mapQ = q.toLowerCase(); applyMapFilters(); }
 
 function applyMapFilters() {
-  let n = 0;
+  let n = 0, nMatch = 0;
+  const hasQ = mapQ.length > 0;
+
   document.querySelectorAll('#panel-map .slot').forEach(el => {
-    const sr   = el.dataset.slotRaw; if (!sr) return;
-    const w    = allWorks[sr] || allWorks[normalizeSlotId(sr)];
-    const g    = el.dataset.grade;
-    const t    = el.dataset.type;
+    const sr = el.dataset.slotRaw; if (!sr) return;
+    const w  = allWorks[sr] || allWorks[normalizeSlotId(sr)];
+    const g  = el.dataset.grade;
+    const t  = el.dataset.type;
 
-    const gOk  = mapGradeFilter === 'all' || g === mapGradeFilter;
-    const tOk  = mapTypeFilters.has('all') || mapTypeFilters.has(t);
-    const qOk  = !mapQ
-      || sr.toLowerCase().includes(mapQ)
-      || (w?.title?.toLowerCase().includes(mapQ))
-      || (w?.author?.toLowerCase().includes(mapQ));
+    // 年級／領域篩選：不符合就隱藏
+    const gOk = mapGradeFilter === 'all' || g === mapGradeFilter;
+    const tOk = mapTypeFilters.has('all') || mapTypeFilters.has(t);
+    const filterOk = gOk && tOk;
 
-    const show = gOk && tOk && qOk;
-    el.classList.toggle('slot-hidden', !show);
-    if (show && w) n++;
+    el.classList.toggle('slot-hidden', !filterOk);
+    if (!filterOk) { el.classList.remove('slot-highlight','slot-dim'); return; }
+    if (w) n++;
+
+    // 搜尋：符合 highlight，不符合 dim
+    if (hasQ) {
+      const qOk = sr.toLowerCase().includes(mapQ)
+        || (w?.title?.toLowerCase().includes(mapQ))
+        || (w?.author?.toLowerCase().includes(mapQ));
+      el.classList.toggle('slot-highlight', qOk);
+      el.classList.toggle('slot-dim', !qOk);
+      if (qOk && w) nMatch++;
+    } else {
+      el.classList.remove('slot-highlight','slot-dim');
+    }
   });
-  updateMapCount(n);
+
+  // 計數：有搜尋時顯示命中數，否則顯示總數
+  updateMapCount(hasQ ? nMatch : n, n);
 }
 
-function updateMapCount(n) {
-  const total = Object.keys(allWorks).length;
+function updateMapCount(n, total) {
   const el = document.getElementById('map-count');
   if (!el) return;
-  el.textContent = (n !== undefined && n < total) ? '顯示 ' + n + ' / ' + total + ' 件' : '共 ' + total + ' 件';
+  const t = total !== undefined ? total : Object.keys(allWorks).length;
+  if (n !== undefined && n < t) {
+    el.innerHTML = '<strong style="color:var(--gold);">' + n + '</strong> / ' + t + ' 件符合';
+  } else {
+    el.textContent = '共 ' + t + ' 件';
+  }
 }
 
 // Slot Modal
