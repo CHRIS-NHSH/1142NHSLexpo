@@ -222,15 +222,15 @@ body::before {
 .record-step-desc { font-size: 0.8rem; color: rgba(26,18,8,0.6) !important; line-height: 1.75; }
 .record-note { margin-top: 1.2rem; max-width: 500px; margin-left: auto; margin-right: auto; padding: 0.8rem 1rem; background: var(--gold-pale) !important; border-left: 3px solid var(--gold); font-size: 0.8rem; color: rgba(26,18,8,0.7) !important; line-height: 1.8; }
 @media (max-width: 500px) {
-  .slot { height: 50px; padding: 0.22rem 0.28rem; }
-  .slot-name { font-size: 0.54rem; }
-  .slot-author { display: none; }
+  .slot { height: 58px; padding: 0.32rem 0.38rem; }
+  .slot-title { font-size: 0.66rem; }
 }
 @media (max-width: 380px) {
-  .slot { height: 44px; }
-  .slot-num { display: none; }
-  .slot-name { font-size: 0.48rem; }
+  .slot { height: 52px; padding: 0.28rem 0.32rem; }
+  .slot-title { font-size: 0.6rem; }
 }
+
+
 </style>
 </head>
 <body>
@@ -615,6 +615,8 @@ function makeSlot(slotRaw) {
   const gradePart = slotRaw.startsWith('高一') ? '高一' : slotRaw.startsWith('高二') ? '高二' : '專班';
 
   if (w) {
+    div.dataset.title  = (w.title  || '').toLowerCase();
+    div.dataset.author = (w.author || '').toLowerCase();
     div.title = slotRaw + ' ' + w.title + (w.author ? '　' + w.author : '');
     div.innerHTML =
       '<span class="slot-title">' +
@@ -623,6 +625,8 @@ function makeSlot(slotRaw) {
       '</span>';
     div.addEventListener('click', () => openSlotModal(slotRaw));
   } else {
+    div.dataset.title  = '';
+    div.dataset.author = '';
     div.innerHTML = '<span class="slot-title"><span class="slot-num-inline">' + slotRaw + '</span> 未載入</span>';
     div.title = slotRaw;
   }
@@ -705,8 +709,8 @@ function applyMapFilters() {
     // 搜尋：符合 highlight，不符合 dim
     if (hasQ) {
       const qOk = sr.toLowerCase().includes(mapQ)
-        || (w?.title?.toLowerCase().includes(mapQ))
-        || (w?.author?.toLowerCase().includes(mapQ));
+        || (el.dataset.title  || '').includes(mapQ)
+        || (el.dataset.author || '').includes(mapQ);
       el.classList.toggle('slot-highlight', qOk);
       el.classList.toggle('slot-dim', !qOk);
       if (qOk && w) nMatch++;
