@@ -303,6 +303,25 @@ body::before {
   <div class="panel-inner">
     <div class="panel-label">展場地圖</div>
     <h2 class="panel-title">找到你的展位</h2>
+    <!-- PDF 備份連結 -->
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1rem;">
+      <a href="https://drive.google.com/file/d/1CIMgeSb4zmOes3n9RUYJavJ0EflDDbYU/view?usp=sharing"
+         target="_blank"
+         style="display:inline-flex;align-items:center;gap:0.5rem;border:1.5px solid var(--line);padding:0.45rem 0.9rem;font-size:0.78rem;font-weight:700;color:rgba(26,18,8,0.6)!important;text-decoration:none;transition:all 0.18s;background:var(--paper)!important;"
+         onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'"
+         onmouseout="this.style.borderColor='var(--line)';this.style.color='rgba(26,18,8,0.6)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        場地配置圖 PDF
+      </a>
+      <a href="https://drive.google.com/file/d/1DSBM8i7K5Hn8DnohqsBzD6e2mnPZ4FmT/view?usp=sharing"
+         target="_blank"
+         style="display:inline-flex;align-items:center;gap:0.5rem;border:1.5px solid var(--line);padding:0.45rem 0.9rem;font-size:0.78rem;font-weight:700;color:rgba(26,18,8,0.6)!important;text-decoration:none;transition:all 0.18s;background:var(--paper)!important;"
+         onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'"
+         onmouseout="this.style.borderColor='var(--line)';this.style.color='rgba(26,18,8,0.6)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        作品清單 PDF
+      </a>
+    </div>
     <div class="map-search-wrap">
       <input type="text" id="map-search" placeholder="搜尋作品名稱、作者、位置圖編號…" oninput="filterMap(this.value)">
       <div id="map-count">載入中…</div>
