@@ -673,7 +673,7 @@ function applyMapFilters() {
   let n = 0;
   document.querySelectorAll('#panel-map .slot').forEach(el => {
     const sr   = el.dataset.slotRaw; if (!sr) return;
-    const w    = allWorks[sr];
+    const w    = allWorks[sr] || allWorks[normalizeSlotId(sr)];
     const g    = el.dataset.grade;
     const t    = el.dataset.type;
 
